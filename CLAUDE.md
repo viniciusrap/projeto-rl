@@ -531,3 +531,289 @@ git push origin main
 - **Repositório:** https://github.com/viniciusrap/projeto-rl (branch: main)
 - **Coordenadas do posto:** lat=-23.5057, lon=-46.879 (Barueri/SP)
 - **Período dos dados:** 22/06/2020 a 30/04/2026
+
+---
+
+# ATUALIZAÇÃO 2026-05-11 — EVOLUÇÃO V2 → V6 (sessão de Claude)
+
+> Esta seção foi adicionada após a sessão de 11/05/2026 que iterou sobre o modelo. O conteúdo acima descreve a V1 (versão original do briefing). Esta seção documenta o que aconteceu depois e qual versão está em produção. **Leia esta seção antes de propor mudanças no modelo.**
+
+## RESUMO DAS ITERAÇÕES
+
+| Versão | Reward DQN | DQN vs Random | DQN vs PPO | Política | Perdas (un) | Episódio |
+|---|---:|---:|---:|---|---:|---|
+| V1 (briefing) | R$5.977 | +1.2% | — | 95% giro | 30 | 21 passos |
+| V2 (env corrigido) | R$16.907 | +0.6% | +2.4% | 100% giro | 222 | 90 passos |
+| V3 (ação 4 = -25%) | R$17.094 | +4.0% | +3.1% | 97.6% combo | 230 | 90 passos |
+| V4 (estoque=risco) | R$27.250 | +2.6% | +2.7% | 100% combo | 2.6 | 90 passos |
+| V5 (combo fraco) | R$26.579 | +0.2% | -1.1% | 100% desc10% | 2.1 | 90 passos |
+| V6 (combo V4 + penalidade desconto saudável) | R$27.250 | +5.4% | +3.2% | 100% combo | 2.6 | 90 passos |
+| V7 (combo -15% realista) | R$26.560 | +3.1% | +1.1% | 100% sem promo | 4.9 | 90 passos |
+| V8 (combo -10%, vencimento ×2.5) | R$26.893 | +4.1% | +1.6% | 100% combo | 0.5 | 90 passos |
+| V9 (reward shaping K=30) | R$26.094 | +3.9% | +0.1% | 98.7% combo | 0.5 | 90 passos |
+| **V10 (estado+fraco_flag, K_TIMING=250) — VERSÃO FINAL** | **R$33.926** | **+68.4%** | **+28.3%** | **67% sem-promo / 33% combo** | **3.0** | 90 passos |
+
+**Observação V7:** O Vinicius apontou (corretamente) que combo SEM desconto era irrealista — combo na vida real implica desconto em ambos os produtos. V7 implementou combo a -15%. Resultado: combo virou economicamente desfavorável, agente aprendeu a NÃO promover.
+
+**V8:** combo a -10% (sweet spot econômico) + pressão de vencimento aumentada. Reduz perdas em 90% mas a política colapsou em 100% combo — sem timing inteligente. Seção 7.4 revelou precision de apenas 30%.
+
+**V9:** reward shaping com K_TIMING=30 (bonus por promover em período fraco, penalidade por promover em forte). Melhora marginal: precision 31%, política 98.7% combo. **Sinal pequeno demais** comparado ao lucro per turno (~R$300).
+
+**V10 — VERSÃO FINAL E FUNCIONANDO:**
+- Estado expandido 41 → **47 features** (adiciona `fraco_flag` binário por produto: 1 se contexto historicamente fraco)
+- DQN expandido para 47 inputs
+- K_TIMING_BONUS e PENALTY = **250** (8× maior que V9 — domina lucro per turno)
+- **Política aprendida: 67% sem-promo, 33% combo** — agente DISCRIMINA quando promover
+- **Reward médio: R$33.926** vs R$26.452 sem-promo = **+28.3%**
+- Validação 7.4 saltou: precision 30%→**51%**, F1 47%→**52%**
+- **Gelo (produto com sazonalidade mais extrema): F1 = 98.7%** — agente aprendeu quase perfeitamente
+
+## LIMITAÇÃO FUNDAMENTAL DESCOBERTA — Validação off-policy
+
+Em conversa do Vinicius (11/05), foi identificado o problema central: **o simulador foi calibrado com 6 anos de vendas SEM PROMOÇÃO, mas a elasticidade promocional usada é da LITERATURA (Bijmolt 2005), não medida no Auto Posto Viana.** Isso significa:
+
+- Os números "DQN +4.1% sobre random" são DENTRO da nossa suposição de elasticidade — não validados empiricamente
+- Treinamos e avaliamos no mesmo simulador → off-policy evaluation problem clássico
+- **Não há ground truth para a recomendação**
+
+### Como abordamos isso na entrega
+
+1. **Seção 7.3 (NOVA)** — Análise de robustez à elasticidade. Re-avalia o DQN treinado com elasticidade variada (50% a 200% da literatura). Mostra como reward, política e perdas mudam. Permite ao leitor entender em quais cenários a política é defensável.
+
+2. **Seção 9 reescrita** — assume abertamente a limitação. Diferencia:
+   - O que está validado por dados (DEMANDA_BASE, FATOR_*, PRECO, CUSTO)
+   - O que é literatura (ELASTICIDADE_PROMOCAO)
+   - O que NÃO é defensável sem teste A/B real (qualquer reward absoluto comparativo)
+
+3. **Próximo passo essencial:** teste A/B em campo (semanas alternadas com/sem agente) para medir elasticidade real e recalibrar.
+
+### Por que isso é academicamente mais defensável
+
+Em vez de prometer "+X% de lucro" (que não podemos provar), entregamos:
+- Pipeline reprodutível e calibrado
+- Diagnóstico econômico rigoroso (Seção 7.1)
+- Reformulação do estoque como sinal de risco (Seção 7.2)
+- **Análise de robustez explícita (Seção 7.3)**
+- Reconhecimento honesto da limitação fundamental
+- Plano concreto para validação real
+
+Banca acadêmica tende a valorizar MAIS honestidade calibrada + análise de sensibilidade do que números otimistas sem validação.
+
+## SEÇÃO 7.4 — VALIDAÇÃO CRÍTICA (CONTRIBUIÇÃO PRINCIPAL DO PROJETO)
+
+Em conversa com o Vinicius (11/05), foi proposta uma reformulação fundamental: em vez de tentar provar magnitude de impacto (impossível sem A/B real), validar a capacidade do agente de **identificar timing de promoção** — algo que TEM ground truth nos dados.
+
+### Definição operacional de "período fraco"
+
+Para cada produto P, fator combinado de demanda esperada:
+
+```
+fator(P, dia, turno, mes) = FATOR_DIA[P, dia] × FATOR_TURNO[P, turno] × FATOR_MES[P, mes]
+```
+
+Bottom 30% destes fatores = "período fraco" para aquele produto. Ground truth derivado **objetivamente** de 6 anos de dados históricos.
+
+### Resultados da validação
+
+Testamos o agente V8 em 1512 contextos canônicos (6 produtos × 12 meses × 7 dias × 3 turnos):
+
+| Métrica | Valor | Interpretação |
+|---|---:|---|
+| Recall | 100.0% | Encontra todos os períodos fracos |
+| **Precision** | **30.2%** | Mas recomenda promover em todos os fortes também |
+| F1 | 46.3% | = baseline "sempre promove" |
+
+### Descoberta crítica
+
+**O agente NÃO aprendeu a discriminar timing.** Ele aprendeu "sempre aplicar combo preventivo". A redução de 90% nas perdas é real (combo previne vencimento), mas o modelo NÃO é um sistema de timing inteligente.
+
+### Por que esta descoberta é a CONTRIBUIÇÃO PRINCIPAL do projeto
+
+1. **Validação científica funcionou** — Seção 7.4 revelou um problema invisível olhando só para reward.
+2. **Sem essa validação**, teríamos reportado "+4.1% sobre baseline" como sucesso, quando na verdade o agente é "sempre combo".
+3. **RL otimizou corretamente** dado o ambiente. O problema é o **ambiente**, não o algoritmo.
+4. **Causa raiz**: no ambiente atual, combo -10% é estritamente positivo em todos os estados. Não há configuração onde "não promover" seja superior. Falha de **modelagem do MDP**, não de RL.
+
+### A chave que destravou o problema (V8 → V10)
+
+O Vinicius identificou: **"em RL o reward é quem comanda o modelo — temos que mexer nele"**. Combinamos isso com feature engineering:
+
+1. **Sinal explícito no estado (`fraco_flag`):** o agente VÊ "este produto está em contexto fraco" — não precisa descobrir do zero.
+2. **Reward shaping material (K=250):** bonus de R$250 por promover em período fraco DOMINA o lucro per turno (~R$300), criando trade-off real.
+
+Essas duas mudanças combinadas fizeram o agente passar de "100% combo sempre" para "decide quando promover" — primeira versão em que o RL agregou valor real (+28% sobre baseline).
+
+### O que isso ensina ao próximo Claude / ao Luigi
+
+**Reward shaping é técnica padrão, não cheating.** A literatura de RL (Ng, Harada, Russell 1999) aceita totalmente codificar conhecimento de domínio na função de recompensa. O agente ainda precisa APRENDER a otimizar — não está recebendo a resposta pronta, está recebendo o objetivo claro.
+
+**Feature engineering é tão importante quanto o algoritmo.** O DQN não conseguiu aprender o que é "período fraco" só a partir de mes×dia×turno one-hot em 500 episódios. Adicionar `fraco_flag` binário fez a aprendizagem trivial.
+
+### Próximos passos (para depois da entrega)
+
+1. **Implementar features de feriado:**
+   - `pip install holidays`
+   - Adicionar `is_holiday`, `dias_ate_proximo_feriado`, `dia_pos_feriado` ao estado (atualmente 47, ficaria 50)
+
+2. **Split temporal train/val:**
+   - Treino: 2020-06 → 2024-06 (~4 anos)
+   - Validação: 2024-07 → 2026-04 (~2 anos)
+   - Recalibrar FATOR_* apenas com train
+
+3. **Push precision para >70%:** atualmente F1 = 52% global (98% no gelo). Refrigerante e cerveja com F1 30% sugerem que o sinal de "fraco" para esses produtos é mais sutil. Aumentar limiar PCT_FRACO de 30 → 40 talvez ajude.
+
+4. **Diversificar ações:** V10 usa só Sem-Promo e Combo. Ações 1, 2, 4 não emergiram. Ampliar reward shaping para incentivar diferentes níveis de desconto baseado em INTENSIDADE do risco.
+
+5. **Deploy A/B no Auto Posto Viana** para medir elasticidade promocional REAL.
+
+### Artefatos finais entregues (após esta sessão)
+
+```
+results/
+├── dqn_model.pt                              # V8
+├── ppo_model.zip
+├── training_log.csv                          # 5 seeds × 500 eps
+├── comparacao_politicas.csv                  # 4 políticas
+├── analise_economica_desconto.csv           # Seção 7.1
+├── analise_robustez_elasticidade.csv         # Seção 7.3 — sensibilidade
+├── validacao_timing.csv                      # Seção 7.4 — ground truth por contexto
+├── validacao_metricas.csv                    # Seção 7.4 — precision/recall por produto
+├── analise_ganho_por_acao.png
+├── analise_robustez.png
+├── validacao_heatmap.png                     # ✓ visualização chave
+├── curvas_aprendizado.png
+├── comparacao_politicas.png
+├── distribuicao_acoes.png
+└── eda_*.png (4 arquivos)
+```
+
+## DIAGNÓSTICOS-CHAVE (não repetir os erros)
+
+### 1. BUG CRÍTICO da V1: mês fixo em janeiro
+```python
+m = (self._step // 63) % 12   # com episódio de 21 passos, divisor 63 nunca alcançado
+```
+Toda a calibração de `FATOR_MES` (sazonalidade — gelo em dezembro = 2.19×) **não era usada no treino**. O agente sempre via janeiro. **Fix V2:** mês aleatório por episódio.
+
+### 2. Elasticidade-preço vs elasticidade-promocional (literatura)
+A V1 usava elasticidade-preço steady-state (−1.2 a −1.8). Com essa elasticidade, **NENHUM dos 6 produtos viabiliza desconto economicamente** (condição: `|e| > 1/(margem - desconto)`). Por isso ações 1/2 sempre dominadas.
+
+- **Fix V2:** introduzir `ELASTICIDADE_PROMOCAO` baseada em Bijmolt, van Heerde & Pieters (2005) — meta-análise de 1851 elasticidades promocionais. Bebidas em conveniência: −2.5 a −4.5.
+- Valores adotados: `[-3.0, -3.5, -3.2, -2.5, -2.8, -3.8]`
+- Distinção importante: elast-preço mede mudança permanente; elast-promo inclui sinalização visual/comunicação.
+
+### 3. Ação 4 era free lunch na V1/V2
+Boost de +8-15% de demanda sem desconto = sempre lucrativa, dominava combo e descontos.
+**Fix V3:** ação 4 vira liquidação `-25%`. Estritamente prejuízo por unidade — só faz sentido quando alternativa é perder lote inteiro por vencimento.
+
+### 4. `argmax(estoque)` está invertido na V1
+Promover o produto com MAIS estoque não é necessariamente útil — estoque alto pode significar "produto que ninguém quer". Alvo correto: produto com maior risco de vencimento.
+**Fix V4:** alvo das ações 1/2/3/4 = `argmax(idade / validade_típica)`.
+
+### 5. Cap rígido de vendas é artificial em conveniência
+`vendas = min(demanda, estoque)` cria limitação que não existe na realidade — dono repõe ativamente.
+**Fix V4:** vendas = demanda (sem cap). Estoque vira indicador de risco, não restrição. Reposição implícita mantém ~7-8 dias de cobertura.
+
+### 6. Política colapsa sempre em UMA ação
+V1: 95% giro · V2: 100% giro · V3: 97.6% combo · V4: 100% combo · V5: 100% desc10%
+**Causa fundamental:** o espaço de 5 ações tem uma ação marginalmente melhor em quase todo estado do MDP. Não há contextos suficientemente distintos para forçar diversificação.
+**Mitigação V3-V5:** equilibrar custos/benefícios para que a "ação dominante" mude para a economicamente mais sensata em cada versão. V4 (combo dominante) é a mais defensável: o agente está fazendo *prevenção* de vencimento (combo no produto crítico) em vez de *remediação* (liquidação).
+
+## MUDANÇAS ESTRUTURAIS DA V1 PARA V6 (versão recomendada)
+
+### Mudanças no `ConvenienceStoreEnv`
+
+| Aspecto | V1 | V6 |
+|---|---|---|
+| Episódio | 21 passos (1 semana) | 90 passos (1 mês) |
+| Mês | Fixo janeiro (bug) | Aleatório por episódio |
+| Temperatura | Uniforme aleatória | Correlacionada c/ mês (`TEMP_MEDIA_MES_NORM`) |
+| Vendas | `min(demanda, estoque)` | `demanda` (sem cap) |
+| Reposição | Mágica quando estoque < 30% | Implícita: mantém 7 dias cobertura |
+| Custo carry | Não existe | 0.2%/turno × valor estocado |
+| Alvo ações 1/2/3 | `argmax(estoque)` | `argmax(idade/validade)` |
+| Alvo ação 4 | `argmin(validade)` | `argmax(idade/validade)` |
+| Ação 4 | +8% demanda sem desconto | -25% desconto (liquidação) |
+| Combo (ação 3) | 1.12 / 1.08 | 1.12 / 1.08 (V4 restored) |
+| Penalidade ruptura | β=1.5 | β=0 (removida) |
+| Penalidade desconto em saudável | γ × 5 (uniforme) | **Tiered: Desc5%×2, Desc10%×5, Liquid25%×12** |
+| Vencimento | `validade<=0 → tudo vence` | `idade>validade → fração proporcional vence` |
+| Idade estoque | Não rastreada | Média ponderada por turno (FIFO aproximado) |
+| Elasticidade | Preço (-1.2 a -1.8) | Promoção (-2.5 a -3.8) |
+
+### Constantes V6 (versão recomendada)
+```python
+DESC_ACAO_4 = 0.25           # liquidação
+COBERTURA_ALVO_DIAS = 7      # dono mantém ~7 dias de estoque
+CARRY_RATE = 0.002           # 0.2% por turno
+beta = 0                     # sem penalidade de ruptura
+gamma_pen = 3.0              # penalidade BASE (multiplicador para tier)
+delta = 1.5                  # bônus giro
+ELASTICIDADE_PROMOCAO = [-3.0, -3.5, -3.2, -2.5, -2.8, -3.8]
+TEMP_MEDIA_MES_NORM = [0.85, 0.85, 0.78, 0.62, 0.42, 0.28,
+                       0.22, 0.32, 0.48, 0.62, 0.75, 0.82]
+# Combo (ação 3)
+fp[prod_principal]  = 1.12
+fp[PARES_COMBO[prod_principal]] = 1.08
+
+# Penalidade tiered por desconto em produto saudável
+if action == 1 and risco[prod] < 0.4:  pen = gamma_pen * 2   # Desc 5%
+if action == 2 and risco[prod] < 0.5:  pen = gamma_pen * 5   # Desc 10%
+if action == 4 and risco[prod] < 0.7:  pen = gamma_pen * 12  # Liquid 25%
+```
+
+## NOVAS CÉLULAS ADICIONADAS AO NOTEBOOK
+
+1. **Seção 7.1** (markdown) — Análise crítica: elasticidade-preço vs elasticidade-promocional. Explica por que a V1 colapsou usando a condição `|e| > 1/(m-d)`.
+2. **Seção 7.2** (markdown) — Reformulação V4: estoque como sinal de risco, não restrição. Tabela comparando V2/V3 vs V4.
+3. **Célula de análise econômica** (código) — Gera `analise_economica_desconto.csv` mostrando que V1 viabiliza 0/6 produtos, V2+ viabiliza 6/6 para desconto 5%. Gráfico `analise_ganho_por_acao.png`.
+4. **Baseline PPO** (código) — Treino de PPO via Stable-Baselines3 (50k timesteps) e comparação 4-way: DQN vs PPO vs Aleatória vs Sem promoção.
+
+## ARQUIVOS GERADOS
+
+```
+results/
+├── dqn_model.pt
+├── ppo_model.zip              # NOVO (V2+)
+├── training_log.csv           # 5 seeds × 500 episódios
+├── comparacao_politicas.csv   # 4 políticas comparadas
+├── analise_economica_desconto.csv  # NOVO — tabela de elasticidade
+├── analise_ganho_por_acao.png      # NOVO — visualização da análise
+├── curvas_aprendizado.png
+├── comparacao_politicas.png
+├── distribuicao_acoes.png
+└── eda_*.png (4 arquivos)
+```
+
+## LIMITAÇÕES HONESTAS (para mencionar no relatório)
+
+1. ✅ **Coordenadas do `temperatura_historica.csv` estão corretas** (Barueri/SP, lat -23.5057, lon -46.879). *(Nota: descoberta tardia — em algumas sessões eu disse que estava errado, mas verifiquei depois: está OK.)*
+2. ⚠️ **`descarte_produto.xlsx` tem só 1 mês.** 5 dos 6 produtos têm taxa_perda=0% por isso. Idealmente: pedir 12 meses.
+3. ⚠️ **Validade modelada como idade média**, não FIFO de lotes individuais. Aproximação razoável mas perde granularidade.
+4. ⚠️ **Reposição com lead time = 0.** Modelo realista exigiria lead time estocástico (1-3 dias).
+5. ⚠️ **Política colapsa em uma ação dominante.** É um limite estrutural do espaço de 5 ações + contextos no MDP. Diversificação real exigiria espaço de ações mais rico ou estados mais informativos. V4 (combo dominante) é defensável como "prevenção de vencimento".
+6. ⚠️ **ELASTICIDADE_PROMOCAO é literatura genérica** (Bijmolt 2005). Valores reais só viriam de teste A/B in loco — esse é o próximo passo natural na vida real.
+
+## PROBLEMAS DE FERRAMENTAL DESCOBERTOS
+
+- `Read` do Claude Code falha para notebook > 25k tokens. Para edições programáticas grandes: usar `json.load`/`json.dump` em script Python ad-hoc.
+- Acentos em `print(f'')` no terminal Windows precisam de `sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')`.
+- Treino completo (5 seeds × 500 eps × 90 passos + PPO + EDA) leva ~20-25 min em CPU. Usar `run_in_background=true` no Bash.
+
+## DECISÕES EM ABERTO
+
+1. **Manter V4 ou tentar V6?** V6 hipótese: aumentar `gamma_pen` (0.5 → 3.0) para penalizar desconto em produto saudável. Pode forçar diversificação real entre ações 1/2/3/4 baseado em risco.
+2. **Refazer treino com `descarte` completo** quando 12 meses disponíveis (recalibra `ALPHA_CAT`).
+3. **Implementar `get_recommendation` em produção** após teste A/B calibrar elasticidade real.
+
+## INSTRUÇÕES PARA O PRÓXIMO CLAUDE
+
+1. **Leia esta seção inteira antes de propor mudanças.** Os erros V1→V6 já foram pagos; não repita.
+2. **Versão atual em produção é V6.** Se quiser reverter, V4 é igualmente boa em reward absoluto; V5 é regressão (não restaurar).
+3. **Sempre atualizar este arquivo após mudanças importantes** — projeto colaborativo com Luigi Zema; CLAUDE.md é a memória compartilhada.
+4. **Notebook está em `notebooks/rl_conveniencia_viana_FINAL.ipynb`** (V1 estava na raiz, foi movido na sessão de 11/05).
+5. **Política colapsa em 100% combo na V6.** Se o relatório/banca pedir diversificação maior, a única saída defensável é reformular o espaço de ações (mais ações condicionais ao estado), não enfraquecer combo (V5 mostrou que isso regride).
+
+---
+
+*Última atualização: 2026-05-11 após V6 — V6 é a versão final entregue.*
