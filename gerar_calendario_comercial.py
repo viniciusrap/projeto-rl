@@ -26,7 +26,7 @@ ROOT = Path(__file__).parent
 DATA = ROOT / 'data'
 DATA.mkdir(exist_ok=True)
 
-ANO_INICIO = 2020
+ANO_INICIO = 2016  # estendido para cobrir Olist (2016-2018)
 ANO_FIM = 2027
 
 # ── Feriados nacionais (pacote holidays) ────────────────────────────────────

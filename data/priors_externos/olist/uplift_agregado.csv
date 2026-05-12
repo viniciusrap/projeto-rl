@@ -1,0 +1,61 @@
+categoria,evento_base,uplift_medio,uplift_std,n_anos,uplift_prior
+brinquedos,Cyber Monday,5.168,,1,1.3
+presente_perfume,Cyber Monday,4.423,,1,1.3
+brinquedos,Black Friday,4.215,,1,1.5
+beleza,Cyber Monday,3.781,,1,1.3
+presente_acessorio,Cyber Monday,3.744,,1,1.3
+presente_perfume,Black Friday,3.645,,1,1.5
+esportes,Cyber Monday,3.279,,1,1.3
+presente_acessorio,Black Friday,3.238,,1,1.5
+beleza,Black Friday,3.152,,1,1.5
+presente_geral,Cyber Monday,3.038,,1,1.3
+presente_geral,Black Friday,2.751,,1,1.5
+baby,Black Friday,2.641,,1,1.5
+baby,Cyber Monday,2.607,,1,1.3
+esportes,Black Friday,2.601,,1,1.5
+alimentos_bebidas,Cyber Monday,1.928,,1,1.3
+pet,Cyber Monday,1.871,,1,1.3
+alimentos,Cyber Monday,1.829,,1,1.3
+alimentos_bebidas,Black Friday,1.735,,1,1.5
+pet,Black Friday,1.676,,1,1.5
+presente_flores,Dia dos Namorados,1.652,,1,2.5
+bebidas,Black Friday,1.589,,1,1.5
+brinquedos,Dia das Crianças,1.517,,1,1.7
+alimentos,Black Friday,1.468,,1,1.5
+presente_geral,Dia das Mães,1.438,0.751,2,2.2
+presente_geral,Dia das Crianças,1.417,,1,1.7
+alimentos_bebidas,Véspera de Natal,1.32,,1,2.8
+presente_perfume,Dia dos Namorados,1.288,0.105,2,2.5
+beleza,Véspera de Natal,1.282,,1,2.8
+baby,Dia das Crianças,1.278,,1,1.7
+presente_geral,Véspera de Natal,1.269,,1,2.8
+presente_perfume,Véspera de Natal,1.247,,1,2.8
+esportes,Véspera de Natal,1.221,,1,2.8
+presente_geral,Dia dos Pais,1.2,0.064,2,1.9
+alimentos,Réveillon,1.194,,1,3.0
+beleza,Dia das Mães,1.11,0.299,2,2.2
+presente_acessorio,Réveillon,1.102,,1,3.0
+esportes,Dia dos Pais,1.101,0.136,2,1.9
+presente_perfume,Dia das Crianças,1.081,,1,1.7
+baby,Dia das Mães,1.046,0.258,2,2.2
+baby,Véspera de Natal,1.039,,1,2.8
+brinquedos,Véspera de Natal,1.034,,1,2.8
+bebidas,Véspera de Natal,1.021,,1,2.8
+presente_acessorio,Dia das Mães,0.98,0.4,2,2.2
+bebidas,Cyber Monday,0.956,,1,1.3
+presente_geral,Réveillon,0.941,,1,3.0
+presente_acessorio,Dia dos Namorados,0.908,0.237,2,2.5
+presente_geral,Dia dos Namorados,0.904,0.008,2,2.5
+presente_perfume,Dia das Mães,0.89,0.197,2,2.2
+presente_acessorio,Véspera de Natal,0.841,0.482,2,2.8
+presente_perfume,Réveillon,0.828,,1,3.0
+pet,Véspera de Natal,0.821,,1,2.8
+beleza,Réveillon,0.811,,1,3.0
+pet,Réveillon,0.791,,1,3.0
+beleza,Dia Internacional da Mulher,0.773,0.359,2,1.6
+bebidas,Réveillon,0.762,,1,3.0
+alimentos,Véspera de Natal,0.704,,1,2.8
+brinquedos,Réveillon,0.632,,1,3.0
+alimentos_bebidas,Réveillon,0.628,,1,3.0
+baby,Réveillon,0.62,,1,3.0
+esportes,Réveillon,0.595,,1,3.0

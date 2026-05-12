@@ -992,3 +992,61 @@ Segunda rodada de trabalho enquanto Vinicius coleta dados do posto.
 ---
 
 *Madrugada 12/05/2026: Fase 1b essencialmente completa (faltando só Olist manual). Esqueleto V11 pronto para receber dados.*
+
+---
+
+# ATUALIZAÇÃO 2026-05-12 manhã — Olist baixado e processado
+
+Vinicius baixou Olist manualmente do Kaggle. Rodamos `processar_olist.py`.
+
+## Artefatos
+
+- `processar_olist.py` — pipeline completo Olist → uplift por (categoria, evento, ano)
+- `data/raw_olist/` — 9 CSVs descompactados (~120MB, gitignored)
+- `data/priors_externos/olist/uplift_por_evento.csv` — 72 medições brutas
+- `data/priors_externos/olist/uplift_agregado.csv` — 60 agregadas por (categoria, evento)
+- `data/priors_externos/olist/serie_diaria_por_categoria.csv` — série bruta
+
+## Calendário comercial estendido
+
+Olist cobre 2016-2018, então estendi `gerar_calendario_comercial.py` para começar em 2016 (era 2020). Calendário agora tem **278 eventos 2016-2027** (era 190 eventos 2020-2027).
+
+## Insights principais
+
+**Black Friday e Cyber Monday são MUITO mais fortes em e-commerce do que meu prior estimava:**
+
+| Categoria | Evento | Medido (Olist) | Prior calendário |
+|---|---|---:|---:|
+| Brinquedos | Cyber Monday | **5.17×** | 1.30× |
+| Perfumaria | Cyber Monday | 4.42× | 1.30× |
+| Brinquedos | Black Friday | 4.21× | 1.50× |
+| Beleza | Cyber Monday | 3.78× | 1.30× |
+| Acessórios | Cyber Monday | 3.74× | 1.30× |
+
+Nosso prior estava subestimando Black Friday/Cyber Monday em **2-4×** para categorias de presente.
+
+**Categorias de conveniência respondem menos** (consistente com a tese):
+- Alimentos/bebidas no BF: 1.74-1.93× (vs 3-4× em presente)
+- Pet no BF: 1.68×
+
+**Dia dos Namorados em flores: medido só 1.65× vs prior 2.50×** — pode ser que esteja superestimando ou pode ser ruído (só 1 ano efetivo).
+
+## Limitações do Olist como prior
+
+1. **N=1 ano efetivo** — Olist tem 2017 completo, 2016 e 2018 parciais. Média entre anos quase não atenua ruído.
+2. **E-commerce ≠ conveniência** — compra planejada com entrega 7d depois. Black Friday em posto provavelmente é menor (~1.5-2×).
+3. **Categorias do Olist não batem 1:1 com SKUs do posto** — usamos `perfumaria` como proxy de "presente"; chocolate específico não tem categoria própria no Olist.
+
+## Como usar para V11
+
+Combinar 3 fontes:
+1. **Dado interno do posto** (quando chegar) → ground truth
+2. **IBGE PMC** → sazonalidade mensal macro
+3. **Olist** → prior para categorias de presente (chocolate, vinho, espumante) em Black Friday, Cyber Monday, Mães, Pais, Crianças
+4. **Google Trends** → prior para compra planejada (espumante no Réveillon)
+
+Hierarquia: ao calibrar a função de demanda do V11, dado interno do posto **sempre prevalece**. Priors externos preenchem só onde o histórico interno é insuficiente (ex: chocolate ainda fora do catálogo).
+
+---
+
+*Manhã 12/05/2026: Fase 1b 100% completa. Olist + Trends + IBGE PMC + calendário todos integrados. Próximo passo crítico: dados do posto.*
