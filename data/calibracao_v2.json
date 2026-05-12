@@ -1,7 +1,7 @@
 {
   "versao": "v2.0",
   "gerado_em": "2026-05-12",
-  "n_categorias": 18,
+  "n_categorias": 20,
   "categorias": [
     {
       "indice": 0,
@@ -71,74 +71,6 @@
     },
     {
       "indice": 1,
-      "categoria": "alcool_premium",
-      "categorias_posto_agregadas": [
-        "DESTILADOS DIVERSOS",
-        "WHISK",
-        "VODKA",
-        "VINHO",
-        "AGUARDENTES"
-      ],
-      "preco_venda": 49.97,
-      "custo": 2.8377,
-      "margem": 47.13,
-      "demanda_base_dia": 0.57,
-      "cv_demanda": 1.333,
-      "estoque_inicial": 10,
-      "validade_tipica_turnos": 720,
-      "elasticidade_promo": -3.376,
-      "alpha_venc": 4.737,
-      "taxa_perda_observada": 0.2737,
-      "par_combo": "chocolate",
-      "fator_dia": [
-        0.676,
-        1.013,
-        0.78,
-        1.0,
-        0.772,
-        1.29,
-        1.12
-      ],
-      "fator_turno": [
-        2.794,
-        2.818,
-        2.739
-      ],
-      "fator_mes": [
-        0.942,
-        0.963,
-        1.447,
-        1.134,
-        1.57,
-        0.946,
-        0.547,
-        0.853,
-        0.823,
-        0.925,
-        0.8,
-        1.272
-      ],
-      "clima_slope": 0.3662,
-      "clima_intercept": 0.7797,
-      "prior_dunnhumby_pct_promo": 0.67,
-      "prior_dunnhumby_mag_promo": 0.087,
-      "prior_dunnhumby_indice_freq_mes": {
-        "1": 0.328,
-        "2": 0.802,
-        "3": 1.06,
-        "4": 1.623,
-        "5": 1.623,
-        "6": 1.179,
-        "7": 0.41,
-        "8": 1.474,
-        "9": 1.896,
-        "10": 0.354,
-        "11": 1.25,
-        "12": 0.0
-      }
-    },
-    {
-      "indice": 2,
       "categoria": "biscoito",
       "categorias_posto_agregadas": [
         "BISCOITO"
@@ -202,7 +134,7 @@
       }
     },
     {
-      "indice": 3,
+      "indice": 2,
       "categoria": "cafe",
       "categorias_posto_agregadas": [
         "CAFÉ",
@@ -268,7 +200,7 @@
       }
     },
     {
-      "indice": 4,
+      "indice": 3,
       "categoria": "cerveja",
       "categorias_posto_agregadas": [
         "CERVEJA AMBEV",
@@ -335,59 +267,122 @@
       }
     },
     {
-      "indice": 5,
-      "categoria": "chocolate",
+      "indice": 4,
+      "categoria": "chocolate_impulso",
       "categorias_posto_agregadas": [
-        "CHOCOLATE NESTLE",
-        "CHOCOLATE FERRERO",
-        "CHOCOLATE LACTA",
         "CHOCOLATE GAROTO",
         "CHOCOLATE M&M (MARS)",
         "CHOCOLATE ARCOR",
         "CHOCOLATE DIVERSOS",
         "ACHOCOLATADO"
       ],
-      "preco_venda": 6.79,
-      "custo": 2.8916,
-      "margem": 3.9,
-      "demanda_base_dia": 15.89,
-      "cv_demanda": 0.442,
-      "estoque_inicial": 75,
+      "preco_venda": 5.89,
+      "custo": 2.4361,
+      "margem": 3.45,
+      "demanda_base_dia": 6.92,
+      "cv_demanda": 0.594,
+      "estoque_inicial": 37,
+      "validade_tipica_turnos": 270,
+      "elasticidade_promo": -2.855,
+      "alpha_venc": 2.158,
+      "taxa_perda_observada": 0.0158,
+      "par_combo": "cafe",
+      "fator_dia": [
+        0.912,
+        0.943,
+        0.916,
+        0.981,
+        1.084,
+        1.062,
+        1.101
+      ],
+      "fator_turno": [
+        1.627,
+        1.852,
+        1.951
+      ],
+      "fator_mes": [
+        0.864,
+        1.026,
+        1.113,
+        0.999,
+        1.02,
+        1.094,
+        0.856,
+        0.936,
+        1.013,
+        0.979,
+        1.048,
+        1.077
+      ],
+      "clima_slope": 0.0007,
+      "clima_intercept": 0.9996,
+      "prior_dunnhumby_pct_promo": 0.484,
+      "prior_dunnhumby_mag_promo": 0.402,
+      "prior_dunnhumby_indice_freq_mes": {
+        "1": 1.011,
+        "2": 1.056,
+        "3": 1.079,
+        "4": 1.037,
+        "5": 1.096,
+        "6": 0.894,
+        "7": 0.824,
+        "8": 1.01,
+        "9": 1.064,
+        "10": 1.088,
+        "11": 0.911,
+        "12": 0.929
+      }
+    },
+    {
+      "indice": 5,
+      "categoria": "chocolate_premium",
+      "categorias_posto_agregadas": [
+        "CHOCOLATE LACTA",
+        "CHOCOLATE NESTLE",
+        "CHOCOLATE FERRERO"
+      ],
+      "preco_venda": 8.29,
+      "custo": 3.6509,
+      "margem": 4.64,
+      "demanda_base_dia": 8.24,
+      "cv_demanda": 0.513,
+      "estoque_inicial": 41,
       "validade_tipica_turnos": 270,
       "elasticidade_promo": -2.855,
       "alpha_venc": 3.679,
       "taxa_perda_observada": 0.1679,
-      "par_combo": "cafe",
+      "par_combo": "vinho",
       "fator_dia": [
-        0.894,
-        0.952,
-        0.957,
-        0.977,
-        1.061,
-        0.998,
-        1.163
+        0.883,
+        0.959,
+        0.988,
+        0.967,
+        1.038,
+        0.966,
+        1.2
       ],
       "fator_turno": [
-        1.548,
-        1.827,
-        1.909
+        1.652,
+        1.859,
+        1.878
       ],
       "fator_mes": [
-        0.889,
-        1.005,
-        1.081,
+        0.909,
+        0.979,
+        1.054,
         1.001,
-        1.068,
-        1.145,
-        0.911,
-        0.988,
-        0.96,
+        1.094,
+        1.172,
+        0.953,
+        1.015,
+        0.939,
         0.973,
-        0.992,
-        1.025
+        0.963,
+        0.986
       ],
-      "clima_slope": -0.3087,
-      "clima_intercept": 1.1733,
+      "clima_slope": -0.4946,
+      "clima_intercept": 1.2777,
       "prior_dunnhumby_pct_promo": 0.484,
       "prior_dunnhumby_mag_promo": 0.402,
       "prior_dunnhumby_indice_freq_mes": {
@@ -601,6 +596,73 @@
     },
     {
       "indice": 9,
+      "categoria": "destilados",
+      "categorias_posto_agregadas": [
+        "DESTILADOS DIVERSOS",
+        "WHISK",
+        "VODKA",
+        "AGUARDENTES"
+      ],
+      "preco_venda": 53.3,
+      "custo": 3.7836,
+      "margem": 49.51,
+      "demanda_base_dia": 0.53,
+      "cv_demanda": 1.341,
+      "estoque_inicial": 10,
+      "validade_tipica_turnos": 720,
+      "elasticidade_promo": -3.376,
+      "alpha_venc": 4.737,
+      "taxa_perda_observada": 0.2737,
+      "par_combo": "snack",
+      "fator_dia": [
+        0.679,
+        1.01,
+        0.783,
+        1.004,
+        0.763,
+        1.291,
+        1.121
+      ],
+      "fator_turno": [
+        2.792,
+        2.817,
+        2.75
+      ],
+      "fator_mes": [
+        0.946,
+        0.959,
+        1.454,
+        1.138,
+        1.577,
+        0.95,
+        0.549,
+        0.836,
+        0.818,
+        0.929,
+        0.804,
+        1.277
+      ],
+      "clima_slope": 0.3696,
+      "clima_intercept": 0.7776,
+      "prior_dunnhumby_pct_promo": 0.67,
+      "prior_dunnhumby_mag_promo": 0.087,
+      "prior_dunnhumby_indice_freq_mes": {
+        "1": 0.328,
+        "2": 0.802,
+        "3": 1.06,
+        "4": 1.623,
+        "5": 1.623,
+        "6": 1.179,
+        "7": 0.41,
+        "8": 1.474,
+        "9": 1.896,
+        "10": 0.354,
+        "11": 1.25,
+        "12": 0.0
+      }
+    },
+    {
+      "indice": 10,
       "categoria": "doce",
       "categorias_posto_agregadas": [
         "CHICLETE",
@@ -670,7 +732,7 @@
       }
     },
     {
-      "indice": 10,
+      "indice": 11,
       "categoria": "energetico",
       "categorias_posto_agregadas": [
         "ENERGÉTICO"
@@ -734,7 +796,7 @@
       }
     },
     {
-      "indice": 11,
+      "indice": 12,
       "categoria": "gelo",
       "categorias_posto_agregadas": [
         "GELO"
@@ -798,7 +860,7 @@
       }
     },
     {
-      "indice": 12,
+      "indice": 13,
       "categoria": "isotonico",
       "categorias_posto_agregadas": [
         "ISOTÔNICO"
@@ -862,7 +924,7 @@
       }
     },
     {
-      "indice": 13,
+      "indice": 14,
       "categoria": "padaria",
       "categorias_posto_agregadas": [
         "PADARIA",
@@ -932,7 +994,7 @@
       }
     },
     {
-      "indice": 14,
+      "indice": 15,
       "categoria": "refrigerante",
       "categorias_posto_agregadas": [
         "REFRIGERANTE"
@@ -996,7 +1058,7 @@
       }
     },
     {
-      "indice": 15,
+      "indice": 16,
       "categoria": "snack",
       "categorias_posto_agregadas": [
         "SNACK ELMA CHIPS",
@@ -1066,7 +1128,7 @@
       }
     },
     {
-      "indice": 16,
+      "indice": 17,
       "categoria": "sorvete",
       "categorias_posto_agregadas": [
         "SORVETE KIBON",
@@ -1132,7 +1194,7 @@
       }
     },
     {
-      "indice": 17,
+      "indice": 18,
       "categoria": "suco",
       "categorias_posto_agregadas": [
         "SUCO",
@@ -1194,6 +1256,70 @@
         "10": 0.989,
         "11": 0.854,
         "12": 0.859
+      }
+    },
+    {
+      "indice": 19,
+      "categoria": "vinho",
+      "categorias_posto_agregadas": [
+        "VINHO"
+      ],
+      "preco_venda": 39.99,
+      "custo": 0.0,
+      "margem": 39.99,
+      "demanda_base_dia": 0.64,
+      "cv_demanda": 0.514,
+      "estoque_inicial": 10,
+      "validade_tipica_turnos": 720,
+      "elasticidade_promo": -3.376,
+      "alpha_venc": 2.0,
+      "taxa_perda_observada": 0.0,
+      "par_combo": "chocolate_premium",
+      "fator_dia": [
+        1.0,
+        1.563,
+        1.0,
+        1.0,
+        1.094,
+        0.625,
+        0.625
+      ],
+      "fator_turno": [
+        3.75,
+        1.875,
+        1.0
+      ],
+      "fator_mes": [
+        1.0,
+        1.563,
+        1.563,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.625,
+        0.625,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "clima_slope": 0.0,
+      "clima_intercept": 1.0,
+      "prior_dunnhumby_pct_promo": 0.67,
+      "prior_dunnhumby_mag_promo": 0.087,
+      "prior_dunnhumby_indice_freq_mes": {
+        "1": 0.328,
+        "2": 0.802,
+        "3": 1.06,
+        "4": 1.623,
+        "5": 1.623,
+        "6": 1.179,
+        "7": 0.41,
+        "8": 1.474,
+        "9": 1.896,
+        "10": 0.354,
+        "11": 1.25,
+        "12": 0.0
       }
     }
   ],
@@ -2310,14 +2436,14 @@
     "PIPOCA": "snack",
     "CEREAIS": "snack",
     "BISCOITO": "biscoito",
-    "CHOCOLATE NESTLE": "chocolate",
-    "CHOCOLATE FERRERO": "chocolate",
-    "CHOCOLATE LACTA": "chocolate",
-    "CHOCOLATE GAROTO": "chocolate",
-    "CHOCOLATE M&M (MARS)": "chocolate",
-    "CHOCOLATE ARCOR": "chocolate",
-    "CHOCOLATE DIVERSOS": "chocolate",
-    "ACHOCOLATADO": "chocolate",
+    "CHOCOLATE LACTA": "chocolate_premium",
+    "CHOCOLATE NESTLE": "chocolate_premium",
+    "CHOCOLATE FERRERO": "chocolate_premium",
+    "CHOCOLATE GAROTO": "chocolate_impulso",
+    "CHOCOLATE M&M (MARS)": "chocolate_impulso",
+    "CHOCOLATE ARCOR": "chocolate_impulso",
+    "CHOCOLATE DIVERSOS": "chocolate_impulso",
+    "ACHOCOLATADO": "chocolate_impulso",
     "CHICLETE": "doce",
     "MENTOS": "doce",
     "DROPS": "doce",
@@ -2325,11 +2451,11 @@
     "BALA FINI": "doce",
     "PASTILHAS": "doce",
     "DOCES DIVERSOS": "doce",
-    "DESTILADOS DIVERSOS": "alcool_premium",
-    "WHISK": "alcool_premium",
-    "VODKA": "alcool_premium",
-    "VINHO": "alcool_premium",
-    "AGUARDENTES": "alcool_premium",
+    "VINHO": "vinho",
+    "DESTILADOS DIVERSOS": "destilados",
+    "WHISK": "destilados",
+    "VODKA": "destilados",
+    "AGUARDENTES": "destilados",
     "PADARIA": "padaria",
     "SANDUÍCHE": "padaria",
     "SALGADO ASSADO/FRITO": "padaria",

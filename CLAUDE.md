@@ -1667,3 +1667,119 @@ diagnosticar a causa raiz em vez de descartar o método.
 ---
 
 *12/05/2026 manhã: diagnóstico quantitativo da limitação do V11. r=0.75 entre cobertura e F1. Material pronto para apresentação final.*
+
+---
+
+# EXPERIMENTO V11 EXPANDIDO (20 categorias) — descobertas importantes
+
+Experimento controlado para testar o diagnóstico r=0,75:
+- **Hipótese**: separar chocolate em premium/impulso e separar vinho dos
+  destilados aumentaria cobertura do catálogo para Mães/Namorados/Mulher,
+  destravando F1 nesses eventos.
+- **Implementação**: ajuste em `calibrar_v2.py` (mapeamento) + `env_v2.py`
+  (matching flexível categoria-evento)
+- **Treino**: 150 ep × 1 seed × 1095 steps (~14 min CPU)
+
+## Resultado: TRADE-OFF inesperado
+
+| Métrica | V11 18 cat | V11 20 cat | Δ |
+|---|---:|---:|---|
+| Reward treino (média últimos 10 eps) | R$ 626k | R$ 640k | +2% |
+| Lucro absoluto validação | R$ 634k | R$ 655k | +3% |
+| Δ lucro vs sem-promo | -0,12% | -0,47% | pior |
+| **Lucro adicional calendário 60d** | **R$ 571** | **R$ 1.131** | **+98%** |
+| **F1 evento médio** | **0,224** | **0,093** | **-58%** |
+| F1 Réveillon | 0,61 | 0,20 | piora |
+| F1 Véspera de Natal | 0,46 | 0,21 | piora |
+| F1 Dia das Mães/Namorados/Mulher | 0 | **ainda 0** | sem mudança |
+| % categorias promovidas | 77,8% | 40% | colapsa em menos |
+
+## Interpretação
+
+**Granularidade fina sem volume não resolve cobertura.**
+
+Olhando o que mudou na política:
+- 18 cat: agente promove cerveja (20.6 un/dia) em ondas durante Copa
+- 20 cat: agente promove **cigarro_souza_cruz (122 un/dia)** em ondas semanais
+
+Cigarro Souza Cruz tem **6× o volume** da cerveja. Mesmo com margem regulada
+de 22%, o lucro absoluto por unidade promovida ganha em volume.
+
+**O agente é matematicamente correto.** Está escolhendo a categoria que
+maximiza retorno por turno de promoção.
+
+## Por que F1 do Dia das Mães/Namorados continuou em 0
+
+Mesmo com chocolate_premium e vinho separados:
+- Chocolate premium tem demanda de **8,2 un/dia** (cerveja 20, cigarro 122)
+- Vinho tem **0,6 un/dia** (volume desprezível)
+- Para o agente, o **custo marginal de promover esses produtos** não compensa
+  o `bonus_evento_comercial` na maior parte das vezes.
+- Em outras palavras: o `K_EVENTO=200` do shaping não é suficiente para
+  superar o ganho de lucro que cigarro/cerveja oferecem em volume.
+
+## Diagnóstico refinado
+
+O r=0,75 anterior foi correto mas incompleto. A formulação correta é:
+
+> "F1 por evento correlaciona com cobertura do catálogo **E**
+> com volume relativo das categorias-alvo."
+
+Para destravar Dia das Mães/Namorados de verdade, três opções:
+
+### Opção A: aumentar K_EVENTO drasticamente
+- De 200 para 1000+
+- O `bonus_evento_comercial` passa a dominar o lucro per turno
+- Risco: agente vira "guiado por evento", colapsa em uma estratégia rígida
+
+### Opção B: aguardar vendas detalhadas por SKU
+- Volume real de chocolate em Páscoa/Mães pode ser muito maior que a média
+  anual indica
+- Calibração por SKU + por data revela picos não capturados na média
+
+### Opção C: penalidade explícita por ignorar evento
+- Em vez de só bonus, **penalidade quando há evento e agente promove
+  produto não-alvo**
+- Força exploração das categorias-alvo
+
+**Recomendação:** ir com C primeiro (forçar exploração), depois calibrar
+com B quando dados chegarem, A é último recurso.
+
+## Lucro adicional dobrou — atenção
+
+O calendário V3 saltou de **R$ 571 → R$ 1.131** em 60 dias. Mas:
+- O ganho vem de **cigarro Souza Cruz**, não de chocolate/vinho
+- O lucro adicional ainda é pequeno em termos absolutos (R$ 18/dia)
+- Em validação hold-out, lucro vs sem-promo continua negativo (-0,47%)
+
+**O lucro adicional do calendário é UPPER BOUND otimista** (assume que
+agente sempre acerta). Em validação real ele perde por instabilidade.
+Isso é coerente com a tese: V11 ainda subtreinado, precisa mais episódios.
+
+## Para a apresentação
+
+**Esta é uma seção bonita do trabalho.** Mostra:
+1. Diagnóstico via correlação (r=0,75)
+2. Experimento controlado de intervenção (separar categorias)
+3. Resultado contraintuitivo (lucro sobe, F1 desce)
+4. Análise honesta do trade-off
+5. 3 caminhos para resolver, ordenados por viabilidade
+
+Tipicamente o que diferencia trabalho acadêmico bom de excelente é
+**não esconder resultados negativos** e analisá-los rigorosamente. Este
+experimento gerou um resultado negativo (F1 piorou) e uma descoberta
+secundária (lucro adicional aumentou) — ambos vão pra apresentação.
+
+## Modelos salvos
+
+```
+results/v11/dqn_v11_50ep.pt        — V11 50 ep × 500 steps (proof of concept)
+results/v11/dqn_v11_18cat.pt       — V11 18 cat 150 ep × 1095 steps (F1 evento 0.22)
+results/v11/dqn_v11.pt             — V11 20 cat 150 ep × 1095 steps (lucro R$ 1.131)
+results/v11/validacao_eventos_v11_18cat.csv  — F1 do modelo 18 cat
+results/v11/validacao_eventos_v11.csv         — F1 do modelo 20 cat
+```
+
+---
+
+*12/05/2026 tarde: experimento V11 expandido testa hipótese da Fase 2.5. Resultado: trade-off entre F1 evento e lucro absoluto. Hipótese parcialmente refutada — granularidade sem volume não basta. 3 caminhos identificados.*

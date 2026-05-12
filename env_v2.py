@@ -313,9 +313,7 @@ class ConvenienceStoreEnvV2(gym.Env):
             cat_p = self.cats[p]['categoria']
             evs = self._eventos_por_data.get(self.data_atual, [])
             for ev in evs:
-                if (cat_p in ev['categorias']
-                        or any(c in ev['categorias']
-                                for c in [cat_p.replace('_', ' '), 'todas'])):
+                if self._categoria_bate_com_evento(cat_p, ev['categorias']):
                     bonus_evento = self.k['K_EVENTO'] * (ev['uplift_dia'] - 1)
                     break
 
@@ -463,12 +461,31 @@ class ConvenienceStoreEnvV2(gym.Env):
         for ev in self._eventos_por_data[d]:
             for i, cat in enumerate(self.cats):
                 cat_nome = cat['categoria']
-                if (cat_nome in ev['categorias']
-                        or 'todas' in ev['categorias']
-                        or any(c in ev['categorias']
-                                for c in [cat_nome.replace('_', ' ')])):
+                if self._categoria_bate_com_evento(cat_nome, ev['categorias']):
                     fator[i] = max(fator[i], ev['uplift_dia'])
         return fator
+
+    @staticmethod
+    def _categoria_bate_com_evento(cat_nome: str, cats_evento: set) -> bool:
+        """Matching flexível: chocolate_premium bate com 'chocolate', vinho com
+        'vinho', cerveja_especiais com 'cerveja' ou 'cerveja_premium', etc."""
+        if cat_nome in cats_evento or 'todas' in cats_evento:
+            return True
+        # Strip de prefixos compostos para matching parcial
+        base = cat_nome.split('_')[0]  # chocolate_premium -> chocolate
+        if base in cats_evento:
+            return True
+        # Casos especiais: cerveja matching cerveja_premium nos eventos
+        if cat_nome == 'cerveja' and 'cerveja_premium' in cats_evento:
+            return True
+        # vinho_tinto / vinho (eventos têm 'vinho_tinto' às vezes)
+        if cat_nome == 'vinho' and any(c.startswith('vinho') for c in cats_evento):
+            return True
+        # destilados podem bater whisky, cachaça, vodka
+        if cat_nome == 'destilados' and any(c in cats_evento
+                                              for c in ['whisky', 'cachaca', 'vodka']):
+            return True
+        return False
 
 
 # ── Factory ────────────────────────────────────────────────────────────────

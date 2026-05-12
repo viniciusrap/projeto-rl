@@ -63,15 +63,16 @@ MAPA_CATEGORIA_MODELO = {
     'CEREAIS': 'snack',
     'BISCOITO': 'biscoito',
 
-    # Chocolate (categoria-chave para datas comerciais)
-    'CHOCOLATE NESTLE': 'chocolate',
-    'CHOCOLATE FERRERO': 'chocolate',
-    'CHOCOLATE LACTA': 'chocolate',
-    'CHOCOLATE GAROTO': 'chocolate',
-    'CHOCOLATE M&M (MARS)': 'chocolate',
-    'CHOCOLATE ARCOR': 'chocolate',
-    'CHOCOLATE DIVERSOS': 'chocolate',
-    'ACHOCOLATADO': 'chocolate',
+    # Chocolate PREMIUM (target presente Mães/Namorados/Páscoa)
+    'CHOCOLATE LACTA': 'chocolate_premium',
+    'CHOCOLATE NESTLE': 'chocolate_premium',
+    'CHOCOLATE FERRERO': 'chocolate_premium',
+    # Chocolate IMPULSO (compra de balcão, doce comum)
+    'CHOCOLATE GAROTO': 'chocolate_impulso',
+    'CHOCOLATE M&M (MARS)': 'chocolate_impulso',
+    'CHOCOLATE ARCOR': 'chocolate_impulso',
+    'CHOCOLATE DIVERSOS': 'chocolate_impulso',
+    'ACHOCOLATADO': 'chocolate_impulso',
 
     # Doces (compra de impulso de balcão)
     'CHICLETE': 'doce',
@@ -82,12 +83,13 @@ MAPA_CATEGORIA_MODELO = {
     'PASTILHAS': 'doce',
     'DOCES DIVERSOS': 'doce',
 
-    # Bebidas alcoólicas premium / vinho (categoria-chave para datas)
-    'DESTILADOS DIVERSOS': 'alcool_premium',
-    'WHISK': 'alcool_premium',
-    'VODKA': 'alcool_premium',
-    'VINHO': 'alcool_premium',
-    'AGUARDENTES': 'alcool_premium',
+    # Vinho separado (target Dia dos Namorados/Mães/Natal)
+    'VINHO': 'vinho',
+    # Outras bebidas destiladas (whisky, vodka, cachaça)
+    'DESTILADOS DIVERSOS': 'destilados',
+    'WHISK': 'destilados',
+    'VODKA': 'destilados',
+    'AGUARDENTES': 'destilados',
 
     # Comida pronta
     'PADARIA': 'padaria',
@@ -114,15 +116,17 @@ for c in CATEGORIAS_MODELO:
 # Mapeamento categoria_modelo → categoria_dunnhumby (para prior comportamental)
 MAPA_PARA_DUNNHUMBY = {
     'cerveja': 'cerveja',
-    'alcool_premium': 'vinho',  # melhor proxy
+    'vinho': 'vinho',
+    'destilados': 'vinho',  # proxy
     'refrigerante': 'refrigerante',
     'agua': 'agua',
     'suco': 'suco',
-    'energetico': 'refrigerante',  # sem categoria 'energy' direto no Dunnhumby
+    'energetico': 'refrigerante',
     'isotonico': 'refrigerante',
     'snack': 'snack',
     'biscoito': 'biscoito',
-    'chocolate': 'chocolate_doce',
+    'chocolate_premium': 'chocolate_doce',
+    'chocolate_impulso': 'chocolate_doce',
     'doce': 'chocolate_doce',
     'sorvete': 'sorvete',
     'gelo': 'gelo',
@@ -334,10 +338,11 @@ for i, cat_m in enumerate(CATEGORIAS_MODELO):
         'isotonico': 180, 'suco': 180,
         'gelo': 18,  # turnos (~6 dias)
         'sorvete': 30,
-        'snack': 60, 'biscoito': 180, 'chocolate': 270, 'doce': 270,
+        'snack': 60, 'biscoito': 180,
+        'chocolate_premium': 270, 'chocolate_impulso': 270, 'doce': 270,
         'cafe': 365, 'padaria': 6,  # padaria vence rápido
         'cigarro_souza_cruz': 365, 'cigarro_philip_morris': 365,
-        'cigarro_jti': 365, 'alcool_premium': 720,
+        'cigarro_jti': 365, 'vinho': 720, 'destilados': 720,
     }
     validade = VALIDADE_HEURISTICA.get(cat_m, 180)
 
@@ -366,11 +371,14 @@ for i, cat_m in enumerate(CATEGORIAS_MODELO):
         'cerveja': 'snack', 'snack': 'cerveja',
         'refrigerante': 'snack', 'biscoito': 'cafe',
         'energetico': 'snack', 'agua': 'sorvete',
-        'sorvete': 'biscoito', 'chocolate': 'cafe',
+        'sorvete': 'biscoito',
+        'chocolate_premium': 'vinho',    # presente
+        'chocolate_impulso': 'cafe',
         'doce': 'refrigerante', 'cafe': 'biscoito',
         'gelo': 'cerveja', 'isotonico': 'snack',
         'padaria': 'cafe', 'suco': 'biscoito',
-        'alcool_premium': 'chocolate',
+        'vinho': 'chocolate_premium',    # presente
+        'destilados': 'snack',
         'cigarro_souza_cruz': 'cafe', 'cigarro_philip_morris': 'cafe',
         'cigarro_jti': 'cafe',
     }
