@@ -2206,3 +2206,183 @@ Roadmap para depois da apresentação acadêmica.
 ---
 
 *12/05/2026 noite final: V11.7 validado em 50 ep, lucro REAL +0.10%, perdas -2.63%. Modelo final escolhido. V12 documentado como evolução futura com evidência de viabilidade.*
+
+---
+
+# HANDOFF PARA PRÓXIMA SESSÃO — 12/05/2026 noite
+
+## Estado atual (FINAL)
+
+**Modelo operacional:** V11.7 (`results/v11/dqn_v11.pt`)
+- DQN com 20 categorias (cigarro × 3, cerveja, vinho, destilados, gelo, sorvete, refri, energético, água, isotonico, suco, chocolate × 2, doce, biscoito, snack, padaria, café)
+- Política de oferta/procura completa (Vinicius 12/05/26):
+  - Alta demanda saudável → apenas combo (penalidade -200)
+  - Combo cooperativo (agente escolhe principal, env escolhe par)
+  - Combo desconto 5% + boost 1.15/1.10
+  - Bonus por timing de data comercial (pre vs no-dia)
+  - Bonus dia-semana data-driven por categoria
+  - Bonus desconto em vencimento e baixa demanda
+  - Água não-promovível
+- Validado em 50 ep × 1095 turnos hold-out: +0.10% lucro, -2.63% perdas
+
+## Investigação de resultados (Vinicius perguntou)
+
+### 1. Chocolate na Copa do Mundo (#8 e #9 do top 15)
+
+**Não é Copa**, é **Dia dos Namorados!**
+- Campanha #8: 08/06-11/06 → janela PRE de 7 dias antes do Dia dos Namorados (12/06)
+- Tag rosa "Copa 2026 - Abertura" no HTML aparece porque a janela TAMBÉM toca 11/06 (abertura Copa)
+- O agente escolheu chocolate_impulso porque é categoria-alvo de Dia dos Namorados (chocolate, vinho, espumante)
+- O `bonus_combo_data_pico` (=400) ativou pelo Dia dos Namorados, não pela Copa
+
+### 2. Vinho como par do chocolate (BUG no calendário)
+
+**Bug encontrado:** `gerar_calendario_v3.py:222` usa `cat_cfg['par_combo']` (par ESTÁTICO da calibração heurística) em vez do par DINÂMICO calculado pelo env.
+
+Par estático em `calibrar_v2.py` PARES_COMBO_HEURISTICA:
+```python
+'chocolate_premium': 'vinho',    # presente
+```
+
+Par REAL calculado pelo env em sábado 14/12 (chocolate_premium principal):
+- gelo: fator_ctx 9.77 (sáb 1.95 × dez 2.12) ← SERIA O PAR
+- destilados: 4.60
+- vinho: ~0.62 (sáb baixo)
+
+**Fix necessário:** modificar `gerar_calendario_v3.py` para calcular par dinâmico no rollout (igual env faz).
+Está como TODO para próxima sessão.
+
+## Próximos passos prioritários
+
+### Prioridade ALTA
+1. **Corrigir bug do par dinâmico** em `gerar_calendario_v3.py` (15 min)
+2. **Decidir:** continuar V12 (Pipeline) ou começar relatório?
+
+### V12 — Roadmap acordado
+Evidência empírica: Forecaster ML reduz MAPE em 27.7% (manual 76% → ML 55%).
+Pipeline planejado:
+- Forecaster ML (Ridge ou LSTM) por categoria
+- Stock Manager (regra de reposição com lead time)
+- Promoter (V11.7 atual)
+- Validator (analytics)
+
+### Entregas acadêmicas
+- Checkpoint 12/05 ✅
+- Relatório 17/05 (5 dias)
+- Apresentação 19 ou 21/05 (7-9 dias)
+
+## Como rodar o pipeline
+
+```powershell
+cd C:\Users\vinin\projeto-rl
+
+# Atualizar calendário sem retreinar
+.\atualizar_calendario.ps1
+
+# Com retreino completo (14-30 min)
+.\atualizar_calendario.ps1 -Treinar
+
+# Ou manual passo a passo:
+.venv\Scripts\python.exe calibrar_v2.py
+.venv\Scripts\python.exe treinar_v11.py --episodios 300 --seeds 1 --max_steps_per_ep 1095
+.venv\Scripts\python.exe validar_v11.py --n_episodios 50 --max_steps 1095
+.venv\Scripts\python.exe gerar_calendario_v3.py --horizonte 365
+.venv\Scripts\python.exe gerar_html_premium.py
+
+# Abrir HTML
+start results\v11\calendario_premium.html
+```
+
+## Modelos disponíveis (backup)
+
+| Arquivo | Versão | Perfil |
+|---|---|---|
+| `dqn_v11.pt` (atual) | V11.7 | **Final operacional** |
+| `dqn_v11_v11_6_300ep.pt` | V11.6 | Maior lucro adicional estimado |
+| `dqn_v11_v11_5_300ep.pt` | V11.5 | Melhor F1 evento |
+| `dqn_v11_v11_3_150ep.pt` | V11.3 | Subtreinado |
+| `dqn_v11_20cat_pen.pt` | V11.1 | Antes da nova política |
+| `dqn_v11_18cat.pt` | V11 baseline | 18 categorias |
+
+## Scripts do projeto (28 ativos)
+
+Pipeline principal:
+- `calibrar_v2.py` — gera data/calibracao_v2.json
+- `env_v2.py` — ConvenienceStoreEnvV2 (MDP completo)
+- `treinar_v11.py` — Branching DQN
+- `validar_v11.py` — métricas vs baselines
+- `gerar_calendario_v3.py` — rollout determinístico (TEM BUG do par)
+- `gerar_html_premium.py` — HTML visual
+
+Análises:
+- `analisar_convergencia_v11.py`
+- `analisar_v11_aprendizado.py`
+- `analisar_calendario_anual.py`
+- `analisar_estoque_temporal.py`
+- `avaliar_forecaster_atual.py`
+
+Processadores de datasets externos:
+- `processar_olist.py` (descontinuado)
+- `processar_dunnhumby.py`
+- `processar_iowa_liquor.py`
+- `processar_walmart.py`
+- `processar_tesco_grocery.py`
+
+Coletores:
+- `coletar_google_trends.py`
+- `baixar_ibge_pmc.py`
+- `gerar_calendario_comercial.py`
+
+Análises empíricas:
+- `analisar_elasticidade_empirica.py` (Dunnhumby)
+- `analisar_elasticidade_iowa.py`
+- `analisar_elasticidade_walmart.py`
+- `consolidar_elasticidades.py`
+- `analisar_uplift_trends.py`
+- `validar_uplift_eventos_posto.py`
+- `analisar_copa_2022_posto.py`
+- `analisar_produtos_nao_vendidos.py`
+- `filtrar_conveniencia.py`
+- `analise_cesta.py` (Apriori)
+
+Outros:
+- `gerar_calendario_v1.py`, `gerar_calendario_v2.py` (versões antigas)
+- `gerar_html_calendario.py` (HTML antigo)
+- `atualizar_calendario.ps1` (script de update)
+
+## Commits da sessão (cronológico)
+
+```
+cfa9787 V11.7 validado robustamente + evidencia para V12 futuro
+d0f25af V11.7: K_COMBO_DATA_PICO 250->400 (delta_lucro positivo +0.02%)
+29622f4 V11.6: bonus dia-semana data-driven (20 categorias)
+9dbd99e V11.5 CONVERGIDO: combos dominaram top 15
+2d8b7d1 V11.5: combos reforcados + bonus por timing de data comercial
+bf77ded fix: HTML premium agora diversifica top 15
+21e787d HTML premium + hook automatico + treino V11.3
+9255eda elasticidade empirica 3 fontes fisicas convergem
+0eb4297 elasticidade empirica do Dunnhumby
+b769fc7 3 datasets fisicos: Iowa + Walmart + Tesco
+5f85529 descontinua Olist + Copa 2022 + Dunnhumby aprofundado
+6400ee6 script unico para regenerar calendario
+69248d7 validacao cruzada: uplift real posto + HTML calendario
+48f8308 calendario anual + analise visual (96 campanhas)
+5eb5a0e Op A testada: penalidade reduz perdas
+0a00dc4 V11 expandido 20 cat
+b5fe102 diagnostico quantitativo (r=0.75)
+1cb70ad V11 treinado 150ep + analise temporal estoque
+1cc7cc9 treino V11 intermediario
+c59f5f1 pipeline V11 completo
+d5cd5ed limpeza + MDP V11 formalizado
+5489780 comparacao V10 vs V11 'politica tosca'
+aa4269d fase 2: parseia 4+ anos produtos nao vendidos
+a4707c6 fase 1b finalizada: Olist processado
+517349d fase 1b: IBGE PMC, market basket, esqueleto V11
+03cdc93 fase 1b: calendario comercial BR
+11dd61b prototipo V1 calendario operacional
+a9516ce checkpoint V10
+```
+
+---
+
+*HANDOFF SALVO 12/05/2026 noite. Próxima sessão: corrigir bug par dinâmico → começar V12 Pipeline OU relatório.*
