@@ -307,15 +307,27 @@ class ConvenienceStoreEnvV2(gym.Env):
                 bonus_timing = -self.k['K_TIMING_PENALTY']
 
         # 11. Bonus evento comercial (NOVO V11)
+        # Se ha evento e agente promove categoria-alvo: bonus
+        # Se ha evento e agente NAO promove (ou promove categoria errada): penalty
         bonus_evento = 0.0
-        if prod_idx > 0 and intensidade > 0:
-            p = prod_idx - 1
-            cat_p = self.cats[p]['categoria']
-            evs = self._eventos_por_data.get(self.data_atual, [])
-            for ev in evs:
-                if self._categoria_bate_com_evento(cat_p, ev['categorias']):
-                    bonus_evento = self.k['K_EVENTO'] * (ev['uplift_dia'] - 1)
-                    break
+        evs = self._eventos_por_data.get(self.data_atual, [])
+        # Filtrar eventos relevantes (descartar feriados que tem 'todas')
+        evs_relevantes = [ev for ev in evs if 'todas' not in ev['categorias']]
+        if evs_relevantes:
+            # Encontrar evento com maior uplift_dia
+            ev_main = max(evs_relevantes, key=lambda e: e['uplift_dia'])
+            if prod_idx > 0 and intensidade > 0:
+                p = prod_idx - 1
+                cat_p = self.cats[p]['categoria']
+                if self._categoria_bate_com_evento(cat_p, ev_main['categorias']):
+                    # Acertou: bonus
+                    bonus_evento = self.k['K_EVENTO'] * (ev_main['uplift_dia'] - 1)
+                else:
+                    # Promoveu produto errado durante evento: penalidade leve
+                    bonus_evento = -self.k.get('K_EVENTO_PERDIDO', 0) * 0.3 * (ev_main['uplift_dia'] - 1)
+            else:
+                # Nao promoveu nada durante evento: penalidade
+                bonus_evento = -self.k.get('K_EVENTO_PERDIDO', 0) * (ev_main['uplift_dia'] - 1)
 
         # 12. Bonus padrão Dunnhumby (NOVO V11)
         bonus_padrao = 0.0
