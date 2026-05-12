@@ -540,8 +540,8 @@ constantes = {
     'K_DESC_ALTA_SAUDAVEL': 200.0,
     # Regra: combo eh a estrategia ideal quando produto principal eh alta demanda
     'K_COMBO_ALTA': 200.0,           # AUMENTADO 150->200 (V11.5)
-    # NOVO V11.5: bonus EXTRA quando combo em data comercial com timing certo
-    'K_COMBO_DATA_PICO': 250.0,      # bonus em data certa (pre ou no_dia)
+    # V11.7: bonus EXTRA combo em data certa (250 -> 400 para reforçar)
+    'K_COMBO_DATA_PICO': 400.0,
     # Regra: desconto eh OK quando produto perto de vencer (>= 70% validade)
     'K_DESC_VENCIMENTO': 120.0,      # bonus
     # Regra: desconto eh OK quando produto em baixa demanda sazonal
