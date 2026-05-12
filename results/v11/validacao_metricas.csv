@@ -1,2 +1,2 @@
 modelo,data_validacao,n_episodios,steps_por_episodio,reward_medio_dqn,lucro_medio_dqn,lucro_medio_sem_promo,delta_lucro_pct,perdas_dqn,perdas_sem_promo,delta_perdas_pct,f1_timing_medio,f1_evento_medio,pct_categorias_promovidas,pct_intensidades_usadas
-V11,2026-05-12,10,1095,767076.4,657011.05,658145.44,-0.17,1781.89,1774.82,0.4,0.131,0.108,40.0,125.0
+V11,2026-05-12,10,1095,833131.8,657972.75,658145.44,-0.03,1738.85,1774.82,-2.03,0.159,0.179,35.0,125.0

@@ -1,6 +1,6 @@
 serie,media_ultimos_30,std_ultimos_30,cv_ultimos_30,slope_pct_por_episodio,delta_pct_primeiros50_vs_ultimos50
-reward_total,668764.2,18823.68,0.0281,0.2046,34.99
-lucro_total,641087.55,10881.2,0.017,0.0249,0.28
-perdas_total,1773.8,54.02,0.0305,0.0146,0.61
-pct_promove,74.11,2.36,0.0318,-0.0635,-16.28
-loss_media,221.38,4.57,0.0207,-0.0534,10.36
+reward_total,804616.34,15314.67,0.019,-0.0587,55.21
+lucro_total,644756.27,11741.92,0.0182,-0.0307,0.7
+perdas_total,1766.46,60.93,0.0345,0.0836,-0.11
+pct_promove,74.71,1.25,0.0168,0.0747,-14.87
+loss_media,245.81,5.52,0.0225,0.0708,22.92
