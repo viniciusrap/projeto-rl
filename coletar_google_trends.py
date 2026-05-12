@@ -60,6 +60,11 @@ resultados = []
 falhas = []
 
 for termo, categoria, alvos in TERMOS:
+    nome_arquivo_check = (termo.replace(' ', '_').replace('ã', 'a')
+                          .replace('é', 'e').replace('ê', 'e'))
+    if (OUT / f'{nome_arquivo_check}.csv').exists():
+        print(f"  '{termo}': já coletado, pulando")
+        continue
     print(f"  Buscando '{termo}'... ", end='', flush=True)
     try:
         pytrends.build_payload([termo], cat=0, timeframe=TIMEFRAME, geo=GEO, gprop='')
@@ -92,13 +97,18 @@ for termo, categoria, alvos in TERMOS:
         })
         print(f'OK ({len(df)} pontos, range {df["indice"].min()}-{df["indice"].max()})')
 
-        # Respeitar rate-limit (~1 req/2s)
-        time.sleep(2)
+        # Respeitar rate-limit (mais conservador após 429)
+        time.sleep(8)
     except Exception as e:
         msg = str(e)[:80]
         print(f'FALHA: {msg}')
         falhas.append((termo, msg))
-        time.sleep(5)
+        # Em caso de 429, espera longa antes de tentar próximo
+        if '429' in msg:
+            print('  (rate-limit detectado, aguardando 60s)')
+            time.sleep(60)
+        else:
+            time.sleep(10)
 
 # ── Índice mestre ───────────────────────────────────────────────────────────
 

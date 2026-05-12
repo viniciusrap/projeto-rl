@@ -916,3 +916,79 @@ Fase 3. Curva ABC ~80% do faturamento provavelmente 20-30 SKUs.
 ---
 
 *Atualização 11/05 noite: roadmap produto definido, Fase 1b (priors externos) parcialmente entregue.*
+
+---
+
+# ATUALIZAÇÃO 2026-05-11 (madrugada) — Fase 1b completa + esqueleto V11
+
+Segunda rodada de trabalho enquanto Vinicius coleta dados do posto.
+
+## Novos artefatos
+
+### IBGE PMC (sazonalidade macro do varejo brasileiro)
+- `baixar_ibge_pmc.py` — API SIDRA pública, sem auth
+- `data/priors_externos/ibge_pmc/pmc_varejo_ampliado.csv` — série mensal 2003-2026 (278 meses)
+- `data/priors_externos/ibge_pmc/sazonalidade_mensal.csv` — fator por mês
+
+**Descoberta:** sazonalidade macro do varejo BR mostra **Dez +20.2% / Fev -11.5%**. Bate com 13º + Natal. Esse é prior forte para validar `FATOR_MES` calibrado no posto — se posto não mostrar pico de dezembro, dado provavelmente está estranho.
+
+### Market Basket Analysis pré-fabricado
+- `analise_cesta.py` — Apriori (mlxtend) sobre cupom fiscal
+- Schema esperado: CSV com colunas `transacao_id, sku` (mais outras opcionais)
+- Mock embutido: gera 2000 transações sintéticas para validar pipeline antes do dado real chegar
+- Validado: recuperou 7/7 pares de afinidade plantados no mock com lift > 2
+- Quando cupom real chegar (Fase 1.2): salvar em `data/cupom_fiscal.csv` e rodar
+- Output: `results/combos_validados.csv` (top 30 combos por lift) + `comparacao_pares_v10.csv` (combos atuais vs validados)
+- **Bug encontrado e corrigido:** mlxtend novo não aceita strings em frozensets via numpy.generic. Workaround: encode SKU → int antes do Apriori, remapeia no fim.
+
+### Esqueleto do ambiente V11 (env_v2.py)
+- `env_v2.py` — `ConvenienceStoreEnvV2(gym.Env)` para N produtos + calendário comercial no estado
+- **Não treina ainda** — entry point `construir_env_v2()` falha com NotImplementedError listando dados que faltam
+- Mudanças vs V10:
+  - Estado ~120-150 features (era 47)
+  - Episódio 1095 turnos = 1 ano calendário real (era 90 turnos abstratos)
+  - Ação `MultiDiscrete([N+1, 5])` — (qual produto, intensidade) em vez de 5 ações fixas
+  - Datas comerciais entram no estado via one-hot + dias_ate_evento
+  - Reward shaping mantém K_TIMING=250 + adiciona bonus de estabilidade (incentiva manter mesma promoção por ≥2 dias)
+  - Reposição implícita mantém 7 dias de cobertura (era 30% do estoque inicial)
+- Próximo passo: `calibrar_v2.py` (a criar) gera `data/calibracao_v2.json` a partir dos arquivos do posto
+
+### Google Trends — segunda tentativa
+- Coletor idempotente (pula termos já existentes)
+- Rate-limit 429 do Google persistiu por horas; 8 termos ainda pendentes
+- Rodar novamente em outro dia ou de outro IP
+
+## Estado do pipeline Fase 1b
+
+| Item | Status | Bloqueador |
+|---|---|---|
+| Calendário comercial BR (190 eventos) | ✓ | nada |
+| Google Trends — 7 séries de produtos chave | ✓ | rate-limit p/ 8 termos |
+| Uplift Trends × calendário (248 medições) | ✓ | nada |
+| IBGE PMC sazonalidade macro | ✓ | nada |
+| Olist (uplift e-commerce) | ⏳ | login Kaggle manual |
+| Market basket analysis (script pronto + mock) | ✓ | cupom fiscal real |
+| Output V2 (V10 × calendário) | ✓ | nada |
+| Esqueleto env V11 | ✓ | dados do posto |
+
+## Próximo passo lógico quando Vinicius trouxer dados
+
+1. Receber catálogo + vendas detalhadas por SKU
+2. Rodar `calibrar_v2.py` (a escrever) → gera `data/calibracao_v2.json`
+3. Receber cupom fiscal → rodar `analise_cesta.py` → combos validados
+4. Implementar `construir_env_v2()` que conecta tudo
+5. Treinar V11 com Double DQN ou PPO no env expandido
+6. Validar via timing precision/recall por SKU + heatmap por data comercial
+7. Reescrever `gerar_calendario_v3.py` usando V11
+
+## Lição operacional do dia
+
+**Priors externos têm dinâmica diferente do varejo do posto.**
+- Trends mede buscas → bom para produto presente, ruim para impulso
+- IBGE PMC é macro → suaviza padrões diários/semanais
+- Olist é e-commerce → entrega ~7 dias depois da compra, perde Black Friday do dia
+- Para conveniência de posto, **dado interno > qualquer prior externo**. Priors servem para validar que o dado interno não está enviesado/incompleto.
+
+---
+
+*Madrugada 12/05/2026: Fase 1b essencialmente completa (faltando só Olist manual). Esqueleto V11 pronto para receber dados.*

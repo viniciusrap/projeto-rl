@@ -1,0 +1,8 @@
+antecedent_sku,consequent_sku,support,confidence,lift
+salgadinho_ruffles_84g,cerveja_heineken_330ml,0.0905,0.421,2.788
+sorvete_kibon_individual,refrigerante_coca_2l,0.076,0.5,2.392
+gelo_5kg,cerveja_brahma_350ml,0.081,0.363,2.306
+salgadinho_doritos_92g,cerveja_brahma_350ml,0.103,0.356,2.259
+chocolate_kitkat_45g,energetico_redbull_250ml,0.0805,0.372,2.24
+cafe_pilao_500g,chocolate_lacta_90g,0.064,0.432,2.104
+salgadinho_doritos_92g,refrigerante_coca_2l,0.087,0.301,1.438
