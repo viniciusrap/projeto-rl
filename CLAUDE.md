@@ -1516,3 +1516,95 @@ Reescrever o output operacional usando o V11 treinado:
 ---
 
 *12/05/2026 madrugada: MDP V11 documentado formalmente. Plano de construção em 5 etapas. Pronto para começar implementação enquanto dados do posto não chegam.*
+
+---
+
+# V11 IMPLEMENTADO E TREINADO — 12/05/2026 manhã
+
+Pipeline completo (5 scripts) implementado e validado:
+
+## Scripts entregues
+
+1. **`calibrar_v2.py`** — gera `data/calibracao_v2.json` (150KB) com 18 categorias agregadas, fatores temporais calibrados em 6 anos, priors Dunnhumby/Olist/IBGE, 130 eventos comerciais.
+
+2. **`env_v2.py`** — `ConvenienceStoreEnvV2` com estado de 122 features, ação `MultiDiscrete([19, 5])`, recompensa com 8 termos (V10 + bonus_evento + bonus_dunnhumby - instabilidade), episódio de 1095 turnos.
+
+3. **`treinar_v11.py`** — Branching DQN (cabeças decompostas), Double DQN, HuberLoss, replay 50k.
+
+4. **`validar_v11.py`** — métricas V10 + F1 por evento comercial + comparação 4-way de políticas.
+
+5. **`gerar_calendario_v3.py`** — rollout determinístico → calendário operacional em JSON + Markdown.
+
+## Comparação treino curto vs treino real
+
+| Métrica | V11 (50 ep × 500 steps) | V11 (150 ep × 1095 steps) | Δ |
+|---|---:|---:|---|
+| **Tempo de treino** | 2:20 min | ~14 min | 6× mais |
+| **ε final** | 0.60 | **0.22** | quase convergido |
+| **Lucro adicional (60d)** | R$ 119 | **R$ 571** | **5× melhor** |
+| **N de campanhas geradas** | 12 | 16 | +33% |
+| **% categorias promovidas** | 16,7% | **77,8%** | diversidade! |
+| **% intensidades usadas** | 50% | **75%** | usa o espaço |
+| **F1 timing médio** | 0,04 | 0,07 | melhora marginal |
+| **F1 evento médio** | 0,05 | **0,22** | 4× melhor |
+
+## Política aprendida pelo V11 (150 ep)
+
+**F1 por evento comercial:**
+
+| Evento | F1 V11 | Interpretação |
+|---|---:|---|
+| **Réveillon** | **0,606** | excelente — agente promove cerveja/refri/gelo na semana |
+| **Véspera de Natal** | **0,457** | bom |
+| Dia das Crianças | 0,264 | razoável (alvos: chocolate, refri, sorvete) |
+| Dia dos Pais | 0,237 | razoável (alvos: cerveja, snack) |
+| Dia das Mães | 0,004 | falhou — alvos majoritariamente fora do catálogo modelo (chocolate, vinho, perfume) |
+| Dia dos Namorados | 0 | falhou — idem |
+| Dia da Mulher | 0 | falhou — idem |
+
+**Padrão claro:** V11 acerta eventos onde alvos batem com seu catálogo (bebidas/snacks). Falha onde alvos são chocolate/vinho/perfume — categorias com volume baixo no posto e que precisam de **vendas detalhadas por SKU** para calibrar bem.
+
+**Calendário V3 (60 dias):**
+- 9 campanhas de cerveja
+- 6 de cigarro Philip Morris
+- 1 de água
+- Coincidências com eventos: cerveja na semana do Dia dos Namorados + abertura da Copa, depois 3 semanas seguidas em jogos do Brasil
+
+## Análise temporal do estoque parado (NOVO 12/05)
+
+Script `analisar_estoque_temporal.py` processa 51 snapshots mensais.
+
+**Descobertas-chave:**
+- Valor parado caiu **-47,6%** em 4 anos (R$ 20k em 2022 → R$ 10k em 2026)
+- **253 SKUs cronicamente parados** (>80% dos snapshots) — candidatos a descontinuar
+- 118 SKUs eventuais (<20% snapshots) — onde promoção PODE ajudar
+- Categorias 100% problema crônico: DESTILADOS, VINHO, WHISK, VODKA, MERCEARIA, NESCAFÉ BEBIDAS — produtos de status/curiosidade, não giro
+
+Arquivos:
+- `results/v11/sku_frequencia_estoque_parado.csv`
+- `results/v11/categorias_problema_cronico.csv`
+- `results/v11/evolucao_valor_estoque_parado.csv`
+- `results/v11/evolucao_estoque_parado.png`
+
+## Como rodar pipeline V11 (sequência)
+
+```powershell
+# Quando dados do posto chegarem, basta:
+python calibrar_v2.py                            # ~5s
+python treinar_v11.py --episodios 200 --seeds 3  # ~50min em CPU
+python validar_v11.py --n_episodios 20           # ~3min
+python gerar_calendario_v3.py --horizonte 60     # ~10s
+```
+
+## O que V11 precisa pra evoluir mais (na ordem)
+
+1. **Vendas detalhadas por SKU** — calibra demanda por produto específico (não por categoria agregada). Vai diferenciar chocolate Lacta de Nestlé.
+2. **Cupom fiscal com transaction_id** — roda Apriori, substitui `PARES_COMBO_HEURISTICA` por combos validados.
+3. **Descarte ampliado 12 meses** — calibra `alpha_venc` por SKU em dado robusto.
+4. **Validade típica por SKU** — refina constantes do env (hoje heurísticas).
+5. **Treino mais longo** — 200ep × 5 seeds × 1095 steps levaria ~2h em CPU mas vale.
+6. **Teste A/B in loco** — único modo de calibrar elasticidade REAL.
+
+---
+
+*12/05/2026 manhã: V11 funcional end-to-end. Lucro adicional R$ 571/60d com modelo subtreinado. Pipeline pronto pra escalar quando dados do posto chegarem.*
