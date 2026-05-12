@@ -1,0 +1,11 @@
+evento,evento_key,categoria,uplift_medio,uplift_std,n_anos
+Dia dos Pais USA (3º dom junho),fathers_day,destilados,1.103,0.113,6
+Véspera de Natal (24/12),christmas_eve,destilados,1.06,0.092,5
+Réveillon (31/12),new_year_eve,destilados,1.052,0.102,5
+Independência USA (04/07),july_4,destilados,0.977,0.256,6
+Halloween (31/10),halloween,destilados,0.972,0.115,6
+Dia dos Namorados USA (14/02),valentines,destilados,0.934,0.052,6
+Dia das Mães USA (2º dom maio),mothers_day,destilados,0.916,0.077,6
+Black Friday (dia após Thanksgiving),black_friday,destilados,0.841,0.073,5
+Memorial Day (último dom maio),memorial_day,destilados,0.798,,1
+Thanksgiving (4ª quinta nov),thanksgiving,destilados,0.798,0.095,5

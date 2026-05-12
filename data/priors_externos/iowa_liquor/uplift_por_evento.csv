@@ -1,0 +1,52 @@
+evento,evento_key,ano,data_evento,categoria,receita_janela,receita_baseline,uplift,n_dias_janela
+Dia dos Namorados USA (14/02),valentines,2012,2012-02-14,destilados,727968.93,757711.58,0.961,9
+Dia dos Namorados USA (14/02),valentines,2013,2013-02-14,destilados,688057.08,792740.98,0.868,10
+Dia dos Namorados USA (14/02),valentines,2014,2014-02-14,destilados,767907.07,813587.37,0.944,9
+Dia dos Namorados USA (14/02),valentines,2015,2015-02-14,destilados,829419.75,878468.83,0.944,9
+Dia dos Namorados USA (14/02),valentines,2016,2016-02-14,destilados,874736.12,868955.46,1.007,8
+Dia dos Namorados USA (14/02),valentines,2017,2017-02-14,destilados,443987.11,504737.19,0.88,11
+Thanksgiving (4ª quinta nov),thanksgiving,2012,2012-11-22,destilados,625025.14,789311.02,0.792,6
+Thanksgiving (4ª quinta nov),thanksgiving,2013,2013-11-28,destilados,586644.11,782660.49,0.75,6
+Thanksgiving (4ª quinta nov),thanksgiving,2014,2014-11-27,destilados,599338.43,872671.87,0.687,6
+Thanksgiving (4ª quinta nov),thanksgiving,2015,2015-11-26,destilados,702361.48,858151.23,0.818,6
+Thanksgiving (4ª quinta nov),thanksgiving,2016,2016-11-24,destilados,543543.78,576548.27,0.943,5
+Black Friday (dia após Thanksgiving),black_friday,2012,2012-11-23,destilados,594494.76,783233.37,0.759,3
+Black Friday (dia após Thanksgiving),black_friday,2013,2013-11-29,destilados,692193.82,782297.21,0.885,3
+Black Friday (dia após Thanksgiving),black_friday,2014,2014-11-28,destilados,699309.84,873731.78,0.8,3
+Black Friday (dia após Thanksgiving),black_friday,2015,2015-11-27,destilados,700362.03,857363.96,0.817,3
+Black Friday (dia após Thanksgiving),black_friday,2016,2016-11-25,destilados,542822.5,576470.81,0.942,3
+Véspera de Natal (24/12),christmas_eve,2012,2012-12-24,destilados,890119.12,752985.89,1.182,7
+Véspera de Natal (24/12),christmas_eve,2013,2013-12-24,destilados,775276.28,789792.14,0.982,8
+Véspera de Natal (24/12),christmas_eve,2014,2014-12-24,destilados,830498.42,863261.08,0.962,9
+Véspera de Natal (24/12),christmas_eve,2015,2015-12-24,destilados,952283.35,854828.23,1.114,9
+Véspera de Natal (24/12),christmas_eve,2016,2016-12-24,destilados,580899.52,546908.32,1.062,8
+Réveillon (31/12),new_year_eve,2012,2012-12-31,destilados,925974.21,762139.61,1.215,4
+Réveillon (31/12),new_year_eve,2013,2013-12-31,destilados,776424.65,800915.14,0.969,5
+Réveillon (31/12),new_year_eve,2014,2014-12-31,destilados,880206.08,883188.09,0.997,5
+Réveillon (31/12),new_year_eve,2015,2015-12-31,destilados,860435.25,869448.78,0.99,5
+Réveillon (31/12),new_year_eve,2016,2016-12-31,destilados,584229.56,536428.44,1.089,5
+Halloween (31/10),halloween,2012,2012-10-31,destilados,890262.76,778472.18,1.144,6
+Halloween (31/10),halloween,2013,2013-10-31,destilados,694549.0,774454.1,0.897,6
+Halloween (31/10),halloween,2014,2014-10-31,destilados,789902.18,870217.99,0.908,5
+Halloween (31/10),halloween,2015,2015-10-31,destilados,933007.52,869898.59,1.073,4
+Halloween (31/10),halloween,2016,2016-10-31,destilados,512766.74,606924.95,0.845,6
+Halloween (31/10),halloween,2017,2017-10-31,destilados,481297.23,497379.95,0.968,6
+Dia das Mães USA (2º dom maio),mothers_day,2012,2012-05-13,destilados,700413.46,770307.09,0.909,6
+Dia das Mães USA (2º dom maio),mothers_day,2013,2013-05-12,destilados,633252.46,776101.78,0.816,7
+Dia das Mães USA (2º dom maio),mothers_day,2014,2014-05-11,destilados,722768.65,828941.88,0.872,6
+Dia das Mães USA (2º dom maio),mothers_day,2015,2015-05-10,destilados,904185.62,862796.07,1.048,5
+Dia das Mães USA (2º dom maio),mothers_day,2016,2016-05-08,destilados,701620.9,771550.05,0.909,7
+Dia das Mães USA (2º dom maio),mothers_day,2017,2017-05-14,destilados,461307.5,491027.5,0.939,7
+Dia dos Pais USA (3º dom junho),fathers_day,2012,2012-06-17,destilados,953865.14,764138.22,1.248,5
+Dia dos Pais USA (3º dom junho),fathers_day,2013,2013-06-16,destilados,713059.32,766501.44,0.93,8
+Dia dos Pais USA (3º dom junho),fathers_day,2014,2014-06-15,destilados,961341.31,831348.68,1.156,5
+Dia dos Pais USA (3º dom junho),fathers_day,2015,2015-06-21,destilados,906972.32,878966.75,1.032,6
+Dia dos Pais USA (3º dom junho),fathers_day,2016,2016-06-19,destilados,819978.31,701143.61,1.169,6
+Dia dos Pais USA (3º dom junho),fathers_day,2017,2017-06-18,destilados,518588.4,477763.98,1.085,7
+Memorial Day (último dom maio),memorial_day,2017,2017-05-28,destilados,386550.84,484576.94,0.798,3
+Independência USA (04/07),july_4,2012,2012-07-04,destilados,581080.69,779725.48,0.745,3
+Independência USA (04/07),july_4,2013,2013-07-04,destilados,886127.3,750989.68,1.18,4
+Independência USA (04/07),july_4,2014,2014-07-04,destilados,622352.14,845292.21,0.736,4
+Independência USA (04/07),july_4,2015,2015-07-04,destilados,719081.36,872112.7,0.825,4
+Independência USA (04/07),july_4,2016,2016-07-04,destilados,949145.22,696424.8,1.363,3
+Independência USA (04/07),july_4,2017,2017-07-04,destilados,479528.84,473189.08,1.013,4

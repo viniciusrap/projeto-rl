@@ -217,13 +217,50 @@ for cat in dh['categoria'].unique():
         },
     }
 
-# ── 5. Olist DESCONTINUADO (era e-commerce, dinâmica diferente de loja física)
-# Decisão 12/05/2026: Olist superestima uplift em datas comerciais para o posto.
-# Validação cruzada com dados reais do posto mostrou que datas movem venda em
-# magnitude muito menor (1.21× Namorados×chocolate no posto vs 2.5× Olist).
-# Substituído por: Dunnhumby (físico USA) + Iowa Liquor (físico USA álcool)
-# + Tesco Grocery (físico UK chocolate/snack) — quando esses chegarem.
+# ── 5. Olist DESCONTINUADO. Substituído por priors de LOJA FÍSICA:
 olist_dict = {}  # vazio = não usar Olist
+
+# Carregar Iowa Liquor (álcool destilado físico USA, 6 anos)
+try:
+    iowa = pd.read_csv(PRIORS / 'iowa_liquor' / 'uplift_agregado.csv')
+    iowa_dict = {(r['evento'], r['categoria']): float(r['uplift_medio'])
+                  for _, r in iowa.iterrows()}
+except FileNotFoundError:
+    iowa_dict = {}
+
+# Carregar Walmart Sales (loja física USA, 3 anos)
+try:
+    walmart = pd.read_csv(PRIORS / 'walmart' / 'uplift_feriados.csv')
+    walmart_dict = {r['feriado']: float(r['uplift_medio']) for _, r in walmart.iterrows()}
+except FileNotFoundError:
+    walmart_dict = {}
+
+# Carregar Tesco (loja física UK, 1 ano de fração de cesta mensal)
+try:
+    tesco = pd.read_csv(PRIORS / 'tesco' / 'sazonalidade_mensal.csv')
+    # Mapeamento Tesco → nossas categorias
+    MAPA_TESCO = {
+        'f_sweets_uplift': 'doce',        # tambem servir para chocolate
+        'f_beer_uplift': 'cerveja',
+        'f_wine_uplift': 'vinho',
+        'f_spirits_uplift': 'destilados',
+        'f_soft_drinks_uplift': 'refrigerante',
+        'f_water_uplift': 'agua',
+        'f_tea_coffee_uplift': 'cafe',
+        'f_readymade_uplift': 'padaria',
+    }
+    tesco_dict = {}  # {(categoria_modelo, mes): uplift}
+    for col_uplift, cat_modelo in MAPA_TESCO.items():
+        if col_uplift in tesco.columns:
+            for _, r in tesco.iterrows():
+                tesco_dict[(cat_modelo, int(r['mes']))] = float(r[col_uplift])
+except FileNotFoundError:
+    tesco_dict = {}
+
+print(f"Priors físicos carregados:")
+print(f"  Iowa Liquor: {len(iowa_dict)} pares (evento × cat)")
+print(f"  Walmart: {len(walmart_dict)} feriados")
+print(f"  Tesco UK: {len(tesco_dict)} pares (cat × mês)")
 
 # ── 6. Carrega calendário comercial ────────────────────────────────────────
 
@@ -470,8 +507,19 @@ clima_params = {
 
 # ── Salva JSON ──────────────────────────────────────────────────────────────
 
+# Para cada categoria do modelo, agregar uplift sazonal Tesco (loja física UK)
+prior_loja_fisica_mes = {}
+for cat_m in CATEGORIAS_MODELO:
+    fatores = {}
+    for mes in range(1, 13):
+        if (cat_m, mes) in tesco_dict:
+            fatores[mes] = tesco_dict[(cat_m, mes)]
+        else:
+            fatores[mes] = 1.0
+    prior_loja_fisica_mes[cat_m] = fatores
+
 calibracao = {
-    'versao': 'v2.0',
+    'versao': 'v2.1',
     'gerado_em': str(date.today()),
     'n_categorias': N_CATEGORIAS,
     'categorias': config_categorias,
@@ -481,6 +529,12 @@ calibracao = {
     'clima_params': clima_params,
     'ibge_fator_mes': ibge_fator_mes,
     'mapa_categoria_posto_para_modelo': MAPA_CATEGORIA_MODELO,
+    # NOVOS PRIORS DE LOJA FÍSICA (12/05/2026):
+    'prior_loja_fisica_mes': prior_loja_fisica_mes,  # Tesco UK
+    # Iowa: tuple keys (evento, cat) → string para JSON
+    'prior_iowa_alcool': {f"{ev}__{cat}": v
+                            for (ev, cat), v in iowa_dict.items()},
+    'prior_walmart_feriados': walmart_dict,             # Walmart USA feriados
     'fonte_dados': {
         'vendas': 'data/venda_por_dia.xlsx (6 anos)',
         'precos_custos': 'data/venda_do_mes.xlsx (mar/26)',
