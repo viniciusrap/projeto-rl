@@ -1,0 +1,504 @@
+"""Combina TODOS os priors + dados disponíveis do posto em um único
+calibracao_v2.json que alimenta o env V11.
+
+15 categorias agregadas do modelo (top conveniência por volume).
+
+Quando vendas detalhadas por SKU chegarem, basta re-rodar este script —
+o env vai consumir o JSON novo sem mudança de código.
+
+Saída: data/calibracao_v2.json
+"""
+import io
+import json
+import sys
+from datetime import date
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+ROOT = Path(__file__).parent
+DATA = ROOT / 'data'
+PRIORS = DATA / 'priors_externos'
+
+# ── Mapeamento: categoria_posto → categoria_modelo ─────────────────────────
+
+MAPA_CATEGORIA_MODELO = {
+    # Cigarros (3 categorias separadas — alto volume e dinâmica diferente)
+    'SOUZA CRUZ': 'cigarro_souza_cruz',
+    'PHILIP MORRIS': 'cigarro_philip_morris',
+    'JTI': 'cigarro_jti',
+    'CIGARRILHAS': 'cigarro_jti',  # agregado
+    'ISQUEIROS': 'cigarro_souza_cruz',  # acessório fumante
+
+    # Bebidas
+    'ENERGÉTICO': 'energetico',
+    'REFRIGERANTE': 'refrigerante',
+    'AGUA': 'agua',
+    'AGUA SABORIZADA': 'agua',
+    'ÁGUA DE COCO': 'agua',
+    'CERVEJA AMBEV': 'cerveja',
+    'CERVEJA FEMSA': 'cerveja',
+    'CERVEJA ESPECIAIS': 'cerveja',
+    'CERVEJA ITAIPAVA': 'cerveja',
+    'ISOTÔNICO': 'isotonico',
+    'SUCO': 'suco',
+    'BEBIDA LÁCTEA': 'suco',
+
+    # Frios / sorvete / gelo
+    'SORVETE KIBON': 'sorvete',
+    'SORVETE JUNDIÁ': 'sorvete',
+    'SORVETE PERFETTO': 'sorvete',
+    'GELO': 'gelo',
+
+    # Snacks
+    'SNACK ELMA CHIPS': 'snack',
+    'SNACK DIVERSOS': 'snack',
+    'SNACK TORCIDA': 'snack',
+    'SNACK PRINGLES': 'snack',
+    'AMENDOIN/NOZES': 'snack',
+    'PIPOCA': 'snack',
+    'CEREAIS': 'snack',
+    'BISCOITO': 'biscoito',
+
+    # Chocolate (categoria-chave para datas comerciais)
+    'CHOCOLATE NESTLE': 'chocolate',
+    'CHOCOLATE FERRERO': 'chocolate',
+    'CHOCOLATE LACTA': 'chocolate',
+    'CHOCOLATE GAROTO': 'chocolate',
+    'CHOCOLATE M&M (MARS)': 'chocolate',
+    'CHOCOLATE ARCOR': 'chocolate',
+    'CHOCOLATE DIVERSOS': 'chocolate',
+    'ACHOCOLATADO': 'chocolate',
+
+    # Doces (compra de impulso de balcão)
+    'CHICLETE': 'doce',
+    'MENTOS': 'doce',
+    'DROPS': 'doce',
+    'BALA': 'doce',
+    'BALA FINI': 'doce',
+    'PASTILHAS': 'doce',
+    'DOCES DIVERSOS': 'doce',
+
+    # Bebidas alcoólicas premium / vinho (categoria-chave para datas)
+    'DESTILADOS DIVERSOS': 'alcool_premium',
+    'WHISK': 'alcool_premium',
+    'VODKA': 'alcool_premium',
+    'VINHO': 'alcool_premium',
+    'AGUARDENTES': 'alcool_premium',
+
+    # Comida pronta
+    'PADARIA': 'padaria',
+    'SANDUÍCHE': 'padaria',
+    'SALGADO ASSADO/FRITO': 'padaria',
+    'BOLO': 'padaria',
+    'IOGURTE': 'padaria',
+    'CONGELADOS': 'padaria',
+    'MERCEARIA ALIMENTICIA': 'padaria',
+
+    # Café / bebida quente
+    'CAFÉ': 'cafe',
+    'NESCAFÉ BEBIDAS': 'cafe',
+    'CHÁ': 'cafe',
+}
+
+# Categorias finais do modelo (15)
+CATEGORIAS_MODELO = sorted(set(MAPA_CATEGORIA_MODELO.values()))
+N_CATEGORIAS = len(CATEGORIAS_MODELO)
+print(f"Categorias do modelo V11: {N_CATEGORIAS}")
+for c in CATEGORIAS_MODELO:
+    print(f"  - {c}")
+
+# Mapeamento categoria_modelo → categoria_dunnhumby (para prior comportamental)
+MAPA_PARA_DUNNHUMBY = {
+    'cerveja': 'cerveja',
+    'alcool_premium': 'vinho',  # melhor proxy
+    'refrigerante': 'refrigerante',
+    'agua': 'agua',
+    'suco': 'suco',
+    'energetico': 'refrigerante',  # sem categoria 'energy' direto no Dunnhumby
+    'isotonico': 'refrigerante',
+    'snack': 'snack',
+    'biscoito': 'biscoito',
+    'chocolate': 'chocolate_doce',
+    'doce': 'chocolate_doce',
+    'sorvete': 'sorvete',
+    'gelo': 'gelo',
+    'cafe': 'cafe',
+    'padaria': 'padaria',
+    'cigarro_souza_cruz': 'cigarro',
+    'cigarro_philip_morris': 'cigarro',
+    'cigarro_jti': 'cigarro',
+}
+
+# ── 1. Carrega vendas parseadas ────────────────────────────────────────────
+
+dfp = pd.read_csv(DATA / 'venda_por_dia_parseado.csv', parse_dates=['data'])
+dfp['categoria_modelo'] = dfp['categoria'].map(MAPA_CATEGORIA_MODELO)
+dfp_rel = dfp[dfp['categoria_modelo'].notna()].copy()
+print(f"\nVendas relevantes: {len(dfp_rel):,} registros (de {len(dfp):,})")
+
+# Agregação por categoria_modelo
+dfp_rel['turno3'] = dfp_rel['turno'].apply(lambda t: 0 if t <= 2 else (1 if t <= 4 else 2))
+dfp_rel['dia_semana'] = dfp_rel['data'].dt.dayofweek
+dfp_rel['mes'] = dfp_rel['data'].dt.month
+
+# ── 2. Preço médio por categoria (de venda_do_mes.xlsx) ────────────────────
+
+print("\nCarregando venda_do_mes.xlsx...")
+df_mes = pd.read_excel(DATA / 'venda_do_mes.xlsx', header=None)
+cats_precos = {}
+current_cat = None
+items = []
+for _, row in df_mes.iterrows():
+    if pd.notna(row[0]) and 'Classificação produto:' in str(row[0]):
+        if current_cat and items:
+            cats_precos[current_cat] = pd.DataFrame(items)
+        current_cat = str(row[0]).replace('Classificação produto: ', '').strip()
+        items = []
+    elif current_cat and pd.isna(row[0]) and pd.notna(row[1]) and pd.notna(row[2]):
+        try:
+            q, v, c, m = float(row[2]), float(row[3]), float(row[4]), float(row[5])
+            if q > 0 and v > 0:
+                items.append({'qtd': q, 'venda': v, 'custo': c, 'margem': m})
+        except (ValueError, TypeError):
+            pass
+if current_cat and items:
+    cats_precos[current_cat] = pd.DataFrame(items)
+
+PRECO_MEDIO_POSTO = {}
+CUSTO_MEDIO_POSTO = {}
+for cat_posto, df_c in cats_precos.items():
+    if df_c['qtd'].sum() > 0:
+        PRECO_MEDIO_POSTO[cat_posto] = float(df_c['venda'].sum() / df_c['qtd'].sum())
+        CUSTO_MEDIO_POSTO[cat_posto] = float(df_c['custo'].sum() / df_c['qtd'].sum())
+
+# Agrega por categoria_modelo
+preco_modelo = {}
+custo_modelo = {}
+for cat_posto, cat_modelo in MAPA_CATEGORIA_MODELO.items():
+    if cat_posto in PRECO_MEDIO_POSTO:
+        preco_modelo.setdefault(cat_modelo, []).append(PRECO_MEDIO_POSTO[cat_posto])
+        custo_modelo.setdefault(cat_modelo, []).append(CUSTO_MEDIO_POSTO[cat_posto])
+
+# ── 3. Carrega temperatura ─────────────────────────────────────────────────
+
+df_temp = pd.read_csv(DATA / 'temperatura_historica.csv', parse_dates=['data'])
+temp_min = df_temp['temp_max'].min()
+temp_max = df_temp['temp_max'].max()
+df_temp['temp_norm'] = (df_temp['temp_max'] - temp_min) / (temp_max - temp_min)
+
+# ── 4. Carrega prior Dunnhumby ─────────────────────────────────────────────
+
+dh = pd.read_csv(PRIORS / 'dunnhumby' / 'sazonalidade_mensal_real.csv')
+prior_dh = {}
+for cat in dh['categoria'].unique():
+    sub = dh[dh['categoria'] == cat].sort_values('mes_aprox')
+    media_freq = float(sub['pct_desconto'].mean())
+    media_mag = float(sub['mag_desconto'].mean())
+    prior_dh[cat] = {
+        'pct_desconto_medio': media_freq / 100 if media_freq > 1 else media_freq,
+        'mag_desconto_medio': media_mag / 100 if media_mag > 1 else media_mag,
+        'indice_freq_por_mes': {
+            int(r['mes_aprox']): round(float(r['pct_desconto'] / media_freq), 3)
+                                  if media_freq > 0 else 1.0
+            for _, r in sub.iterrows()
+        },
+        'indice_mag_por_mes': {
+            int(r['mes_aprox']): round(float(r['mag_desconto'] / media_mag), 3)
+                                  if media_mag > 0 else 1.0
+            for _, r in sub.iterrows()
+        },
+    }
+
+# ── 5. Carrega Olist (uplift por evento) ───────────────────────────────────
+
+try:
+    olist = pd.read_csv(PRIORS / 'olist' / 'uplift_agregado.csv')
+    olist_dict = {(r['categoria'], r['evento_base']): float(r['uplift_medio'])
+                   for _, r in olist.iterrows()}
+except FileNotFoundError:
+    olist_dict = {}
+
+# ── 6. Carrega calendário comercial ────────────────────────────────────────
+
+cal = pd.read_csv(DATA / 'calendario_comercial.csv', parse_dates=['data'])
+cal['data'] = pd.to_datetime(cal['data']).dt.date.astype(str)
+cal_eventos = cal[cal['tipo_evento'].isin(
+    ['data_comercial', 'evento_esportivo'])].copy()
+calendario_para_env = cal_eventos[['data', 'nome_evento',
+                                     'categorias_afetadas',
+                                     'uplift_prior',
+                                     'janela_pre_dias', 'janela_pos_dias']].to_dict('records')
+
+# ── 7. Carrega descarte (mar/26) para alpha por categoria ──────────────────
+
+try:
+    df_d = pd.read_excel(DATA / 'descarte_produto.xlsx', header=None, skiprows=1)
+    df_d.columns = ['data', 'turno', 'categoria', 'produto', 'quantidade',
+                    'custo_unit', 'valor_venda', 'plano', 'obs']
+    df_d = df_d[df_d['categoria'].notna()].copy()
+    df_d['custo_total'] = (pd.to_numeric(df_d['custo_unit'], errors='coerce')
+                            * pd.to_numeric(df_d['quantidade'], errors='coerce'))
+    descarte_por_categoria = df_d.groupby('categoria')['custo_total'].sum().to_dict()
+except Exception:
+    descarte_por_categoria = {}
+
+# Vendas totais de mar/26 por categoria (denominador para taxa de perda)
+mar26_vendas = (dfp_rel[(dfp_rel['data'] >= '2026-03-01') &
+                         (dfp_rel['data'] < '2026-04-01')]
+                 .groupby('categoria')['valor_venda'].sum().to_dict())
+
+# ── 8. Calibração POR CATEGORIA DO MODELO ──────────────────────────────────
+
+print("\nCalibrando categorias do modelo...")
+config_categorias = []
+
+for i, cat_m in enumerate(CATEGORIAS_MODELO):
+    cats_posto = [c for c, cm in MAPA_CATEGORIA_MODELO.items() if cm == cat_m]
+
+    # Subconjunto de vendas dessa categoria_modelo
+    sub = dfp_rel[dfp_rel['categoria_modelo'] == cat_m]
+    if len(sub) == 0:
+        print(f"  ⚠ {cat_m}: sem dados de venda")
+        continue
+
+    # Preço médio agregado (média ponderada simples)
+    precos = preco_modelo.get(cat_m, [10.0])
+    custos = custo_modelo.get(cat_m, [5.0])
+    preco_med = float(np.mean(precos))
+    custo_med = float(np.mean(custos))
+    margem_med = preco_med - custo_med
+
+    # Demanda base em unidades/dia (receita_diaria ÷ preço médio)
+    daily_rev = sub.groupby('data')['valor_venda'].sum()
+    demanda_base_dia = float((daily_rev / preco_med).mean()) if preco_med > 0 else 5.0
+
+    # Fator dia da semana
+    fator_dia = []
+    for d in range(7):
+        sub_d = sub[sub['dia_semana'] == d]
+        if len(sub_d) > 0:
+            rev_d = sub_d.groupby('data')['valor_venda'].sum().mean()
+        else:
+            rev_d = daily_rev.mean()
+        media = daily_rev.mean()
+        fator_dia.append(round(float(rev_d / media) if media > 0 else 1.0, 3))
+
+    # Fator turno (manhã = 0, tarde = 1, noite = 2)
+    fator_turno = []
+    for t in range(3):
+        sub_t = sub[sub['turno3'] == t]
+        if len(sub_t) > 0:
+            rev_t = sub_t.groupby('data')['valor_venda'].sum().mean()
+        else:
+            rev_t = daily_rev.mean() / 3
+        media_turno = daily_rev.mean() / 3
+        fator_turno.append(round(float(rev_t / media_turno) if media_turno > 0 else 1.0, 3))
+
+    # Fator mês (jan=0 ... dez=11)
+    fator_mes = []
+    for m in range(12):
+        sub_m = sub[sub['mes'] == m + 1]
+        if len(sub_m) > 0:
+            rev_m = sub_m.groupby('data')['valor_venda'].sum().mean()
+        else:
+            rev_m = daily_rev.mean()
+        media = daily_rev.mean()
+        fator_mes.append(round(float(rev_m / media) if media > 0 else 1.0, 3))
+
+    # Coeficiente clima — regressão linear simples
+    sub_daily = sub.groupby('data')['valor_venda'].sum().reset_index()
+    sub_daily = sub_daily.merge(df_temp[['data', 'temp_norm']], on='data', how='left').dropna()
+    if len(sub_daily) > 30:
+        qtd_norm = sub_daily['valor_venda'] / sub_daily['valor_venda'].mean()
+        x = sub_daily['temp_norm'].values
+        y = qtd_norm.values
+        # Regressão linear manual: y = slope*x + intercept
+        slope, intercept = np.polyfit(x, y, 1)
+        clima_slope = float(slope)
+        clima_intercept = float(intercept)
+    else:
+        clima_slope = 0.0
+        clima_intercept = 1.0
+
+    # Coeficiente de variação para estoque inicial
+    cv = float(daily_rev.std() / daily_rev.mean()) if daily_rev.mean() > 0 else 0.5
+    estoque_inicial = max(10, int(demanda_base_dia * (3 + cv * 4)))
+
+    # Validade típica (heurística por categoria — refinar quando ERP enviar)
+    VALIDADE_HEURISTICA = {
+        'cerveja': 90, 'agua': 270, 'refrigerante': 270, 'energetico': 270,
+        'isotonico': 180, 'suco': 180,
+        'gelo': 18,  # turnos (~6 dias)
+        'sorvete': 30,
+        'snack': 60, 'biscoito': 180, 'chocolate': 270, 'doce': 270,
+        'cafe': 365, 'padaria': 6,  # padaria vence rápido
+        'cigarro_souza_cruz': 365, 'cigarro_philip_morris': 365,
+        'cigarro_jti': 365, 'alcool_premium': 720,
+    }
+    validade = VALIDADE_HEURISTICA.get(cat_m, 180)
+
+    # Elasticidade promocional — Bijmolt 2005 + ajuste Dunnhumby
+    # Categorias que MAIS promovem (Dunnhumby pct > 60%) -> alta elasticidade
+    # Categorias que MENOS promovem (Dunnhumby pct < 5%) -> baixa elasticidade
+    cat_dh = MAPA_PARA_DUNNHUMBY.get(cat_m)
+    if cat_dh and cat_dh in prior_dh:
+        pct = prior_dh[cat_dh]['pct_desconto_medio']
+        # heurística: pct 0.76 -> elast -3.8, pct 0.005 -> elast -1.5
+        elasticidade = -1.5 - 2.8 * pct
+    else:
+        elasticidade = -2.5
+
+    # Alpha (penalidade vencimento)
+    taxa_perda = 0.0
+    for cat_posto in cats_posto:
+        descarte = descarte_por_categoria.get(cat_posto, 0)
+        venda = mar26_vendas.get(cat_posto, 0)
+        if venda > 0:
+            taxa_perda = max(taxa_perda, descarte / (venda + descarte))
+    alpha = 2.0 * (1 + taxa_perda * 5)
+
+    # Pares de combo (heurística — vai ser substituído por Apriori quando cupom chegar)
+    PARES_COMBO_HEURISTICA = {
+        'cerveja': 'snack', 'snack': 'cerveja',
+        'refrigerante': 'snack', 'biscoito': 'cafe',
+        'energetico': 'snack', 'agua': 'sorvete',
+        'sorvete': 'biscoito', 'chocolate': 'cafe',
+        'doce': 'refrigerante', 'cafe': 'biscoito',
+        'gelo': 'cerveja', 'isotonico': 'snack',
+        'padaria': 'cafe', 'suco': 'biscoito',
+        'alcool_premium': 'chocolate',
+        'cigarro_souza_cruz': 'cafe', 'cigarro_philip_morris': 'cafe',
+        'cigarro_jti': 'cafe',
+    }
+    par_combo = PARES_COMBO_HEURISTICA.get(cat_m, 'snack')
+
+    # Prior Dunnhumby para esta categoria
+    if cat_dh and cat_dh in prior_dh:
+        prior_d = prior_dh[cat_dh]
+        prior_pct_promo = prior_d['pct_desconto_medio']
+        prior_mag_promo = prior_d['mag_desconto_medio']
+        prior_indice_freq_mes = prior_d['indice_freq_por_mes']
+    else:
+        prior_pct_promo = 0.2
+        prior_mag_promo = 0.10
+        prior_indice_freq_mes = {m: 1.0 for m in range(1, 13)}
+
+    config = {
+        'indice': i,
+        'categoria': cat_m,
+        'categorias_posto_agregadas': cats_posto,
+        'preco_venda': round(preco_med, 2),
+        'custo': round(custo_med, 4),
+        'margem': round(margem_med, 2),
+        'demanda_base_dia': round(demanda_base_dia, 2),
+        'cv_demanda': round(cv, 3),
+        'estoque_inicial': estoque_inicial,
+        'validade_tipica_turnos': validade,
+        'elasticidade_promo': round(elasticidade, 3),
+        'alpha_venc': round(alpha, 3),
+        'taxa_perda_observada': round(taxa_perda, 4),
+        'par_combo': par_combo,
+        'fator_dia': fator_dia,
+        'fator_turno': fator_turno,
+        'fator_mes': fator_mes,
+        'clima_slope': round(clima_slope, 4),
+        'clima_intercept': round(clima_intercept, 4),
+        'prior_dunnhumby_pct_promo': round(prior_pct_promo, 3),
+        'prior_dunnhumby_mag_promo': round(prior_mag_promo, 3),
+        'prior_dunnhumby_indice_freq_mes': prior_indice_freq_mes,
+    }
+    config_categorias.append(config)
+    print(f"  ✓ {cat_m:<25s} demanda {demanda_base_dia:>6.1f} un/d  "
+          f"preço R$ {preco_med:>6.2f}  margem {margem_med/preco_med*100:>5.1f}%  "
+          f"e={elasticidade:.2f}")
+
+# ── 9. IBGE PMC para fator macro mensal ────────────────────────────────────
+
+try:
+    ibge = pd.read_csv(PRIORS / 'ibge_pmc' / 'sazonalidade_mensal.csv')
+    ibge_fator_mes = {int(r['mes']): float(r['fator_medio']) for _, r in ibge.iterrows()}
+except FileNotFoundError:
+    ibge_fator_mes = {m: 1.0 for m in range(1, 13)}
+
+# ── 10. Constantes do MDP ──────────────────────────────────────────────────
+
+constantes = {
+    'K_TIMING_BONUS': 250.0,
+    'K_TIMING_PENALTY': 250.0,
+    'K_EVENTO': 200.0,
+    'THETA_PADRAO': 80.0,
+    'LAMBDA_INSTABILIDADE': 50.0,
+    'GAMMA_DESC_5': 2.0,
+    'GAMMA_DESC_10': 5.0,
+    'GAMMA_DESC_25': 12.0,
+    'BETA_RUPTURA': 1.5,
+    'DELTA_GIRO': 1.0,
+    'PCT_FRACO': 0.30,
+    'TURNOS_POR_DIA': 3,
+    'EPISODIO_DIAS': 365,
+    'COBERTURA_ALVO_DIAS': 7,
+    'CV_FACTOR_ESTOQUE_INICIAL': 4.0,
+}
+
+# ── 11. Períodos de treino/validação ───────────────────────────────────────
+
+periodos = {
+    'data_inicio_treino': '2020-06-22',
+    'data_fim_treino': '2024-06-30',
+    'data_inicio_validacao': '2024-07-01',
+    'data_fim_validacao': '2026-04-30',
+}
+
+# ── 12. Temperatura: parâmetros para normalização ─────────────────────────
+
+clima_params = {
+    'temp_min': float(temp_min),
+    'temp_max': float(temp_max),
+}
+
+# ── Salva JSON ──────────────────────────────────────────────────────────────
+
+calibracao = {
+    'versao': 'v2.0',
+    'gerado_em': str(date.today()),
+    'n_categorias': N_CATEGORIAS,
+    'categorias': config_categorias,
+    'calendario_comercial': calendario_para_env,
+    'constantes': constantes,
+    'periodos': periodos,
+    'clima_params': clima_params,
+    'ibge_fator_mes': ibge_fator_mes,
+    'mapa_categoria_posto_para_modelo': MAPA_CATEGORIA_MODELO,
+    'fonte_dados': {
+        'vendas': 'data/venda_por_dia.xlsx (6 anos)',
+        'precos_custos': 'data/venda_do_mes.xlsx (mar/26)',
+        'descarte': 'data/descarte_produto.xlsx (mar/26 — pouco)',
+        'temperatura': 'Open-Meteo Barueri/SP',
+        'calendario_comercial': 'gerar_calendario_comercial.py',
+        'prior_dunnhumby': 'data/priors_externos/dunnhumby/',
+        'prior_olist': 'data/priors_externos/olist/',
+        'prior_ibge': 'data/priors_externos/ibge_pmc/',
+    },
+    'limitacoes': [
+        'Demanda calibrada por CATEGORIA, não por SKU (dados detalhados ainda nao chegaram do ERP)',
+        'Validade tipica por heuristica (esperando ERP)',
+        'Descarte so de mar/26 — alpha calibrado em amostra pequena',
+        'Combos via heuristica PARES_COMBO_HEURISTICA — aguardando cupom fiscal para Apriori',
+        'Elasticidade da literatura Bijmolt ajustada por Dunnhumby — aguardando teste A/B in loco',
+    ],
+}
+
+with open(DATA / 'calibracao_v2.json', 'w', encoding='utf-8') as f:
+    json.dump(calibracao, f, indent=2, ensure_ascii=False)
+
+print()
+print(f"✓ data/calibracao_v2.json gerado")
+print(f"  {len(config_categorias)} categorias calibradas")
+print(f"  {len(calendario_para_env)} eventos comerciais carregados")
+print(f"  IBGE PMC: fator dezembro = {ibge_fator_mes.get(12, '?')}")
+print(f"  Constantes do MDP: K_TIMING={constantes['K_TIMING_BONUS']}, "
+      f"K_EVENTO={constantes['K_EVENTO']}")
