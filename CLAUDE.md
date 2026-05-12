@@ -1208,3 +1208,311 @@ O agente só "aprendeu" o produto que tinha sinal trivial. Onde o sinal é sutil
 ---
 
 *12/05/2026: comparação V10→V11 documentada conforme pedido do professor para apresentação final.*
+
+---
+
+# CONSTRUÇÃO DO V11 — MDP COMPLETO E PLANO DE EXECUÇÃO
+
+> Esta seção define formalmente o ambiente V11 e o plano de construção a partir de tudo que foi coletado.
+
+## Arquivos ativos do projeto (após limpeza)
+
+### Scripts (13 ativos, todos commitados)
+
+```
+GERAÇÃO DE PRIORS EXTERNOS:
+  gerar_calendario_comercial.py    278 eventos BR 2016-2027
+  coletar_google_trends.py         pytrends 5y BR (7/15 coletados)
+  analisar_trends_uplift.py        cruzamento Trends × calendário
+  baixar_ibge_pmc.py               IBGE PMC sazonalidade macro
+  processar_olist.py               Olist e-commerce BR
+  processar_dunnhumby.py           Dunnhumby supermercado USA
+  analisar_dunnhumby.py            análise refinada do Dunnhumby
+
+PROCESSAMENTO DO POSTO:
+  analisar_produtos_nao_vendidos.py  parser 52 xlsx → catálogo
+  filtrar_conveniencia.py            remove automotivo (LUBRAX etc)
+  analise_cesta.py                   Apriori pré-fabricado p/ cupom
+
+OUTPUT OPERACIONAL:
+  gerar_calendario_v1.py             calendário a partir do V10
+  gerar_calendario_v2.py             V10 × calendário comercial
+
+AMBIENTE V11:
+  env_v2.py                          esqueleto ConvenienceStoreEnvV2
+```
+
+### Notebook
+
+```
+notebooks/rl_conveniencia_viana_FINAL.ipynb   V10 entregue
+```
+
+### Removidos (transientes da V10)
+
+```
+fire_v10.py                  patch ad-hoc V9→V10, já aplicado
+patch_v10_state_features.py  idem
+```
+
+## Resumo dos priors externos disponíveis (Fase 1b 100%)
+
+| Fonte | O que dá | Status |
+|---|---|---|
+| **Calendário comercial BR** | 278 datas oficiais + comerciais + esportivos, com janela e prior de uplift por categoria | ✓ |
+| **Google Trends BR** | Sazonalidade semanal de BUSCA por produto (5 anos, 7 de 15 termos) | ✓ parcial |
+| **IBGE PMC** | Sazonalidade mensal MACRO do varejo BR (Dez +20%, Fev -11%) | ✓ |
+| **Olist** | Uplift de VENDA por categoria × data comercial (e-commerce BR 2016-18) | ✓ |
+| **Dunnhumby** | Padrão de PROMOÇÃO por categoria (frequência + magnitude + sazonalidade anti-cíclica) | ✓ |
+
+## Dados do posto disponíveis (Fase 2 parcial)
+
+| Arquivo | O que dá | Status |
+|---|---|---|
+| `data/venda_por_dia.xlsx` | 6 anos vendas por CATEGORIA × turno | ✓ |
+| `data/venda_do_mes.xlsx` | Preços/custos/margens detalhados (mar/26) | ✓ |
+| `data/descarte_produto.xlsx` | Descarte de mar/26 (19 registros, pouco) | ✓ insuficiente |
+| `data/produtos_nao_vendidos/` | 52 xlsx, 2022-2026, 850 SKUs em 77 categorias | ✓ |
+| `data/catalogo_conveniencia.csv` | 719 SKUs filtrados (sem automotivo) | ✓ derivado |
+| `data/temperatura_historica.csv` | Temperatura diária Barueri 2020-2026 (Open-Meteo) | ✓ |
+| **Vendas detalhadas por SKU/dia** | — | ⏳ falta |
+| **Cupom fiscal com transaction_id** | — | ⏳ falta |
+| **Descarte ampliado 12 meses** | — | ⏳ falta |
+| **Validade típica por SKU** | — | ⏳ falta |
+
+---
+
+## MDP FORMAL DO V11
+
+### Estado $s_t \in [0,1]^{D}$, com $D = 50 + 4N$ ($N$ = nº produtos)
+
+```
+CALENDÁRIO (35 features):
+  [0:3]    turno one-hot (manhã, tarde, noite)
+  [3:10]   dia da semana one-hot (seg ... dom)
+  [10:22]  mês one-hot (jan ... dez)
+  [22]     dia do mês normalizado (0-1)
+  [23:33]  tipo de evento próximo one-hot (10 buckets):
+           chocolate, vinho, espumante, cerveja, snack, whisky,
+           todas, refrigerante, gelo, sorvete
+  [34]     dias até próximo evento / 30 (clipped 0-1)
+
+CLIMA (2 features):
+  [35]     temperatura normalizada (min-max histórico Barueri)
+  [36]     Δ temperatura últimos 7 dias (proxy de onda de calor/frente fria)
+
+ÍNDICE TEMPORAL EXTRA (2 features):
+  [37]     dias desde início do episódio / 365
+  [38]     fator sazonal IBGE PMC do mês (prior macro)
+
+CONTEXTO DE PROMOÇÃO (3 features):
+  [39]     prior comportamental médio (% promo da categoria-mais-em-risco no Dunnhumby)
+  [40]     se data atual está em alta de promoção comercial (Dunnhumby sazonal)
+  [41:50]  PADDING para alinhamento (a definir conforme implementação)
+
+POR PRODUTO P (4 features × N):
+  estoque_norm[P]    = estoque / (estoque_inicial × 1.5)        clipped [0,1]
+  validade_rest[P]   = 1 - idade_média_lote / validade_típica   clipped [0,1]
+  fraco_flag[P]      = 1 se fator_combinado(P, contexto) < 30% percentil
+  promo_ant[P]       = 1 se P foi promovido no turno anterior
+```
+
+### Ação $a_t \in \{0,1,...,N\} \times \{0,1,2,3,4\}$ (MultiDiscrete)
+
+```
+Dimensão 1: QUAL produto
+  0     = nenhum produto (não promover)
+  1..N  = índice do produto a promover
+
+Dimensão 2: INTENSIDADE
+  0 = nada                  (válido só se dim 1 = 0)
+  1 = desconto 5%
+  2 = desconto 10%
+  3 = combo (-10% no principal + cross-sell no par)
+  4 = liquidação 25%
+```
+
+Espaço total: $(N+1) \times 5$. Para $N=20$: 105 ações.
+
+### Transição $P(s_{t+1} | s_t, a_t)$
+
+**1. Demanda por produto:**
+
+$$\lambda_i = D_i \times F^{\text{dia}}_i \times F^{\text{turno}}_i \times F^{\text{mês}}_i \times F^{\text{clima}}_i(T) \times F^{\text{evento}}_i(d) \times F^{\text{promo}}_i(a)$$
+
+Onde:
+- $D_i$ = demanda base diária do SKU $i$ (calibrada em vendas reais ÷ 3 turnos)
+- $F^{\text{dia}}, F^{\text{turno}}, F^{\text{mês}}$ = fatores multiplicativos calibrados em 6 anos do posto
+- $F^{\text{clima}}_i(T)$ = $\text{slope}_i \cdot T_{\text{norm}} + \text{intercept}_i$, com coeficientes por SKU
+- $F^{\text{evento}}_i(d)$ = uplift se categoria do SKU bate com evento comercial próximo (calendário + Olist + Trends)
+- $F^{\text{promo}}_i(a)$ = boost de demanda se SKU foi promovido (depende de elasticidade calibrada)
+
+Demanda real: $q_i \sim \text{Poisson}(\lambda_i)$
+
+**2. Vendas e rupturas:**
+- $v_i = \min(q_i, \text{estoque}_i)$
+- $r_i = \max(q_i - v_i, 0)$ (ruptura)
+
+**3. Evolução de estoque e validade:**
+- $\text{idade}_i \mathrel{+}= 1$
+- Se $\text{idade}_i > \text{validade}_i$: $\text{perdas}_i = \text{estoque}_i$, depois zera
+- $\text{estoque}_i \mathrel{-}= v_i$
+- Reposição implícita: se $\text{estoque}_i < D_i \cdot 0.3 \cdot 7$ (7 dias cobertura), repõe até atingir 7 dias
+
+**4. Avanço temporal:**
+- Turno: manhã → tarde → noite → próximo dia
+- Episódio termina após 1095 turnos (365 dias × 3 turnos = 1 ano calendário real)
+
+### Recompensa $r_t$
+
+$$r_t = \underbrace{L_t}_{\text{lucro}} - \underbrace{V_t}_{\text{venc}} - \underbrace{R_t}_{\text{rupt}} - \underbrace{D_t}_{\text{desc saud}} + \underbrace{G_t}_{\text{giro}} + \underbrace{B^{\text{tim}}_t}_{\text{V10}} + \underbrace{B^{\text{evt}}_t}_{\text{NOVO}} + \underbrace{B^{\text{pad}}_t}_{\text{NOVO}} - \underbrace{I_t}_{\text{NOVO}}$$
+
+Termos:
+
+| Termo | Fórmula | Significado |
+|---|---|---|
+| $L_t$ | $\sum_i v_i \times (\text{preço\_efetivo}_i - \text{custo}_i)$ | Lucro bruto da venda |
+| $V_t$ | $\sum_i \alpha_i^{\text{SKU}} \times \text{perdas}_i \times \text{custo}_i$ | Penalidade vencimento, $\alpha$ por SKU |
+| $R_t$ | $1.5 \times \sum_i r_i \times \text{margem}_i \times 0.5$ | Penalidade ruptura |
+| $D_t$ | $\gamma_{\text{tier}} \times \mathbf{1}[\text{desc em saudável}]$ | Tiered: 5% < 10% < 25% |
+| $G_t$ | $1.0 \times \sum_i v_i \times \mathbf{1}[\text{validade} < 3] \times \text{margem}_i \times 0.3$ | Bonus giro |
+| $B^{\text{tim}}_t$ | $\pm 250$ se promove em fraco / forte | Shaping V10 |
+| $B^{\text{evt}}_t$ | $\kappa \times \text{uplift\_evento}(cat, d) \times \text{margem}$ se promove na janela e categoria certa | **NOVO** — recompensa promoção em data comercial |
+| $B^{\text{pad}}_t$ | $\theta \times \text{indice\_freq\_promo}(cat, mês)$ Dunnhumby | **NOVO** — bonus por seguir padrão típico do varejo |
+| $I_t$ | $\lambda \times \mathbf{1}[\text{ação muda dia a dia}]$ | **NOVO** — penalidade de instabilidade |
+
+Constantes (a calibrar):
+- $\alpha_i^{\text{SKU}}$ — do descarte ampliado (12 meses, quando chegar)
+- $\kappa$ — calibrado de modo que $B^{\text{evt}}$ seja material vs lucro per turno (~R$ 300)
+- $\theta$ — peso do prior Dunnhumby (sugestão: $\theta < \kappa < K^{\text{tim}}$)
+- $\lambda$ — penalidade instabilidade ~50 (uma fração do bonus de timing)
+
+### Episódio
+- 1095 turnos = 365 dias × 3 turnos = 1 ano calendário real
+- Reset: data inicial amostrada uniformemente em janela disponível
+- Train: 2020-06-22 a 2024-06-30
+- Validação hold-out: 2024-07-01 a 2026-04-30
+
+---
+
+## Plano de construção (5 etapas concretas)
+
+### Etapa 1 — `calibrar_v2.py` (criar)
+
+Combina todos os priors + dados do posto em **um único JSON de calibração**:
+
+```python
+{
+  "produtos": [
+    {
+      "sku": "cerveja_brahma_350ml",
+      "categoria": "cerveja",
+      "preco_venda": 7.50,
+      "custo": 3.00,
+      "margem": 4.50,
+      "demanda_base_dia": 9.4,            # do venda_por_dia (vai por categoria por enquanto)
+      "validade_tipica_turnos": 270,
+      "elasticidade_promo": -2.8,         # Bijmolt + prior Dunnhumby
+      "alpha_venc": 2.77,                 # do descarte (cerveja é única com taxa > 0)
+      "fator_dia": [0.70, 0.71, 0.78, 0.83, 1.14, 1.39, 1.46],
+      "fator_turno": [0.69, 0.87, 1.44],
+      "fator_mes": [0.92, 0.97, ..., 1.24],
+      "clima_slope": 0.45,                # da regressão temp × vendas
+      "clima_intercept": 0.65,
+      "estoque_inicial": 54,
+      "par_combo": "snack_doritos_92g"    # vai vir do Apriori quando cupom chegar
+    },
+    ...
+  ],
+  "calendario_eventos": [...],            # já temos
+  "prior_dunnhumby_categoria": {...},     # já temos
+  "constantes": {
+    "K_TIMING": 250,
+    "K_EVENTO": 200,
+    "THETA_PADRAO": 80,
+    "LAMBDA_INSTABILIDADE": 50,
+    "GAMMA_DESC_5": 2.0,
+    "GAMMA_DESC_10": 5.0,
+    "GAMMA_DESC_25": 12.0
+  }
+}
+```
+
+**O que `calibrar_v2.py` faz:**
+1. Lê `data/catalogo_conveniencia.csv` (719 SKUs filtrados)
+2. Lê `data/venda_por_dia.xlsx` → calibra FATOR_DIA, FATOR_TURNO, FATOR_MES por categoria (ainda não por SKU porque venda detalhada falta)
+3. Lê `data/temperatura_historica.csv` + cruza com vendas → CLIMA_COEF
+4. Lê `data/produtos_nao_vendidos/` → custos/preços/margens reais por SKU
+5. Lê `data/priors_externos/dunnhumby/sazonalidade_mensal_real.csv` → prior Dunnhumby
+6. Lê `data/priors_externos/olist/uplift_agregado.csv` → uplift por evento
+7. Salva `data/calibracao_v2.json`
+
+**Bloqueio:** não pode produzir DEMANDA_BASE por SKU sem vendas detalhadas por SKU/dia. Usa demanda por categoria como aproximação inicial.
+
+### Etapa 2 — Completar `env_v2.py`
+
+Implementar:
+- `construir_env_v2()` que carrega `calibracao_v2.json`
+- Funções `_temperatura_norm`, `_fator_clima`, `_fator_evento_dia` usando dados reais
+- Lógica completa de `step()` com os 8 termos da recompensa
+- Validação que ambiente roda 1 episódio sem erro
+
+### Etapa 3 — Treino V11
+
+```python
+# treinar_v11.py (a criar)
+- Double DQN com saída MultiDiscrete (decomposta em 2 cabeças ou flatten)
+- 1000 episódios × 5 seeds
+- Hold-out: train 2020-2024, val 2025-2026
+- Logging: reward, lucro, perdas, F1 timing, F1 evento, distribuição de ações
+```
+
+Tempo estimado: 4-6h em CPU (mais pesado que V10 por causa do espaço de ação maior + episódios mais longos). Considerar GPU (Colab T4 gratuito).
+
+### Etapa 4 — Validação V11
+
+```python
+# validar_v11.py (a criar)
+- Métricas idênticas ao V10 + 3 novas:
+  - F1 timing por SKU (igual V10)
+  - F1 EVENTO por (categoria × data comercial) — NOVA
+  - Lift sobre prior do varejo (a política do agente promove mais
+    inteligentemente que "seguir o varejo geral"?)
+- Análise de robustez (elasticidade, alpha, prior weights)
+- Comparação V10 (6 produtos) restrito vs V11 (N produtos)
+```
+
+### Etapa 5 — `gerar_calendario_v3.py`
+
+Reescrever o output operacional usando o V11 treinado:
+- Recebe data inicial + horizonte
+- Roda rollout determinístico
+- Agrupa em campanhas (mín 2 dias, máx 7)
+- Cada campanha: produto, par combo, desconto, uplift esperado, dias, justificativa
+- Dashboard Streamlit consumindo JSON
+
+---
+
+## Bloqueadores explícitos
+
+| Etapa | Depende de | Status |
+|---|---|---|
+| 1 (calibração) | Vendas detalhadas por SKU/dia | ⏳ Vinicius pedindo ERP |
+| 1 (calibração) | Descarte ampliado 12 meses | ⏳ idem |
+| 1 (calibração) | Validade típica por SKU | ⏳ idem |
+| 1 (calibração) | Cupom fiscal (combos via Apriori) | ⏳ idem |
+| 1 (calibração) | Histórico de promoções (elasticidade real) | ❌ não vai conseguir, usa Bijmolt + Dunnhumby |
+| 2 (env) | Etapa 1 | bloqueada |
+| 3 (treino) | Etapa 2 | bloqueada |
+
+**O que pode ser feito SEM esperar os dados do posto:**
+- Implementar `calibrar_v2.py` com dados disponíveis (categoria, não SKU)
+- Implementar `env_v2.py` (esqueleto já existe)
+- Implementar `treinar_v11.py` (esqueleto)
+- Implementar `validar_v11.py`
+- Implementar `gerar_calendario_v3.py`
+- Quando dados chegarem, é só re-rodar `calibrar_v2.py` que tudo flui
+
+---
+
+*12/05/2026 madrugada: MDP V11 documentado formalmente. Plano de construção em 5 etapas. Pronto para começar implementação enquanto dados do posto não chegam.*
