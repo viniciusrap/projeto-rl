@@ -1,0 +1,4 @@
+categoria,n_promovidos,n_promovidos_em_fraco,precision,recall,f1
+suco,395,50,0.127,0.1,0.112
+chocolate,29,4,0.138,0.008,0.015
+cigarro_philip_morris,162,0,0.0,0.0,0.0
