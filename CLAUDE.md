@@ -1914,3 +1914,210 @@ Esse é o padrão de trabalho experimental rigoroso que banca valoriza.
 ---
 
 *12/05/2026 tarde: 3 experimentos V11 completos. Opção A (penalidade) implementada e testada. Conclusão: F1 dessas 3 datas só destravará com vendas por SKU mostrando picos sazonais (Opção B). Modelo operacional escolhido: V11 20 cat com penalidade.*
+
+---
+
+# NOVA POLÍTICA V11.1 — LEI DA OFERTA E PROCURA (12/05/2026 noite)
+
+Vinicius redefiniu a política do agente. Não basta maximizar reward —
+agente tem que seguir lógica de varejo: **proteger margem em alta demanda,
+estimular venda em baixa demanda, prevenir vencimento.**
+
+## A regra fundamental
+
+> **Não aplicar desconto direto enquanto o produto estiver em período de
+> alta demanda.** Se a demanda já está alta, aproveite — proteja a margem.
+>
+> Se o mesmo produto cair de demanda em outro mês/período, aí sim pode
+> receber desconto individual.
+
+## Política detalhada (5 cenários)
+
+| Cenário do produto | Ação ideal |
+|---|---|
+| **Alta demanda + saudável** (validade > 30%) | **NÃO** descontar direto. Pode usar em **combo** (máx 5%) para aumentar ticket médio |
+| **Alta demanda + perto de vencer** (validade < 30%) | Pode descontar para evitar perda |
+| **Baixa demanda sazonal** (ex: sorvete no frio) | Aplicar desconto para estimular venda |
+| **Estoque parado em fora-de-pico** | Aplicar desconto |
+| **Produto não-promovível** (água) | Nunca promover |
+
+## Como cada regra entra no MDP
+
+### Estado (adições)
+- `forte_flag[i]` por produto — novo (top 30% do fator combinado = alta demanda)
+- `fraco_flag[i]` por produto — já existia (bottom 30% = baixa demanda)
+- `validade_rest[i]` — já existia (proxy de risco de vencimento)
+- `promovivel` — já existe na calibração (água = False)
+
+### Ação
+- Combo (ação 3) agora tem **DESC_COMBO_MAX = 5%** (era 10%)
+- Demais ações inalteradas
+
+### Recompensa (4 termos novos)
+
+```
+r_t = ... (termos antigos) ...
+     - pen_desc_alta_saudavel        ← NOVO (200)
+     + bonus_combo_alta              ← NOVO (150)
+     + bonus_desc_vencimento         ← NOVO (120 × proximidade_vencimento)
+     + bonus_desc_baixa              ← NOVO (100)
+```
+
+| Termo | Quando ativa | Valor | Lógica |
+|---|---|---:|---|
+| `pen_desc_alta_saudavel` | desc direto (1/2/4) + alta demanda + saudável | -200 | proteção da margem |
+| `bonus_combo_alta` | combo (3) + alta demanda | +150 | estratégia correta em pico |
+| `bonus_desc_vencimento` | desc direto + validade < 30% | +120 × escala | prevenir perda |
+| `bonus_desc_baixa` | desc direto + baixa demanda | +100 | estimular venda |
+
+### Constantes adicionadas no JSON
+
+```json
+"PCT_FORTE": 0.70,                    // top 30% = alta demanda
+"K_DESC_ALTA_SAUDAVEL": 200.0,        // penalidade
+"K_COMBO_ALTA": 150.0,                // bonus
+"K_DESC_VENCIMENTO": 120.0,           // bonus
+"K_DESC_BAIXA": 100.0,                // bonus
+"DESC_COMBO_MAX": 0.05,               // 5% (era 0.10)
+"LIMIAR_VENCIMENTO": 0.70,            // idade/validade >= 70% = perto vencer
+"LIMIAR_SAUDAVEL": 0.30               // idade/validade < 30% = saudável
+```
+
+## Comportamento esperado pós-treino
+
+| Antes (V11 sem nova política) | Depois (V11.1) |
+|---|---|
+| Promovia cigarro Souza Cruz (alto volume, alta margem) com desc 5% direto | Vai PARAR — penalidade -200 |
+| Cobertura limitada em alta demanda | Combo emerge como ação dominante em pico |
+| Não diferenciava saudável vs vencendo | Vai diferenciar — bonus 120 para vencendo |
+| Esquecia produtos em baixa sazonal | Bonus 100 incentiva desconto em fraco_flag |
+
+## Pseudocódigo da política aprendida (esperado)
+
+```python
+def politica_ideal(produto, contexto):
+    fator = FATOR_DIA × FATOR_TURNO × FATOR_MES
+    validade_rest = 1 - idade / validade_tipica
+    em_alta = fator >= percentil_70(produto)
+    em_baixa = fator < percentil_30(produto)
+    perto_vencer = validade_rest < 0.30
+
+    if produto.categoria == 'agua':
+        return SEM_PROMO  # nunca promover
+
+    if perto_vencer:
+        return DESC_INDIVIDUAL  # prioridade máxima — evitar perda
+
+    if em_alta:
+        return COMBO_5_PCT  # estratégia de ticket médio
+
+    if em_baixa:
+        return DESC_INDIVIDUAL  # estimular venda em vale
+
+    return SEM_PROMO  # neutro = não mexer
+```
+
+## Implementação
+
+- `calibrar_v2.py` — adicionadas constantes da nova política
+- `env_v2.py` — 4 termos novos na recompensa + combo desconto 5%
+- Modelos anteriores backupeados em `dqn_v11_pre_nova_politica.pt`
+- Re-treino disparado com 150 episódios
+
+---
+
+*12/05/2026 noite: política V11.1 implementada. Vinicius especificou regras
+explícitas de lei da oferta/procura. 4 novos termos de recompensa codificam
+isso no MDP. Re-treinando.*
+
+---
+
+# DISCUSSÃO ESTRATÉGICA — COMBOS REFORÇADOS + ROADMAP MULTI-AGENTES
+
+Vinicius (12/05/2026 noite) abriu 2 frentes de evolução. Decisão: tratar
+em sequência para poder COMPARAR os resultados.
+
+## Frente 1 — Combos com recompensa diferenciada por timing de data
+
+### Política refinada
+- **Aumentar bonus de combo em geral** (combos em alta demanda são a
+  estratégia certa)
+- **Aumentar AINDA MAIS quando combo coincide com data comercial certa**
+- **Distinguir pré-data vs no dia**:
+  - Datas de PRESENTE (Mães, Namorados, Pais, Crianças, Mulher, Páscoa,
+    Natal, Réveillon): pico de venda na PRÉ-data (gente comprando o presente)
+  - Datas de CONSUMO IMEDIATO (Copa do Mundo, Carnaval, Independência,
+    Black Friday): pico NO DIA do evento
+
+### Implementação (V11.5)
+
+Constantes ajustadas em `calibrar_v2.py`:
+```python
+'BOOST_COMBO_PRINCIPAL': 1.15,   # era 1.12
+'BOOST_COMBO_PAR': 1.10,         # era 1.08
+'K_COMBO_ALTA': 200.0,           # era 150 — bonus em alta demanda
+'K_COMBO_DATA_PICO': 250.0,      # NOVO — bonus EXTRA em data certa
+```
+
+Adicionada coluna `tipo_pico` em `data/calendario_comercial.csv`:
+- `pre` = pico vende ANTES do dia (presente)
+- `no_dia` = pico vende NO DIA (consumo)
+- `ambos` = vende em toda a janela
+
+Mapeamento:
+| Evento | tipo_pico |
+|---|---|
+| Dia das Mães/Pais/Namorados/Crianças/Mulher | pre |
+| Páscoa, Véspera Natal, Réveillon | pre |
+| Black Friday, Cyber Monday | ambos |
+| Copa do Mundo (jogos) | no_dia |
+| Carnaval | no_dia |
+| Aniversário SP, Barueri | no_dia |
+
+### Lógica no env
+
+```python
+if combo + data_evento_proxima:
+    if data atual em janela_pre E tipo_pico in (pre, ambos):
+        bonus += K_COMBO_DATA_PICO * (uplift - 1)
+    elif data atual é o dia E tipo_pico in (no_dia, ambos):
+        bonus += K_COMBO_DATA_PICO * (uplift - 1)
+```
+
+## Frente 2 — Multi-agentes (roadmap V12)
+
+Caminho B escolhido: **Pipeline com componentes especializados** (não MARL puro).
+
+### Arquitetura V12 planejada
+
+```
+1. Forecaster (LSTM/Prophet) → prevê demanda 7-30 dias por categoria
+2. Stock Manager (regra + RL) → repõe estoque com lead time
+3. Promoter (DQN atual) → consome forecast + decide combo/desconto
+4. Validator (analytics) → mede previsto vs real, alerta drift
+```
+
+### Plano de execução (acordado com Vinicius)
+
+1. **FASE A:** Implementar V11.5 (combos + bonus data) → treinar → coletar resultados
+2. **FASE B:** Implementar V12 (pipeline com Forecaster) → treinar → coletar resultados
+3. **FASE C:** Comparar V11.5 vs V12 lado-a-lado:
+   - Métricas: lucro adicional, F1 evento, diversidade de campanhas, robustez
+   - Decisão final baseada em DADOS, não opinião
+
+### Por que essa ordem
+
+- V11.5 é incremental — usa infraestrutura existente, baixo risco
+- V12 é arquitetural — vale o esforço se V11.5 mostrar limitações
+- Comparação direta dá evidência forte para o checkpoint acadêmico
+- Ambos podem coexistir como contribuição metodológica
+
+## Status atual
+
+- V11.3 (150ep, elasticidade -0.5) treinado mas subtreinado
+- V11.4 (300ep, eps_decay agressivo) — PARADO para implementar V11.5
+- V11.5 (combos reforçados + bonus data) — EM IMPLEMENTAÇÃO
+
+---
+
+*12/05/2026 noite: discussão estratégica salva. Roadmap V11.5 → V12 → comparação acordado.*

@@ -86,6 +86,14 @@ class ConvenienceStoreEnvV2(gym.Env):
         self.clima_intercept = np.array([c['clima_intercept'] for c in self.cats],
                                           dtype=np.float32)
 
+        # Categorias não-promovíveis (commodities inelásticas — água, etc)
+        self.promovivel = np.array([c.get('promovivel', True) for c in self.cats],
+                                     dtype=bool)
+        n_nao_prom = (~self.promovivel).sum()
+        if n_nao_prom > 0:
+            nomes_np = [c['categoria'] for c in self.cats if not c.get('promovivel', True)]
+            print(f"  {n_nao_prom} categorias NÃO-promovíveis: {nomes_np}")
+
         # Mapping nome → índice
         self.nome_para_idx = {c['categoria']: i for i, c in enumerate(self.cats)}
 
@@ -111,10 +119,15 @@ class ConvenienceStoreEnvV2(gym.Env):
                         self.fator_dia[:, d] * self.fator_turno[:, t]
                         * self.fator_mes[:, m]
                     )
-        # Limiar fraco_flag: percentil 30 por categoria
+        # Limiar fraco_flag: percentil 30 por categoria (baixa demanda)
         self._limiar_fraco = np.quantile(
             self._fator_combinado.reshape(self.N, -1),
             self.k['PCT_FRACO'], axis=1
+        )
+        # Limiar forte_flag: percentil 70 por categoria (alta demanda)
+        self._limiar_forte = np.quantile(
+            self._fator_combinado.reshape(self.N, -1),
+            self.k.get('PCT_FORTE', 0.70), axis=1
         )
 
         # Carregar temperatura histórica
@@ -130,20 +143,33 @@ class ConvenienceStoreEnvV2(gym.Env):
         for ev in self.cfg['calendario_comercial']:
             data_ev = date.fromisoformat(ev['data'])
             pre = int(ev['janela_pre_dias'])
+            tipo_pico = ev.get('tipo_pico', 'no_dia')
             for offset in range(-pre, int(ev['janela_pos_dias']) + 1):
                 d = data_ev + timedelta(days=offset)
                 if d not in self._eventos_por_data:
                     self._eventos_por_data[d] = []
-                # Fator de proximidade (decai com distância)
                 prox = 1.0 - abs(offset) / max(pre + 1, 1)
                 prox = max(0.3, prox)
                 uplift_dia = 1 + (float(ev['uplift_prior']) - 1) * prox
+                # Bonus de timing: data está em fase de pico?
+                # offset < 0: PRE-data (antes do dia)
+                # offset == 0: NO DIA
+                # offset > 0: POS-data
+                em_pico = False
+                if tipo_pico == 'pre' and offset < 0:
+                    em_pico = True
+                elif tipo_pico == 'no_dia' and offset == 0:
+                    em_pico = True
+                elif tipo_pico == 'ambos':
+                    em_pico = True
                 self._eventos_por_data[d].append({
                     'evento': ev['nome_evento'],
                     'categorias': set(ev['categorias_afetadas'].split(';')),
                     'tipo_idx': _evento_para_idx(ev['categorias_afetadas']),
                     'uplift_dia': uplift_dia,
                     'offset': offset,
+                    'tipo_pico': tipo_pico,
+                    'em_pico': em_pico,
                 })
 
         # Períodos
@@ -193,6 +219,15 @@ class ConvenienceStoreEnvV2(gym.Env):
     def step(self, action):
         prod_idx, intensidade = int(action[0]), int(action[1])
 
+        # Anular promoção em categoria não-promovível: vira no-op
+        # (penaliza o agente por ter escolhido, mas não aplica desconto)
+        tentou_promover_nao_promovivel = False
+        if prod_idx > 0 and intensidade > 0:
+            if not self.promovivel[prod_idx - 1]:
+                tentou_promover_nao_promovivel = True
+                prod_idx = 0  # vira sem-promo
+                intensidade = 0
+
         # 1. Aplicar promoção
         fator_promo = np.ones(self.N, dtype=np.float32)
         preco_efetivo = self.preco.copy()
@@ -209,12 +244,28 @@ class ConvenienceStoreEnvV2(gym.Env):
                 fator_promo[p] = 1 + elast * 0.10
                 preco_efetivo[p] *= 0.90
                 desconto_aplicado = 0.10
-            elif intensidade == 3:  # combo -10%
-                fator_promo[p] = 1.12
-                par = self.par_idx[p]
-                fator_promo[par] = 1.08
-                preco_efetivo[p] *= 0.90
-                desconto_aplicado = 0.10
+            elif intensidade == 3:  # combo -5% (Vinicius 12/05/26)
+                # COMBO COOPERATIVO:
+                # - Agente escolhe o produto PRINCIPAL (aprende qual promover)
+                # - Env completa com o melhor PAR contextual (top 1 produto
+                #   PROMOVIVEL com maior fator do dia, diferente do principal)
+                principal_din = p
+                dia_sem_tmp = self.data_atual.weekday()
+                mes_tmp = self.data_atual.month - 1
+                fator_ctx = (self.fator_dia[:, dia_sem_tmp]
+                              * self.fator_turno[:, self.turno]
+                              * self.fator_mes[:, mes_tmp])
+                fator_ctx_masked = np.where(self.promovivel,
+                                              fator_ctx, -np.inf)
+                fator_ctx_masked[principal_din] = -np.inf
+                par_din = int(np.argmax(fator_ctx_masked))
+                # Aplicar boost AUMENTADO (V11.5: 1.15 e 1.10)
+                fator_promo[principal_din] = self.k.get('BOOST_COMBO_PRINCIPAL', 1.15)
+                fator_promo[par_din] = self.k.get('BOOST_COMBO_PAR', 1.10)
+                desc_combo = self.k.get('DESC_COMBO_MAX', 0.05)
+                preco_efetivo[principal_din] *= (1 - desc_combo)
+                desconto_aplicado = desc_combo
+                produtos_promovidos_combo = (principal_din, par_din)
             elif intensidade == 4:  # liquidação -25%
                 fator_promo[p] = 1 + elast * 0.25
                 preco_efetivo[p] *= 0.75
@@ -347,12 +398,79 @@ class ConvenienceStoreEnvV2(gym.Env):
                       or intensidade != self.acao_ant[1])):
             pen_instabilidade = self.k['LAMBDA_INSTABILIDADE']
 
+        # Penalidade por tentar promover categoria não-promovível
+        pen_nao_promovivel = 30.0 if tentou_promover_nao_promovivel else 0.0
+
+        # ── REGRAS DE POLÍTICA (Vinicius 12/05/2026) ────────────────────
+        # Decompor estado do produto promovido para aplicar regras
+        pen_desc_alta_saudavel = 0.0
+        bonus_combo_alta = 0.0
+        bonus_combo_data_pico = 0.0
+        bonus_desc_vencimento = 0.0
+        bonus_desc_baixa = 0.0
+
+        if prod_idx > 0 and intensidade > 0:
+            p = prod_idx - 1
+            fator_p = f_dia[p] * f_turno[p] * f_mes[p]
+            em_alta_demanda = fator_p >= self._limiar_forte[p]
+            em_baixa_demanda = fator_p < self._limiar_fraco[p]
+            risco_venc = idade_pre[p] / max(self.validade_tipica[p], 1)
+            perto_de_vencer = risco_venc >= self.k.get('LIMIAR_VENCIMENTO', 0.70)
+            produto_saudavel = risco_venc < self.k.get('LIMIAR_SAUDAVEL', 0.30)
+
+            eh_desconto_direto = intensidade in (1, 2, 4)
+            eh_combo = intensidade == 3
+
+            # REGRA 1: Desconto direto em produto saudável de alta demanda
+            #          → PENALIDADE PESADA (proteger margem!)
+            if eh_desconto_direto and em_alta_demanda and produto_saudavel:
+                pen_desc_alta_saudavel = self.k.get('K_DESC_ALTA_SAUDAVEL', 200.0)
+
+            # REGRA 2: Combo em produto de alta demanda → BONUS
+            #          (combo aumenta ticket médio, estratégia certa)
+            if eh_combo and em_alta_demanda:
+                bonus_combo_alta = self.k.get('K_COMBO_ALTA', 150.0)
+
+            # REGRA 2b NOVO V11.5: Combo em data comercial com timing certo → BONUS EXTRA
+            #          Se data atual está no pico do evento (PRE para presente,
+            #          NO DIA para consumo), recompensa adicional.
+            if eh_combo:
+                evs = self._eventos_por_data.get(self.data_atual, [])
+                # Pegar evento com maior uplift_dia que esteja em fase de pico
+                em_pico_relevante = [e for e in evs if e.get('em_pico', False)]
+                if em_pico_relevante:
+                    ev_max = max(em_pico_relevante, key=lambda e: e['uplift_dia'])
+                    bonus_combo_data_pico = (self.k.get('K_COMBO_DATA_PICO', 250.0)
+                                                * (ev_max['uplift_dia'] - 1))
+
+            # REGRA 3: Desconto direto em produto perto de vencer → BONUS
+            #          (evita perda por vencimento)
+            if eh_desconto_direto and perto_de_vencer:
+                escala_venc = (risco_venc - self.k.get('LIMIAR_VENCIMENTO', 0.70)) \
+                                / (1 - self.k.get('LIMIAR_VENCIMENTO', 0.70))
+                bonus_desc_vencimento = self.k.get('K_DESC_VENCIMENTO', 120.0) * escala_venc
+
+            # REGRA 4: Desconto direto em produto de baixa demanda → BONUS
+            #          (estimular venda em vale sazonal)
+            if eh_desconto_direto and em_baixa_demanda:
+                bonus_desc_baixa = self.k.get('K_DESC_BAIXA', 100.0)
+
         reward = (lucro - pen_venc - pen_ruptura - pen_desconto + bonus_giro
-                   + bonus_timing + bonus_evento + bonus_padrao - pen_instabilidade)
+                   + bonus_timing + bonus_evento + bonus_padrao
+                   - pen_instabilidade - pen_nao_promovivel
+                   - pen_desc_alta_saudavel
+                   + bonus_combo_alta + bonus_combo_data_pico
+                   + bonus_desc_vencimento + bonus_desc_baixa)
 
         # 14. Atualizar estado
         self.promo_ant = np.zeros(self.N, dtype=np.float32)
-        if prod_idx > 0 and intensidade > 0:
+        if intensidade == 3 and prod_idx > 0:
+            # Combo dinamico marca os 2 produtos reais
+            if 'produtos_promovidos_combo' in locals():
+                p1, p2 = produtos_promovidos_combo
+                self.promo_ant[p1] = 1.0
+                self.promo_ant[p2] = 1.0
+        elif prod_idx > 0 and intensidade > 0:
             self.promo_ant[prod_idx - 1] = 1.0
         self.acao_ant = (prod_idx, intensidade)
         self.turno += 1
@@ -365,9 +483,18 @@ class ConvenienceStoreEnvV2(gym.Env):
         truncated = False
 
         info = self._get_info()
+        # Info do combo dinamico (se foi acionado)
+        combo_principal = None
+        combo_par = None
+        if intensidade == 3 and 'produtos_promovidos_combo' in locals():
+            combo_principal = self.cats[produtos_promovidos_combo[0]]['categoria']
+            combo_par = self.cats[produtos_promovidos_combo[1]]['categoria']
+
         info.update({
             'lucro': lucro,
             'pen_venc': pen_venc,
+            'combo_principal': combo_principal,
+            'combo_par': combo_par,
             'pen_ruptura': pen_ruptura,
             'pen_desconto': pen_desconto,
             'bonus_giro': bonus_giro,
@@ -375,6 +502,12 @@ class ConvenienceStoreEnvV2(gym.Env):
             'bonus_evento': bonus_evento,
             'bonus_padrao': bonus_padrao,
             'pen_instabilidade': pen_instabilidade,
+            'pen_nao_promovivel': pen_nao_promovivel,
+            'pen_desc_alta_saudavel': pen_desc_alta_saudavel,
+            'bonus_combo_alta': bonus_combo_alta,
+            'bonus_combo_data_pico': bonus_combo_data_pico,
+            'bonus_desc_vencimento': bonus_desc_vencimento,
+            'bonus_desc_baixa': bonus_desc_baixa,
             'vendas': vendas.copy(),
             'rupturas': rupturas.copy(),
             'perdas': perdas.copy(),

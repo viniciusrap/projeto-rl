@@ -268,10 +268,11 @@ cal = pd.read_csv(DATA / 'calendario_comercial.csv', parse_dates=['data'])
 cal['data'] = pd.to_datetime(cal['data']).dt.date.astype(str)
 cal_eventos = cal[cal['tipo_evento'].isin(
     ['data_comercial', 'evento_esportivo'])].copy()
-calendario_para_env = cal_eventos[['data', 'nome_evento',
-                                     'categorias_afetadas',
-                                     'uplift_prior',
-                                     'janela_pre_dias', 'janela_pos_dias']].to_dict('records')
+cols_calendario = ['data', 'nome_evento', 'categorias_afetadas',
+                     'uplift_prior', 'janela_pre_dias', 'janela_pos_dias']
+if 'tipo_pico' in cal_eventos.columns:
+    cols_calendario.append('tipo_pico')
+calendario_para_env = cal_eventos[cols_calendario].to_dict('records')
 
 # ── 7. Carrega descarte (mar/26) para alpha por categoria ──────────────────
 
@@ -517,13 +518,18 @@ constantes = {
     # Regra: nao dar desconto direto em produto saudavel de alta demanda
     'K_DESC_ALTA_SAUDAVEL': 200.0,  # penalidade pesada
     # Regra: combo eh a estrategia ideal quando produto principal eh alta demanda
-    'K_COMBO_ALTA': 150.0,           # bonus
+    'K_COMBO_ALTA': 200.0,           # AUMENTADO 150->200 (V11.5)
+    # NOVO V11.5: bonus EXTRA quando combo em data comercial com timing certo
+    'K_COMBO_DATA_PICO': 250.0,      # bonus em data certa (pre ou no_dia)
     # Regra: desconto eh OK quando produto perto de vencer (>= 70% validade)
     'K_DESC_VENCIMENTO': 120.0,      # bonus
     # Regra: desconto eh OK quando produto em baixa demanda sazonal
     'K_DESC_BAIXA': 100.0,            # bonus
     # Combo: desconto maximo 5% (era 10%)
     'DESC_COMBO_MAX': 0.05,
+    # Boost de combo aumentados (V11.5)
+    'BOOST_COMBO_PRINCIPAL': 1.15,    # era 1.12
+    'BOOST_COMBO_PAR': 1.10,           # era 1.08
     # Risco de vencimento que justifica desconto (idade / validade_tipica)
     'LIMIAR_VENCIMENTO': 0.70,
     'LIMIAR_SAUDAVEL': 0.30,           # validade > 30% = produto saudavel

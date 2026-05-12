@@ -43,6 +43,7 @@ for d, nome in sorted(br.items()):
         'intensidade': 'media',
         'categorias_afetadas': 'todas',
         'uplift_prior': 1.1,
+        'tipo_pico': 'no_dia',  # feriados oficiais = consumo no dia
         'fonte': 'holidays-br',
     })
 
@@ -269,6 +270,37 @@ eventos_normalizados = [{
 # ── Consolidar ──────────────────────────────────────────────────────────────
 
 df = pd.DataFrame(feriados_oficiais + datas_comerciais + eventos_normalizados)
+
+# ── Inferir tipo_pico para cada evento ────────────────────────────────────
+# Vinicius (12/05/26): distinguir datas de PRESENTE (pico pré) de
+# datas de CONSUMO (pico no dia)
+def inferir_tipo_pico(nome_evento, tipo_evento):
+    """Retorna 'pre', 'no_dia' ou 'ambos'."""
+    if pd.isna(nome_evento):
+        return 'no_dia'
+    n = str(nome_evento).lower()
+    # Datas de PRESENTE — pico vende ANTES (pessoa compra com antecedência)
+    if any(t in n for t in ['mães', 'maes', 'namorado', 'pais', 'criança',
+                              'crianca', 'mulher', 'páscoa', 'pascoa']):
+        return 'pre'
+    if 'véspera de natal' in n or 'vespera de natal' in n or 'reveillon' in n or 'réveillon' in n:
+        return 'pre'
+    # Black Friday/Cyber Monday: pega pré-data E no dia
+    if 'black friday' in n or 'cyber monday' in n or 'consumidor' in n:
+        return 'ambos'
+    # Datas de CONSUMO IMEDIATO — pico no dia
+    if 'copa' in n or 'jogo' in n or 'carnaval' in n:
+        return 'no_dia'
+    if 'aniversário' in n or 'aniversario' in n:
+        return 'no_dia'
+    # Feriados oficiais default = no dia
+    if tipo_evento == 'feriado_oficial':
+        return 'no_dia'
+    return 'no_dia'
+
+df['tipo_pico'] = df.apply(lambda r: inferir_tipo_pico(r['nome_evento'],
+                                                          r['tipo_evento']), axis=1)
+
 df = df.sort_values('data').reset_index(drop=True)
 df['ano'] = pd.to_datetime(df['data']).dt.year
 df['mes'] = pd.to_datetime(df['data']).dt.month
@@ -279,7 +311,8 @@ df['dia_semana'] = pd.to_datetime(df['data']).dt.dayofweek
 cols = ['data', 'ano', 'mes', 'dia', 'dia_semana',
         'tipo_evento', 'nome_evento',
         'janela_pre_dias', 'janela_pos_dias',
-        'intensidade', 'categorias_afetadas', 'uplift_prior', 'fonte']
+        'intensidade', 'categorias_afetadas', 'uplift_prior',
+        'tipo_pico', 'fonte']
 df = df[cols]
 
 df.to_csv(DATA / 'calendario_comercial.csv', index=False, encoding='utf-8')
