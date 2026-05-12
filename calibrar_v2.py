@@ -382,16 +382,35 @@ for i, cat_m in enumerate(CATEGORIAS_MODELO):
     }
     validade = VALIDADE_HEURISTICA.get(cat_m, 180)
 
-    # Elasticidade promocional — Bijmolt 2005 + ajuste Dunnhumby
-    # Categorias que MAIS promovem (Dunnhumby pct > 60%) -> alta elasticidade
-    # Categorias que MENOS promovem (Dunnhumby pct < 5%) -> baixa elasticidade
+    # Elasticidade promocional — VERSÃO V11.3 (12/05/2026)
+    # Decisão Vinicius: usar elasticidade EMPÍRICA medida em Dunnhumby
+    # (loja física USA, 500k transações) com PISO de -0.5 para que o
+    # agente ainda tenha sinal para aprender.
+    #
+    # Bijmolt 2005 superestima ~10× porque mede SUBSTITUIÇÃO entre marcas,
+    # não volume total de categoria. Em loja física, descontos categoricos
+    # têm elasticidade real próxima de zero (-0.0 a -0.4).
     cat_dh = MAPA_PARA_DUNNHUMBY.get(cat_m)
-    if cat_dh and cat_dh in prior_dh:
-        pct = prior_dh[cat_dh]['pct_desconto_medio']
-        # heurística: pct 0.76 -> elast -3.8, pct 0.005 -> elast -1.5
-        elasticidade = -1.5 - 2.8 * pct
+    elasticidade_empirica = None
+    if cat_dh:
+        try:
+            df_emp = pd.read_csv(PRIORS / 'dunnhumby' / 'elasticidade_resumo.csv')
+            sub_emp = df_emp[df_emp['categoria'] == cat_dh]
+            if len(sub_emp) > 0:
+                elasticidade_empirica = float(sub_emp['elasticidade_empirica'].iloc[0])
+        except FileNotFoundError:
+            pass
+
+    if elasticidade_empirica is not None:
+        # Piso de magnitude (-0.5): mantém sinal pro RL aprender
+        # Se medido é positivo (ruído), usa default -0.5
+        if elasticidade_empirica > 0:
+            elasticidade = -0.5
+        else:
+            elasticidade = min(elasticidade_empirica, -0.5)
     else:
-        elasticidade = -2.5
+        # Sem medida empírica → default conservador
+        elasticidade = -0.5
 
     # Alpha (penalidade vencimento)
     taxa_perda = 0.0
@@ -431,10 +450,16 @@ for i, cat_m in enumerate(CATEGORIAS_MODELO):
         prior_mag_promo = 0.10
         prior_indice_freq_mes = {m: 1.0 for m in range(1, 13)}
 
+    # Categorias NÃO promovíveis (commodities inelásticas)
+    # Vinicius (12/05/2026): água é compra utilitária, preço não estimula compra.
+    CATEGORIAS_NAO_PROMOVIVEIS = {'agua'}
+    promovivel = cat_m not in CATEGORIAS_NAO_PROMOVIVEIS
+
     config = {
         'indice': i,
         'categoria': cat_m,
         'categorias_posto_agregadas': cats_posto,
+        'promovivel': promovivel,
         'preco_venda': round(preco_med, 2),
         'custo': round(custo_med, 4),
         'margem': round(margem_med, 2),
@@ -474,7 +499,7 @@ constantes = {
     'K_TIMING_BONUS': 250.0,
     'K_TIMING_PENALTY': 250.0,
     'K_EVENTO': 200.0,
-    'K_EVENTO_PERDIDO': 150.0,  # NOVO Op A: penalidade por ignorar evento ativo
+    'K_EVENTO_PERDIDO': 150.0,
     'THETA_PADRAO': 80.0,
     'LAMBDA_INSTABILIDADE': 50.0,
     'GAMMA_DESC_5': 2.0,
@@ -483,10 +508,25 @@ constantes = {
     'BETA_RUPTURA': 1.5,
     'DELTA_GIRO': 1.0,
     'PCT_FRACO': 0.30,
+    'PCT_FORTE': 0.70,  # NOVO — top 30% do fator combinado = ALTA DEMANDA
     'TURNOS_POR_DIA': 3,
     'EPISODIO_DIAS': 365,
     'COBERTURA_ALVO_DIAS': 7,
     'CV_FACTOR_ESTOQUE_INICIAL': 4.0,
+    # ── Nova política (Vinicius 12/05/2026) ─────────────────────
+    # Regra: nao dar desconto direto em produto saudavel de alta demanda
+    'K_DESC_ALTA_SAUDAVEL': 200.0,  # penalidade pesada
+    # Regra: combo eh a estrategia ideal quando produto principal eh alta demanda
+    'K_COMBO_ALTA': 150.0,           # bonus
+    # Regra: desconto eh OK quando produto perto de vencer (>= 70% validade)
+    'K_DESC_VENCIMENTO': 120.0,      # bonus
+    # Regra: desconto eh OK quando produto em baixa demanda sazonal
+    'K_DESC_BAIXA': 100.0,            # bonus
+    # Combo: desconto maximo 5% (era 10%)
+    'DESC_COMBO_MAX': 0.05,
+    # Risco de vencimento que justifica desconto (idade / validade_tipica)
+    'LIMIAR_VENCIMENTO': 0.70,
+    'LIMIAR_SAUDAVEL': 0.30,           # validade > 30% = produto saudavel
 }
 
 # ── 11. Períodos de treino/validação ───────────────────────────────────────
