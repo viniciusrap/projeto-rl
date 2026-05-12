@@ -89,6 +89,12 @@ class ConvenienceStoreEnvV2(gym.Env):
         # Categorias não-promovíveis (commodities inelásticas — água, etc)
         self.promovivel = np.array([c.get('promovivel', True) for c in self.cats],
                                      dtype=bool)
+
+        # Bonus/penalidade por dia da semana ao promover (Vinicius 12/05/26)
+        # Cerveja/snack/gelo: penalidade seg/ter/qua, bonus sex/sáb/dom
+        self.bonus_promo_dia = np.array([
+            c.get('bonus_promo_dia_semana', [0]*7) for c in self.cats
+        ], dtype=np.float32)
         n_nao_prom = (~self.promovivel).sum()
         if n_nao_prom > 0:
             nomes_np = [c['categoria'] for c in self.cats if not c.get('promovivel', True)]
@@ -455,12 +461,20 @@ class ConvenienceStoreEnvV2(gym.Env):
             if eh_desconto_direto and em_baixa_demanda:
                 bonus_desc_baixa = self.k.get('K_DESC_BAIXA', 100.0)
 
+        # REGRA 5 (V11.6 Vinicius): bonus/penalidade por dia da semana ao promover
+        # Cerveja/snack/gelo: penalidade seg/ter/qua, bonus sex/sab/dom
+        bonus_dia_semana_categoria = 0.0
+        if prod_idx > 0 and intensidade > 0:
+            p = prod_idx - 1
+            bonus_dia_semana_categoria = float(self.bonus_promo_dia[p, dia_sem])
+
         reward = (lucro - pen_venc - pen_ruptura - pen_desconto + bonus_giro
                    + bonus_timing + bonus_evento + bonus_padrao
                    - pen_instabilidade - pen_nao_promovivel
                    - pen_desc_alta_saudavel
                    + bonus_combo_alta + bonus_combo_data_pico
-                   + bonus_desc_vencimento + bonus_desc_baixa)
+                   + bonus_desc_vencimento + bonus_desc_baixa
+                   + bonus_dia_semana_categoria)
 
         # 14. Atualizar estado
         self.promo_ant = np.zeros(self.N, dtype=np.float32)
@@ -506,6 +520,7 @@ class ConvenienceStoreEnvV2(gym.Env):
             'pen_desc_alta_saudavel': pen_desc_alta_saudavel,
             'bonus_combo_alta': bonus_combo_alta,
             'bonus_combo_data_pico': bonus_combo_data_pico,
+            'bonus_dia_semana_categoria': bonus_dia_semana_categoria,
             'bonus_desc_vencimento': bonus_desc_vencimento,
             'bonus_desc_baixa': bonus_desc_baixa,
             'vendas': vendas.copy(),

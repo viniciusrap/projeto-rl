@@ -6,750 +6,905 @@
 
 ## Resumo
 
-- **78 campanhas** recomendadas
-- **Lucro adicional estimado total:** R$ 480,39
+- **92 campanhas** recomendadas
+- **Lucro adicional estimado total:** R$ 636,08
 
 ## Campanhas
 
-### Campanha 1: 12/05 a 14/05 (3 dias)
+### Campanha 1: 12/05 a 13/05 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** cigarro_philip_morris
+- **Tipo:** desc10%  (desconto 10%)
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +6.5 unidades
+- **Lucro adicional estimado:** R$ 9,70
+
+### Campanha 2: 16/05 a 17/05 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 3: 19/05 a 20/05 (2 dias)
+
+- **Categoria:** cigarro_philip_morris
+- **Tipo:** desc10%  (desconto 10%)
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +6.5 unidades
+- **Lucro adicional estimado:** R$ 9,70
+
+### Campanha 4: 23/05 a 24/05 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 5: 26/05 a 28/05 (3 dias)
+
+- **Categoria:** isotonico
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 11.13
+- **Margem unitária:** R$ 6.79
+- **Uplift estimado:** +0.2 unidades
+- **Lucro adicional estimado:** R$ 1,19
 
-### Campanha 2: 15/05 a 17/05 (3 dias)
+### Campanha 6: 31/05 a 02/06 (3 dias)
 
-- **Categoria:** vinho
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +4.9 unidades
+- **Lucro adicional estimado:** R$ 7,68
 
-### Campanha 3: 18/05 a 21/05 (4 dias)
+### Campanha 7: 06/06 a 07/06 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
-
-### Campanha 4: 22/05 a 24/05 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
-
-### Campanha 5: 25/05 a 28/05 (4 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
-
-### Campanha 6: 29/05 a 31/05 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
-
-### Campanha 7: 02/06 a 04/06 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 8: 05/06 a 07/06 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 - **🎯 Coincide com:** Dia dos Namorados
 
-### Campanha 9: 08/06 a 11/06 (4 dias)
+### Campanha 8: 13/06 a 14/06 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
-- **🎯 Coincide com:** Copa 2026 — Abertura, Dia dos Namorados
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 10: 12/06 a 14/06 (3 dias)
+### Campanha 9: 20/06 a 21/06 (2 dias)
 
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
-- **🎯 Coincide com:** Dia dos Namorados
-
-### Campanha 11: 15/06 a 18/06 (4 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
-- **🎯 Coincide com:** Copa 2026 — Estreia provável Brasil
-
-### Campanha 12: 19/06 a 21/06 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 - **🎯 Coincide com:** Copa 2026 — Fase de grupos Brasil
 
-### Campanha 13: 22/06 a 25/06 (4 dias)
+### Campanha 10: 25/06 a 26/06 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 - **🎯 Coincide com:** Copa 2026 — Fase de grupos Brasil
 
-### Campanha 14: 26/06 a 27/06 (2 dias)
+### Campanha 11: 29/06 a 01/07 (3 dias)
 
-- **Categoria:** vinho
+- **Categoria:** cigarro_philip_morris
+- **Tipo:** desc10%  (desconto 10%)
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +9.8 unidades
+- **Lucro adicional estimado:** R$ 14,55
+
+### Campanha 12: 02/07 a 03/07 (2 dias)
+
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 
-### Campanha 15: 03/07 a 04/07 (2 dias)
+### Campanha 13: 09/07 a 10/07 (2 dias)
 
-- **Categoria:** chocolate_premium
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.29
-- **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +0.4 unidades
-- **Lucro adicional estimado:** R$ 1,82
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 
-### Campanha 16: 10/07 a 11/07 (2 dias)
+### Campanha 14: 16/07 a 17/07 (2 dias)
 
-- **Categoria:** chocolate_premium
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.29
-- **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +0.4 unidades
-- **Lucro adicional estimado:** R$ 1,82
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 
-### Campanha 17: 29/07 a 30/07 (2 dias)
+### Campanha 15: 23/07 a 24/07 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
+
+### Campanha 16: 30/07 a 31/07 (2 dias)
+
+- **Categoria:** chocolate_impulso
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 - **🎯 Coincide com:** Dia dos Pais
 
-### Campanha 18: 01/08 a 02/08 (2 dias)
+### Campanha 17: 05/08 a 06/08 (2 dias)
 
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
+- **Categoria:** cigarro_philip_morris
+- **Tipo:** desc10%  (desconto 10%)
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +6.5 unidades
+- **Lucro adicional estimado:** R$ 9,70
 - **🎯 Coincide com:** Dia dos Pais
 
-### Campanha 19: 07/08 a 09/08 (3 dias)
+### Campanha 18: 10/08 a 13/08 (4 dias)
 
-- **Categoria:** vinho
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
-- **🎯 Coincide com:** Dia dos Pais
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.7 unidades
+- **Lucro adicional estimado:** R$ 2,27
 
-### Campanha 20: 10/08 a 13/08 (4 dias)
+### Campanha 19: 17/08 a 20/08 (4 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.7 unidades
+- **Lucro adicional estimado:** R$ 2,27
 
-### Campanha 21: 14/08 a 16/08 (3 dias)
+### Campanha 20: 24/08 a 27/08 (4 dias)
 
-- **Categoria:** vinho
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.7 unidades
+- **Lucro adicional estimado:** R$ 2,27
 
-### Campanha 22: 17/08 a 20/08 (4 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
-
-### Campanha 23: 21/08 a 23/08 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
-
-### Campanha 24: 28/08 a 30/08 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,82
-
-### Campanha 25: 05/09 a 06/09 (2 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
-
-### Campanha 26: 12/09 a 13/09 (2 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
-
-### Campanha 27: 19/09 a 20/09 (2 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
-
-### Campanha 28: 21/09 a 23/09 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 29: 26/09 a 27/09 (2 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
-
-### Campanha 30: 28/09 a 30/09 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 31: 02/10 a 04/10 (3 dias)
+### Campanha 21: 01/09 a 03/09 (3 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
+- **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +3.0 unidades
-- **Lucro adicional estimado:** R$ 12,39
-- **Combo com:** vinho
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
 
-### Campanha 32: 05/10 a 07/10 (3 dias)
+### Campanha 22: 05/09 a 06/09 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 23: 07/09 a 10/09 (4 dias)
+
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 24: 12/09 a 13/09 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 25: 14/09 a 17/09 (4 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 26: 19/09 a 20/09 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 27: 21/09 a 24/09 (4 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 28: 26/09 a 27/09 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 29: 28/09 a 30/09 (3 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
+
+### Campanha 30: 03/10 a 04/10 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 31: 07/10 a 08/10 (2 dias)
+
+- **Categoria:** chocolate_impulso
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 - **🎯 Coincide com:** Dia das Crianças
 
-### Campanha 33: 09/10 a 11/10 (3 dias)
+### Campanha 32: 10/10 a 11/10 (2 dias)
 
-- **Categoria:** chocolate_premium
+- **Categoria:** gelo
 - **Tipo:** combo  (desconto 10%)
-- **Preço médio da categoria:** R$ 8.29
-- **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +3.0 unidades
-- **Lucro adicional estimado:** R$ 12,39
-- **Combo com:** vinho
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 - **🎯 Coincide com:** Dia das Crianças
 
-### Campanha 34: 12/10 a 14/10 (3 dias)
+### Campanha 33: 12/10 a 15/10 (4 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.7 unidades
+- **Lucro adicional estimado:** R$ 2,27
 - **🎯 Coincide com:** Dia das Crianças
 
-### Campanha 35: 17/10 a 18/10 (2 dias)
+### Campanha 34: 17/10 a 18/10 (2 dias)
 
-- **Categoria:** biscoito
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 35: 19/10 a 22/10 (4 dias)
+
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 5.86
-- **Margem unitária:** R$ 2.9
-- **Uplift estimado:** +0.2 unidades
-- **Lucro adicional estimado:** R$ 0,44
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.7 unidades
+- **Lucro adicional estimado:** R$ 2,27
 
-### Campanha 36: 19/10 a 21/10 (3 dias)
+### Campanha 36: 24/10 a 25/10 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 37: 26/10 a 29/10 (4 dias)
+
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.7 unidades
+- **Lucro adicional estimado:** R$ 2,27
 
-### Campanha 37: 24/10 a 25/10 (2 dias)
+### Campanha 38: 04/11 a 05/11 (2 dias)
 
-- **Categoria:** biscoito
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 5.86
-- **Margem unitária:** R$ 2.9
-- **Uplift estimado:** +0.2 unidades
-- **Lucro adicional estimado:** R$ 0,44
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 
-### Campanha 38: 26/10 a 28/10 (3 dias)
+### Campanha 39: 11/11 a 12/11 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 
-### Campanha 39: 30/10 a 31/10 (2 dias)
+### Campanha 40: 14/11 a 15/11 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 41: 16/11 a 18/11 (3 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
+- **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
 
-### Campanha 40: 02/11 a 05/11 (4 dias)
+### Campanha 42: 21/11 a 22/11 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 41: 07/11 a 08/11 (2 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
-
-### Campanha 42: 09/11 a 11/11 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 43: 13/11 a 14/11 (2 dias)
+### Campanha 43: 23/11 a 26/11 (4 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
-- **Preço médio da categoria:** R$ 8.29
-- **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
-
-### Campanha 44: 16/11 a 18/11 (3 dias)
-
-- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 45: 20/11 a 21/11 (2 dias)
-
-- **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
-
-### Campanha 46: 26/11 a 28/11 (3 dias)
-
-- **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
-- **Preço médio da categoria:** R$ 8.29
-- **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +3.0 unidades
-- **Lucro adicional estimado:** R$ 12,39
-- **Combo com:** vinho
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
 - **🎯 Coincide com:** Black Friday
 
-### Campanha 47: 01/12 a 02/12 (2 dias)
+### Campanha 44: 28/11 a 29/11 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+- **🎯 Coincide com:** Black Friday
+
+### Campanha 45: 30/11 a 02/12 (3 dias)
 
 - **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +0.4 unidades
-- **Lucro adicional estimado:** R$ 1,82
-- **🎯 Coincide com:** Cyber Monday
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
+- **🎯 Coincide com:** Black Friday, Cyber Monday
 
-### Campanha 48: 07/12 a 13/12 (7 dias)
+### Campanha 46: 05/12 a 06/12 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 47: 09/12 a 10/12 (2 dias)
 
 - **Categoria:** chocolate_premium
 - **Tipo:** combo  (desconto 10%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +6.9 unidades
-- **Lucro adicional estimado:** R$ 28,90
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 8,26
 - **Combo com:** vinho
 
-### Campanha 49: 14/12 a 20/12 (7 dias)
+### Campanha 48: 11/12 a 13/12 (3 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 49: 14/12 a 18/12 (5 dias)
 
 - **Categoria:** chocolate_premium
 - **Tipo:** combo  (desconto 10%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +6.9 unidades
-- **Lucro adicional estimado:** R$ 28,90
+- **Uplift estimado:** +4.9 unidades
+- **Lucro adicional estimado:** R$ 20,65
 - **Combo com:** vinho
 - **🎯 Coincide com:** Véspera de Natal
 
-### Campanha 50: 21/12 a 27/12 (7 dias)
+### Campanha 50: 19/12 a 20/12 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+- **🎯 Coincide com:** Véspera de Natal
+
+### Campanha 51: 21/12 a 24/12 (4 dias)
 
 - **Categoria:** chocolate_premium
 - **Tipo:** combo  (desconto 10%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +6.9 unidades
-- **Lucro adicional estimado:** R$ 28,90
+- **Uplift estimado:** +4.0 unidades
+- **Lucro adicional estimado:** R$ 16,52
 - **Combo com:** vinho
-- **🎯 Coincide com:** Véspera de Natal, Réveillon
+- **🎯 Coincide com:** Véspera de Natal
 
-### Campanha 51: 28/12 a 03/01 (7 dias)
+### Campanha 52: 25/12 a 27/12 (3 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+- **🎯 Coincide com:** Réveillon
+
+### Campanha 53: 28/12 a 31/12 (4 dias)
 
 - **Categoria:** chocolate_premium
 - **Tipo:** combo  (desconto 10%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +6.9 unidades
-- **Lucro adicional estimado:** R$ 28,90
+- **Uplift estimado:** +4.0 unidades
+- **Lucro adicional estimado:** R$ 16,52
 - **Combo com:** vinho
 - **🎯 Coincide com:** Réveillon
 
-### Campanha 52: 04/01 a 05/01 (2 dias)
+### Campanha 54: 02/01 a 03/01 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 53: 08/01 a 09/01 (2 dias)
+### Campanha 55: 04/01 a 06/01 (3 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
+- **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
 
-### Campanha 54: 11/01 a 12/01 (2 dias)
+### Campanha 56: 09/01 a 10/01 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 55: 15/01 a 16/01 (2 dias)
+### Campanha 57: 11/01 a 13/01 (3 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
+- **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
 
-### Campanha 56: 18/01 a 19/01 (2 dias)
+### Campanha 58: 16/01 a 17/01 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 57: 22/01 a 23/01 (2 dias)
+### Campanha 59: 18/01 a 20/01 (3 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
+- **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
 
-### Campanha 58: 25/01 a 26/01 (2 dias)
+### Campanha 60: 23/01 a 24/01 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 59: 29/01 a 30/01 (2 dias)
+### Campanha 61: 25/01 a 27/01 (3 dias)
 
 - **Categoria:** chocolate_premium
-- **Tipo:** combo  (desconto 10%)
+- **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 8.29
 - **Margem unitária:** R$ 4.64
-- **Uplift estimado:** +2.0 unidades
-- **Lucro adicional estimado:** R$ 8,26
-- **Combo com:** vinho
+- **Uplift estimado:** +0.6 unidades
+- **Lucro adicional estimado:** R$ 2,72
 
-### Campanha 60: 02/02 a 03/02 (2 dias)
+### Campanha 62: 30/01 a 31/01 (2 dias)
 
-- **Categoria:** energetico
-- **Tipo:** desc10%  (desconto 10%)
-- **Preço médio da categoria:** R$ 17.86
-- **Margem unitária:** R$ 10.57
-- **Uplift estimado:** +0.5 unidades
-- **Lucro adicional estimado:** R$ 5,02
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
 
-### Campanha 61: 09/02 a 10/02 (2 dias)
+### Campanha 63: 01/02 a 04/02 (4 dias)
 
-- **Categoria:** energetico
-- **Tipo:** desc10%  (desconto 10%)
-- **Preço médio da categoria:** R$ 17.86
-- **Margem unitária:** R$ 10.57
-- **Uplift estimado:** +0.5 unidades
-- **Lucro adicional estimado:** R$ 5,02
-
-### Campanha 62: 02/03 a 04/03 (3 dias)
-
-- **Categoria:** cerveja
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 64: 05/02 a 07/02 (3 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 65: 08/02 a 11/02 (4 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 66: 12/02 a 14/02 (3 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 67: 15/02 a 18/02 (4 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 68: 19/02 a 21/02 (3 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 69: 22/02 a 25/02 (4 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
+
+### Campanha 70: 26/02 a 28/02 (3 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 71: 02/03 a 03/03 (2 dias)
+
+- **Categoria:** cigarro_philip_morris
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 - **🎯 Coincide com:** Dia Internacional da Mulher
 
-### Campanha 63: 06/03 a 07/03 (2 dias)
+### Campanha 72: 05/03 a 07/03 (3 dias)
 
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
 - **🎯 Coincide com:** Dia Internacional da Mulher
 
-### Campanha 64: 09/03 a 11/03 (3 dias)
+### Campanha 73: 09/03 a 10/03 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 
-### Campanha 65: 13/03 a 14/03 (2 dias)
+### Campanha 74: 12/03 a 14/03 (3 dias)
 
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
 - **🎯 Coincide com:** Dia do Consumidor
 
-### Campanha 66: 16/03 a 17/03 (2 dias)
+### Campanha 75: 16/03 a 17/03 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 - **🎯 Coincide com:** Dia do Consumidor
 
-### Campanha 67: 20/03 a 21/03 (2 dias)
+### Campanha 76: 19/03 a 21/03 (3 dias)
 
-- **Categoria:** vinho
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 77: 23/03 a 24/03 (2 dias)
+
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 
-### Campanha 68: 23/03 a 24/03 (2 dias)
+### Campanha 78: 26/03 a 28/03 (3 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 13,75
+- **Combo com:** cerveja
+
+### Campanha 79: 30/03 a 31/03 (2 dias)
+
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 
-### Campanha 69: 27/03 a 28/03 (2 dias)
+### Campanha 80: 03/04 a 04/04 (2 dias)
 
-- **Categoria:** vinho
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 81: 05/04 a 08/04 (4 dias)
+
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 1,22
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
 
-### Campanha 70: 30/03 a 31/03 (2 dias)
+### Campanha 82: 10/04 a 11/04 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 83: 12/04 a 15/04 (4 dias)
+
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.8 unidades
+- **Lucro adicional estimado:** R$ 3,63
 
-### Campanha 71: 06/04 a 07/04 (2 dias)
+### Campanha 84: 17/04 a 18/04 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 85: 19/04 a 20/04 (2 dias)
+
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
-
-### Campanha 72: 12/04 a 14/04 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 73: 19/04 a 21/04 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 74: 26/04 a 28/04 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.5 unidades
-- **Lucro adicional estimado:** R$ 6,48
-
-### Campanha 75: 30/04 a 02/05 (3 dias)
-
-- **Categoria:** vinho
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.4 unidades
 - **Lucro adicional estimado:** R$ 1,82
-- **🎯 Coincide com:** Dia das Mães
 
-### Campanha 76: 03/05 a 06/05 (4 dias)
+### Campanha 86: 21/04 a 22/04 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +2.1 unidades
-- **Lucro adicional estimado:** R$ 8,64
-- **🎯 Coincide com:** Dia das Mães
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 
-### Campanha 77: 07/05 a 09/05 (3 dias)
+### Campanha 87: 24/04 a 25/04 (2 dias)
 
-- **Categoria:** vinho
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+
+### Campanha 88: 26/04 a 27/04 (2 dias)
+
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 39.99
-- **Margem unitária:** R$ 39.99
-- **Uplift estimado:** +0.0 unidades
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.4 unidades
 - **Lucro adicional estimado:** R$ 1,82
+
+### Campanha 89: 28/04 a 29/04 (2 dias)
+
+- **Categoria:** chocolate_impulso
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
 - **🎯 Coincide com:** Dia das Mães
 
-### Campanha 78: 10/05 a 11/05 (2 dias)
+### Campanha 90: 01/05 a 02/05 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+- **🎯 Coincide com:** Dia das Mães
+
+### Campanha 91: 03/05 a 04/05 (2 dias)
+
+- **Categoria:** chocolate_impulso
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +1.0 unidades
-- **Lucro adicional estimado:** R$ 4,32
+- **Preço médio da categoria:** R$ 5.89
+- **Margem unitária:** R$ 3.45
+- **Uplift estimado:** +0.3 unidades
+- **Lucro adicional estimado:** R$ 1,13
+- **🎯 Coincide com:** Dia das Mães
+
+### Campanha 92: 08/05 a 09/05 (2 dias)
+
+- **Categoria:** gelo
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 14.99
+- **Margem unitária:** R$ 7.59
+- **Uplift estimado:** +1.3 unidades
+- **Lucro adicional estimado:** R$ 9,16
+- **Combo com:** cerveja
+- **🎯 Coincide com:** Dia das Mães
 
 ---
 

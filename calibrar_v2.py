@@ -456,11 +456,32 @@ for i, cat_m in enumerate(CATEGORIAS_MODELO):
     CATEGORIAS_NAO_PROMOVIVEIS = {'agua'}
     promovivel = cat_m not in CATEGORIAS_NAO_PROMOVIVEIS
 
+    # Bonus/penalidade por dia da semana DATA-DRIVEN (Vinicius 12/05/26)
+    # Para CADA categoria, calcula o desvio relativo do fator_dia em cada dia
+    # da semana e converte em bonus/penalidade proporcional.
+    #
+    # Fórmula: bonus_dia[d] = K_BONUS_DIA × (fator_dia[d] / média - 1)
+    # - Dia que vende MAIS que a média → bonus positivo (promover faz sentido)
+    # - Dia que vende MENOS que a média → penalidade (promover não converte)
+    #
+    # K_BONUS_DIA = 400 dá escala parecida com manual antigo (cerveja Sab ~+220)
+    # mas com diferenciação por magnitude real de cada categoria.
+    K_BONUS_DIA = 400.0
+    media_fator_dia = sum(fator_dia) / 7
+    if media_fator_dia > 0.01:
+        bonus_promo_dia_semana = [
+            round(K_BONUS_DIA * (fator_dia[d] / media_fator_dia - 1), 1)
+            for d in range(7)
+        ]
+    else:
+        bonus_promo_dia_semana = [0.0] * 7
+
     config = {
         'indice': i,
         'categoria': cat_m,
         'categorias_posto_agregadas': cats_posto,
         'promovivel': promovivel,
+        'bonus_promo_dia_semana': bonus_promo_dia_semana,
         'preco_venda': round(preco_med, 2),
         'custo': round(custo_med, 4),
         'margem': round(margem_med, 2),
@@ -515,8 +536,8 @@ constantes = {
     'COBERTURA_ALVO_DIAS': 7,
     'CV_FACTOR_ESTOQUE_INICIAL': 4.0,
     # ── Nova política (Vinicius 12/05/2026) ─────────────────────
-    # Regra: nao dar desconto direto em produto saudavel de alta demanda
-    'K_DESC_ALTA_SAUDAVEL': 200.0,  # penalidade pesada
+    # V11.6 final: voltar para 200 (Vinicius nao quer proibir 100%)
+    'K_DESC_ALTA_SAUDAVEL': 200.0,
     # Regra: combo eh a estrategia ideal quando produto principal eh alta demanda
     'K_COMBO_ALTA': 200.0,           # AUMENTADO 150->200 (V11.5)
     # NOVO V11.5: bonus EXTRA quando combo em data comercial com timing certo

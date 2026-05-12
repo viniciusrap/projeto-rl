@@ -1,8 +1,8 @@
 evento,n_turnos_janela,n_promovidos,n_acertos,precision,recall,f1,categorias_alvo
-Dia das Mães,330,190,100,0.526,0.303,0.385,chocolate;espumante;perfume;vinho
-Véspera de Natal,330,330,110,0.333,0.333,0.333,cerveja;chocolate;espumante;panettone;refrigerante;vinho
-Dia dos Namorados,240,186,60,0.323,0.25,0.282,cerveja_premium;chocolate;espumante;vinho
-Dia dos Pais,330,270,51,0.189,0.155,0.17,cachaca;cerveja;snack;vinho_tinto;whisky
-Dia Internacional da Mulher,180,68,10,0.147,0.056,0.081,chocolate;espumante;flores;vinho
-Dia das Crianças,240,173,0,0.0,0.0,0.0,chocolate;refrigerante;salgadinho;sorvete;suco
-Réveillon,180,180,0,0.0,0.0,0.0,cerveja;champagne;energetico;espumante;gelo;refrigerante
+Réveillon,180,177,97,0.548,0.539,0.543,cerveja;champagne;energetico;espumante;gelo;refrigerante
+Dia dos Pais,330,310,9,0.029,0.027,0.028,cachaca;cerveja;snack;vinho_tinto;whisky
+Dia Internacional da Mulher,180,95,0,0.0,0.0,0.0,chocolate;espumante;flores;vinho
+Dia das Mães,330,310,0,0.0,0.0,0.0,chocolate;espumante;perfume;vinho
+Dia das Crianças,240,240,0,0.0,0.0,0.0,chocolate;refrigerante;salgadinho;sorvete;suco
+Dia dos Namorados,240,230,0,0.0,0.0,0.0,cerveja_premium;chocolate;espumante;vinho
+Véspera de Natal,330,330,0,0.0,0.0,0.0,cerveja;chocolate;espumante;panettone;refrigerante;vinho

@@ -1,8 +1,10 @@
 categoria,n_promovidos,n_promovidos_em_fraco,precision,recall,f1
-cerveja,1803,948,0.526,0.29,0.374
-energetico,1115,601,0.539,0.182,0.272
-refrigerante,239,239,1.0,0.072,0.134
-chocolate_premium,1423,292,0.205,0.088,0.124
-snack,412,160,0.388,0.048,0.086
-biscoito,156,109,0.699,0.033,0.063
-vinho,2887,180,0.062,0.059,0.06
+isotonico,1142,1072,0.939,0.321,0.478
+chocolate_premium,1605,622,0.388,0.188,0.254
+chocolate_impulso,733,406,0.554,0.121,0.199
+snack,272,87,0.32,0.026,0.049
+refrigerante,63,63,1.0,0.019,0.037
+sorvete,39,39,1.0,0.012,0.023
+cigarro_philip_morris,2628,67,0.025,0.02,0.022
+biscoito,555,32,0.058,0.01,0.017
+gelo,2553,39,0.015,0.012,0.013
