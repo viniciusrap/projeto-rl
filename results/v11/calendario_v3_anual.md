@@ -6,903 +6,724 @@
 
 ## Resumo
 
-- **96 campanhas** recomendadas
-- **Lucro adicional estimado total:** R$ 2.443,45
+- **77 campanhas** recomendadas
+- **Lucro adicional estimado total:** R$ 359,71
 
 ## Campanhas
 
 ### Campanha 1: 12/05 a 14/05 (3 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
 ### Campanha 2: 16/05 a 17/05 (2 dias)
 
-- **Categoria:** cigarro_jti
+- **Categoria:** vinho
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 1,22
 
-### Campanha 3: 20/05 a 22/05 (3 dias)
+### Campanha 3: 18/05 a 21/05 (4 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 
 ### Campanha 4: 23/05 a 24/05 (2 dias)
 
-- **Categoria:** cigarro_jti
+- **Categoria:** vinho
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 1,22
 
-### Campanha 5: 27/05 a 29/05 (3 dias)
+### Campanha 5: 25/05 a 28/05 (4 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 
 ### Campanha 6: 30/05 a 31/05 (2 dias)
 
-- **Categoria:** cigarro_jti
+- **Categoria:** vinho
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 1,22
 
-### Campanha 7: 01/06 a 03/06 (3 dias)
+### Campanha 7: 01/06 a 04/06 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 
-### Campanha 8: 04/06 a 05/06 (2 dias)
+### Campanha 8: 06/06 a 07/06 (2 dias)
 
-- **Categoria:** agua
+- **Categoria:** vinho
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 1,22
 - **🎯 Coincide com:** Dia dos Namorados
 
-### Campanha 9: 06/06 a 07/06 (2 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
-- **🎯 Coincide com:** Dia dos Namorados
-
-### Campanha 10: 08/06 a 10/06 (3 dias)
+### Campanha 9: 08/06 a 11/06 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
-- **🎯 Coincide com:** Dia dos Namorados
-
-### Campanha 11: 11/06 a 12/06 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 - **🎯 Coincide com:** Copa 2026 — Abertura, Dia dos Namorados
 
-### Campanha 12: 13/06 a 14/06 (2 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
-
-### Campanha 13: 15/06 a 17/06 (3 dias)
+### Campanha 10: 15/06 a 18/06 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 - **🎯 Coincide com:** Copa 2026 — Estreia provável Brasil
 
-### Campanha 14: 18/06 a 19/06 (2 dias)
+### Campanha 11: 22/06 a 25/06 (4 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 15: 20/06 a 21/06 (2 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 - **🎯 Coincide com:** Copa 2026 — Fase de grupos Brasil
 
-### Campanha 16: 22/06 a 23/06 (2 dias)
+### Campanha 12: 29/06 a 30/06 (2 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 
-### Campanha 17: 24/06 a 26/06 (3 dias)
+### Campanha 13: 06/07 a 08/07 (3 dias)
 
-- **Categoria:** agua
+- **Categoria:** energetico
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
-- **🎯 Coincide com:** Copa 2026 — Fase de grupos Brasil
+- **Preço médio da categoria:** R$ 17.86
+- **Margem unitária:** R$ 10.57
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 3,98
 
-### Campanha 18: 27/06 a 28/06 (2 dias)
+### Campanha 14: 10/07 a 12/07 (3 dias)
 
-- **Categoria:** cigarro_jti
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +4.9 unidades
+- **Lucro adicional estimado:** R$ 7,68
 
-### Campanha 19: 29/06 a 01/07 (3 dias)
+### Campanha 15: 13/07 a 15/07 (3 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** energetico
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
+- **Preço médio da categoria:** R$ 17.86
+- **Margem unitária:** R$ 10.57
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 3,98
 
-### Campanha 20: 02/07 a 03/07 (2 dias)
+### Campanha 16: 17/07 a 19/07 (3 dias)
 
-- **Categoria:** agua
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 21: 09/07 a 10/07 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 22: 16/07 a 17/07 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 23: 18/07 a 20/07 (3 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +4.9 unidades
+- **Lucro adicional estimado:** R$ 7,68
 - **🎯 Coincide com:** Copa 2026 — Final
 
-### Campanha 24: 23/07 a 24/07 (2 dias)
+### Campanha 17: 20/07 a 22/07 (3 dias)
 
-- **Categoria:** agua
+- **Categoria:** energetico
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
+- **Preço médio da categoria:** R$ 17.86
+- **Margem unitária:** R$ 10.57
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 3,98
 
-### Campanha 25: 30/07 a 31/07 (2 dias)
+### Campanha 18: 24/07 a 26/07 (3 dias)
 
-- **Categoria:** agua
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +4.9 unidades
+- **Lucro adicional estimado:** R$ 7,68
+
+### Campanha 19: 27/07 a 29/07 (3 dias)
+
+- **Categoria:** energetico
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 17.86
+- **Margem unitária:** R$ 10.57
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 3,98
+
+### Campanha 20: 03/08 a 06/08 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 - **🎯 Coincide com:** Dia dos Pais
 
-### Campanha 26: 01/08 a 02/08 (2 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
-- **🎯 Coincide com:** Dia dos Pais
-
-### Campanha 27: 07/08 a 09/08 (3 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
-- **🎯 Coincide com:** Dia dos Pais
-
-### Campanha 28: 14/08 a 16/08 (3 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
-
-### Campanha 29: 18/08 a 19/08 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 30: 21/08 a 23/08 (3 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
-
-### Campanha 31: 28/08 a 30/08 (3 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
-
-### Campanha 32: 01/09 a 02/09 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 33: 08/09 a 10/09 (3 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
-
-### Campanha 34: 15/09 a 17/09 (3 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
-
-### Campanha 35: 22/09 a 23/09 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 36: 29/09 a 02/10 (4 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +7.1 unidades
-- **Lucro adicional estimado:** R$ 30,22
-
-### Campanha 37: 03/10 a 04/10 (2 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
-
-### Campanha 38: 05/10 a 06/10 (2 dias)
+### Campanha 21: 10/08 a 13/08 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 22: 15/08 a 16/08 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 23: 17/08 a 20/08 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 24: 22/08 a 23/08 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 25: 24/08 a 27/08 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 26: 29/08 a 30/08 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 27: 01/09 a 02/09 (2 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 1,82
+
+### Campanha 28: 05/09 a 06/09 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 29: 07/09 a 09/09 (3 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
+
+### Campanha 30: 12/09 a 13/09 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 31: 14/09 a 16/09 (3 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
+
+### Campanha 32: 21/09 a 23/09 (3 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
+
+### Campanha 33: 28/09 a 01/10 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 34: 02/10 a 03/10 (2 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 35: 06/10 a 08/10 (3 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 - **🎯 Coincide com:** Dia das Crianças
 
-### Campanha 39: 10/10 a 11/10 (2 dias)
+### Campanha 36: 09/10 a 10/10 (2 dias)
 
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Categoria:** chocolate_premium
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
 - **🎯 Coincide com:** Dia das Crianças
 
-### Campanha 40: 12/10 a 13/10 (2 dias)
+### Campanha 37: 13/10 a 15/10 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-- **🎯 Coincide com:** Dia das Crianças
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 41: 16/10 a 18/10 (3 dias)
+### Campanha 38: 16/10 a 17/10 (2 dias)
 
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
+- **Categoria:** chocolate_premium
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
 
-### Campanha 42: 19/10 a 20/10 (2 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-
-### Campanha 43: 23/10 a 25/10 (3 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
-
-### Campanha 44: 27/10 a 28/10 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 45: 30/10 a 01/11 (3 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +9.8 unidades
-- **Lucro adicional estimado:** R$ 11,62
-
-### Campanha 46: 02/11 a 05/11 (4 dias)
+### Campanha 39: 20/10 a 22/10 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 47: 06/11 a 07/11 (2 dias)
+### Campanha 40: 23/10 a 24/10 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
+- **Categoria:** chocolate_premium
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
 
-### Campanha 48: 09/11 a 12/11 (4 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
-
-### Campanha 49: 13/11 a 14/11 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-
-### Campanha 50: 16/11 a 19/11 (4 dias)
+### Campanha 41: 27/10 a 29/10 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 51: 20/11 a 21/11 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-
-### Campanha 52: 23/11 a 26/11 (4 dias)
+### Campanha 42: 02/11 a 05/11 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 43: 09/11 a 12/11 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 44: 16/11 a 19/11 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 45: 23/11 a 26/11 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 - **🎯 Coincide com:** Black Friday
 
-### Campanha 53: 27/11 a 28/11 (2 dias)
+### Campanha 46: 04/12 a 05/12 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-- **🎯 Coincide com:** Black Friday
-
-### Campanha 54: 30/11 a 01/12 (2 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-- **🎯 Coincide com:** Black Friday, Cyber Monday
-
-### Campanha 55: 02/12 a 03/12 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-
-### Campanha 56: 04/12 a 05/12 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
+- **Categoria:** vinho
 - **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
 - **Uplift estimado:** +0.0 unidades
 - **Lucro adicional estimado:** R$ 0,00
 
-### Campanha 57: 07/12 a 08/12 (2 dias)
+### Campanha 47: 11/12 a 12/12 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-
-### Campanha 58: 09/12 a 10/12 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-
-### Campanha 59: 11/12 a 12/12 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
+- **Categoria:** vinho
 - **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
 - **Uplift estimado:** +0.0 unidades
 - **Lucro adicional estimado:** R$ 0,00
 
-### Campanha 60: 14/12 a 15/12 (2 dias)
+### Campanha 48: 14/12 a 15/12 (2 dias)
 
-- **Categoria:** cerveja
+- **Categoria:** chocolate_premium
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 1,82
 - **🎯 Coincide com:** Véspera de Natal
 
-### Campanha 61: 16/12 a 17/12 (2 dias)
+### Campanha 49: 18/12 a 19/12 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-- **🎯 Coincide com:** Véspera de Natal
-
-### Campanha 62: 18/12 a 19/12 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
+- **Categoria:** vinho
 - **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
 - **Uplift estimado:** +0.0 unidades
 - **Lucro adicional estimado:** R$ 0,00
 - **🎯 Coincide com:** Véspera de Natal
 
-### Campanha 63: 21/12 a 22/12 (2 dias)
+### Campanha 50: 25/12 a 26/12 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-- **🎯 Coincide com:** Véspera de Natal
-
-### Campanha 64: 23/12 a 26/12 (4 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +72.4 unidades
-- **Lucro adicional estimado:** R$ 124,50
-- **🎯 Coincide com:** Véspera de Natal, Réveillon
-
-### Campanha 65: 28/12 a 29/12 (2 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
 - **🎯 Coincide com:** Réveillon
 
-### Campanha 66: 30/12 a 31/12 (2 dias)
+### Campanha 51: 29/12 a 30/12 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
+- **Categoria:** cigarro_philip_morris
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
+- **Preço médio da categoria:** R$ 11.2
+- **Margem unitária:** R$ 1.65
+- **Uplift estimado:** +3.3 unidades
+- **Lucro adicional estimado:** R$ 5,12
 - **🎯 Coincide com:** Réveillon
 
-### Campanha 67: 04/01 a 05/01 (2 dias)
+### Campanha 52: 01/01 a 02/01 (2 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 8,26
+- **Combo com:** vinho
+
+### Campanha 53: 04/01 a 06/01 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 68: 06/01 a 07/01 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 69: 11/01 a 12/01 (2 dias)
+### Campanha 54: 11/01 a 13/01 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 70: 13/01 a 14/01 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 71: 18/01 a 19/01 (2 dias)
+### Campanha 55: 18/01 a 21/01 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 
-### Campanha 72: 20/01 a 21/01 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 73: 25/01 a 26/01 (2 dias)
+### Campanha 56: 25/01 a 28/01 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 
-### Campanha 74: 27/01 a 28/01 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 75: 30/01 a 31/01 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +36.2 unidades
-- **Lucro adicional estimado:** R$ 62,25
-
-### Campanha 76: 03/02 a 04/02 (2 dias)
+### Campanha 57: 01/02 a 03/02 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 77: 10/02 a 11/02 (2 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-
-### Campanha 78: 17/02 a 18/02 (2 dias)
+### Campanha 58: 08/02 a 10/02 (3 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
+- **Uplift estimado:** +1.5 unidades
+- **Lucro adicional estimado:** R$ 6,48
 
-### Campanha 79: 24/02 a 25/02 (2 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +6.2 unidades
-- **Lucro adicional estimado:** R$ 25,80
-
-### Campanha 80: 02/03 a 04/03 (3 dias)
+### Campanha 59: 15/02 a 18/02 (4 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 60: 20/02 a 21/02 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 61: 22/02 a 25/02 (4 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
+
+### Campanha 62: 27/02 a 28/02 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
+
+### Campanha 63: 02/03 a 03/03 (2 dias)
+
+- **Categoria:** cerveja
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 - **🎯 Coincide com:** Dia Internacional da Mulher
 
-### Campanha 81: 09/03 a 11/03 (3 dias)
+### Campanha 64: 13/03 a 14/03 (2 dias)
 
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +9.2 unidades
-- **Lucro adicional estimado:** R$ 38,70
-
-### Campanha 82: 15/03 a 18/03 (4 dias)
-
-- **Categoria:** cerveja
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.92
-- **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
+- **Categoria:** vinho
+- **Tipo:** nada  (desconto 0%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 0,00
 - **🎯 Coincide com:** Dia do Consumidor
 
-### Campanha 83: 22/03 a 25/03 (4 dias)
+### Campanha 65: 24/03 a 25/03 (2 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +2.0 unidades
+- **Lucro adicional estimado:** R$ 8,26
+- **Combo com:** vinho
+
+### Campanha 66: 30/03 a 31/03 (2 dias)
+
+- **Categoria:** chocolate_premium
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 8.29
+- **Margem unitária:** R$ 4.64
+- **Uplift estimado:** +0.4 unidades
+- **Lucro adicional estimado:** R$ 1,82
+
+### Campanha 67: 06/04 a 07/04 (2 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 
-### Campanha 84: 29/03 a 01/04 (4 dias)
+### Campanha 68: 10/04 a 11/04 (2 dias)
+
+- **Categoria:** vinho
+- **Tipo:** combo  (desconto 10%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.2 unidades
+- **Lucro adicional estimado:** R$ 5,53
+- **Combo com:** chocolate_premium
+
+### Campanha 69: 13/04 a 14/04 (2 dias)
 
 - **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
 - **Preço médio da categoria:** R$ 7.92
 - **Margem unitária:** R$ 4.41
-- **Uplift estimado:** +12.3 unidades
-- **Lucro adicional estimado:** R$ 51,60
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 
-### Campanha 85: 02/04 a 03/04 (2 dias)
+### Campanha 70: 16/04 a 17/04 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
+- **Categoria:** vinho
 - **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
 - **Uplift estimado:** +0.0 unidades
 - **Lucro adicional estimado:** R$ 0,00
 
-### Campanha 86: 05/04 a 07/04 (3 dias)
+### Campanha 71: 20/04 a 21/04 (2 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 
-### Campanha 87: 09/04 a 10/04 (2 dias)
+### Campanha 72: 23/04 a 24/04 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
+- **Categoria:** vinho
 - **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
 - **Uplift estimado:** +0.0 unidades
 - **Lucro adicional estimado:** R$ 0,00
 
-### Campanha 88: 13/04 a 14/04 (2 dias)
+### Campanha 73: 27/04 a 28/04 (2 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 
-### Campanha 89: 16/04 a 17/04 (2 dias)
+### Campanha 74: 01/05 a 02/05 (2 dias)
 
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
+- **Categoria:** vinho
+- **Tipo:** desc5%  (desconto 5%)
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
 - **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 0,00
-
-### Campanha 90: 20/04 a 21/04 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 91: 23/04 a 24/04 (2 dias)
-
-- **Categoria:** cigarro_souza_cruz
-- **Tipo:** nada  (desconto 0%)
-- **Preço médio da categoria:** R$ 8.23
-- **Margem unitária:** R$ 1.81
-- **Uplift estimado:** +0.0 unidades
-- **Lucro adicional estimado:** R$ 0,00
-
-### Campanha 92: 27/04 a 28/04 (2 dias)
-
-- **Categoria:** agua
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
-
-### Campanha 93: 01/05 a 02/05 (2 dias)
-
-- **Categoria:** cigarro_jti
-- **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Lucro adicional estimado:** R$ 1,22
 - **🎯 Coincide com:** Dia das Mães
 
-### Campanha 94: 05/05 a 07/05 (3 dias)
+### Campanha 75: 03/05 a 06/05 (4 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +5.3 unidades
-- **Lucro adicional estimado:** R$ 22,67
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +2.1 unidades
+- **Lucro adicional estimado:** R$ 8,64
 - **🎯 Coincide com:** Dia das Mães
 
-### Campanha 95: 08/05 a 09/05 (2 dias)
+### Campanha 76: 08/05 a 09/05 (2 dias)
 
-- **Categoria:** cigarro_jti
+- **Categoria:** vinho
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 12.6
-- **Margem unitária:** R$ 1.25
-- **Uplift estimado:** +6.5 unidades
-- **Lucro adicional estimado:** R$ 7,74
+- **Preço médio da categoria:** R$ 39.99
+- **Margem unitária:** R$ 39.99
+- **Uplift estimado:** +0.0 unidades
+- **Lucro adicional estimado:** R$ 1,22
 - **🎯 Coincide com:** Dia das Mães
 
-### Campanha 96: 10/05 a 11/05 (2 dias)
+### Campanha 77: 10/05 a 11/05 (2 dias)
 
-- **Categoria:** agua
+- **Categoria:** cerveja
 - **Tipo:** desc5%  (desconto 5%)
-- **Preço médio da categoria:** R$ 7.23
-- **Margem unitária:** R$ 4.46
-- **Uplift estimado:** +3.6 unidades
-- **Lucro adicional estimado:** R$ 15,11
+- **Preço médio da categoria:** R$ 7.92
+- **Margem unitária:** R$ 4.41
+- **Uplift estimado:** +1.0 unidades
+- **Lucro adicional estimado:** R$ 4,32
 
 ---
 

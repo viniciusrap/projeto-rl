@@ -1,8 +1,9 @@
 categoria,n_promovidos,n_promovidos_em_fraco,precision,recall,f1
-cerveja,2647,1050,0.397,0.322,0.355
-doce,481,282,0.586,0.085,0.149
-cigarro_souza_cruz,1119,138,0.123,0.042,0.062
-energetico,114,74,0.649,0.022,0.043
-chocolate_impulso,300,79,0.263,0.024,0.043
-cigarro_jti,892,33,0.037,0.01,0.016
-agua,1182,6,0.005,0.002,0.003
+energetico,1386,958,0.691,0.289,0.408
+cerveja,1694,838,0.495,0.257,0.338
+chocolate_premium,723,220,0.304,0.067,0.109
+vinho,1397,150,0.107,0.049,0.067
+refrigerante,102,102,1.0,0.031,0.06
+isotonico,982,100,0.102,0.03,0.046
+cigarro_philip_morris,787,41,0.052,0.012,0.02
+cigarro_jti,14,0,0.0,0.0,0.0

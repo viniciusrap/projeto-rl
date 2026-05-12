@@ -1,0 +1,6 @@
+serie,media_ultimos_30,std_ultimos_30,cv_ultimos_30,slope_pct_por_episodio,delta_pct_primeiros50_vs_ultimos50
+reward_total,668764.2,18823.68,0.0281,0.2046,34.99
+lucro_total,641087.55,10881.2,0.017,0.0249,0.28
+perdas_total,1773.8,54.02,0.0305,0.0146,0.61
+pct_promove,74.11,2.36,0.0318,-0.0635,-16.28
+loss_media,221.38,4.57,0.0207,-0.0534,10.36

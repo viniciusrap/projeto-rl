@@ -348,3 +348,14 @@ print()
 print(f"✓ Saídas:")
 print(f"  results/v11/calendario_v3.json")
 print(f"  results/v11/calendario_v3.md")
+
+# ── Hook: gerar HTML premium automaticamente ────────────────────────────
+# Decisão Vinicius (12/05/26): sempre que calendário regenerar, HTML também.
+try:
+    import subprocess
+    print()
+    print("Gerando HTML premium...")
+    subprocess.run([sys.executable, str(ROOT / 'gerar_html_premium.py')],
+                    check=True, cwd=str(ROOT))
+except Exception as e:
+    print(f"⚠ HTML premium não gerou: {e}")

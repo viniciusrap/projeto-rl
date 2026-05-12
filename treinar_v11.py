@@ -138,7 +138,7 @@ def treinar_seed(seed: int, n_episodios: int, max_steps: int, DEVICE=None):
 
     eps = 1.0
     eps_min = 0.05
-    eps_decay = 0.99  # ~100 eps para chegar em ε=0.05
+    eps_decay = 0.985  # 12/05/26 mais agressivo: ε=0.05 em ~200 eps
     gamma = 0.99
     batch_size = 64
     target_update_every = 5  # episódios
