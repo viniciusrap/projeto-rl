@@ -5,8 +5,8 @@
   "data_inicio": "2026-05-12",
   "data_fim": "2027-05-11",
   "horizonte_dias": 365,
-  "n_campanhas": 77,
-  "lucro_adicional_total_R$": 359.71,
+  "n_campanhas": 70,
+  "lucro_adicional_total_R$": 377.44,
   "campanhas": [
     {
       "data_inicio": "2026-05-12",
@@ -305,6 +305,23 @@
       "eventos_comerciais_na_janela": []
     },
     {
+      "data_inicio": "2026-08-01",
+      "data_fim": "2026-08-02",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
+      "dias_total": 2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
+      "uplift_unidades_estimado": 0.0,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
+      "eventos_comerciais_na_janela": [
+        "Dia dos Pais"
+      ]
+    },
+    {
       "data_inicio": "2026-08-03",
       "data_fim": "2026-08-06",
       "categoria": "cerveja",
@@ -317,6 +334,23 @@
       "lucro_adicional_estimado_R$": 8.64,
       "preco_unitario": 7.92,
       "margem_unitaria": 4.41,
+      "eventos_comerciais_na_janela": [
+        "Dia dos Pais"
+      ]
+    },
+    {
+      "data_inicio": "2026-08-08",
+      "data_fim": "2026-08-09",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
+      "dias_total": 2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
+      "uplift_unidades_estimado": 0.0,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": [
         "Dia dos Pais"
       ]
@@ -340,13 +374,13 @@
       "data_inicio": "2026-08-15",
       "data_fim": "2026-08-16",
       "categoria": "vinho",
-      "intensidade_idx": "0",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
       "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
+      "lucro_adicional_estimado_R$": 1.22,
       "preco_unitario": 39.99,
       "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
@@ -370,13 +404,13 @@
       "data_inicio": "2026-08-22",
       "data_fim": "2026-08-23",
       "categoria": "vinho",
-      "intensidade_idx": "0",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
       "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
+      "lucro_adicional_estimado_R$": 1.22,
       "preco_unitario": 39.99,
       "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
@@ -400,13 +434,13 @@
       "data_inicio": "2026-08-29",
       "data_fim": "2026-08-30",
       "categoria": "vinho",
-      "intensidade_idx": "0",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
       "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
+      "lucro_adicional_estimado_R$": 1.22,
       "preco_unitario": 39.99,
       "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
@@ -427,21 +461,6 @@
       "eventos_comerciais_na_janela": []
     },
     {
-      "data_inicio": "2026-09-05",
-      "data_fim": "2026-09-06",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": []
-    },
-    {
       "data_inicio": "2026-09-07",
       "data_fim": "2026-09-09",
       "categoria": "cerveja",
@@ -454,21 +473,6 @@
       "lucro_adicional_estimado_R$": 6.48,
       "preco_unitario": 7.92,
       "margem_unitaria": 4.41,
-      "eventos_comerciais_na_janela": []
-    },
-    {
-      "data_inicio": "2026-09-12",
-      "data_fim": "2026-09-13",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {
@@ -517,18 +521,18 @@
       "eventos_comerciais_na_janela": []
     },
     {
-      "data_inicio": "2026-10-02",
-      "data_fim": "2026-10-03",
-      "categoria": "chocolate_premium",
-      "intensidade_idx": "0",
+      "data_inicio": "2026-10-03",
+      "data_fim": "2026-10-04",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 8.2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 8.29,
-      "margem_unitaria": 4.64,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {
@@ -549,18 +553,18 @@
       ]
     },
     {
-      "data_inicio": "2026-10-09",
-      "data_fim": "2026-10-10",
-      "categoria": "chocolate_premium",
-      "intensidade_idx": "0",
+      "data_inicio": "2026-10-10",
+      "data_fim": "2026-10-11",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 8.2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 8.29,
-      "margem_unitaria": 4.64,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": [
         "Dia das Crianças"
       ]
@@ -581,18 +585,18 @@
       "eventos_comerciais_na_janela": []
     },
     {
-      "data_inicio": "2026-10-16",
-      "data_fim": "2026-10-17",
-      "categoria": "chocolate_premium",
-      "intensidade_idx": "0",
+      "data_inicio": "2026-10-17",
+      "data_fim": "2026-10-18",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 8.2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 8.29,
-      "margem_unitaria": 4.64,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {
@@ -611,18 +615,18 @@
       "eventos_comerciais_na_janela": []
     },
     {
-      "data_inicio": "2026-10-23",
-      "data_fim": "2026-10-24",
-      "categoria": "chocolate_premium",
-      "intensidade_idx": "0",
+      "data_inicio": "2026-10-24",
+      "data_fim": "2026-10-25",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
       "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 8.2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
       "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 8.29,
-      "margem_unitaria": 4.64,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {
@@ -638,6 +642,21 @@
       "lucro_adicional_estimado_R$": 6.48,
       "preco_unitario": 7.92,
       "margem_unitaria": 4.41,
+      "eventos_comerciais_na_janela": []
+    },
+    {
+      "data_inicio": "2026-10-31",
+      "data_fim": "2026-11-01",
+      "categoria": "vinho",
+      "intensidade_idx": "1",
+      "dias_total": 2,
+      "intensidade": "desc5%",
+      "desconto_pct": 5,
+      "demanda_base_dia": 0.6,
+      "uplift_unidades_estimado": 0.0,
+      "lucro_adicional_estimado_R$": 1.22,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {
@@ -703,36 +722,6 @@
       ]
     },
     {
-      "data_inicio": "2026-12-04",
-      "data_fim": "2026-12-05",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": []
-    },
-    {
-      "data_inicio": "2026-12-11",
-      "data_fim": "2026-12-12",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": []
-    },
-    {
       "data_inicio": "2026-12-14",
       "data_fim": "2026-12-15",
       "categoria": "chocolate_premium",
@@ -747,40 +736,6 @@
       "margem_unitaria": 4.64,
       "eventos_comerciais_na_janela": [
         "Véspera de Natal"
-      ]
-    },
-    {
-      "data_inicio": "2026-12-18",
-      "data_fim": "2026-12-19",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": [
-        "Véspera de Natal"
-      ]
-    },
-    {
-      "data_inicio": "2026-12-25",
-      "data_fim": "2026-12-26",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": [
-        "Réveillon"
       ]
     },
     {
@@ -922,21 +877,6 @@
       "eventos_comerciais_na_janela": []
     },
     {
-      "data_inicio": "2027-02-20",
-      "data_fim": "2027-02-21",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": []
-    },
-    {
       "data_inicio": "2027-02-22",
       "data_fim": "2027-02-25",
       "categoria": "cerveja",
@@ -949,21 +889,6 @@
       "lucro_adicional_estimado_R$": 8.64,
       "preco_unitario": 7.92,
       "margem_unitaria": 4.41,
-      "eventos_comerciais_na_janela": []
-    },
-    {
-      "data_inicio": "2027-02-27",
-      "data_fim": "2027-02-28",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {
@@ -981,23 +906,6 @@
       "margem_unitaria": 4.41,
       "eventos_comerciais_na_janela": [
         "Dia Internacional da Mulher"
-      ]
-    },
-    {
-      "data_inicio": "2027-03-13",
-      "data_fim": "2027-03-14",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": [
-        "Dia do Consumidor"
       ]
     },
     {
@@ -1030,6 +938,22 @@
       "preco_unitario": 8.29,
       "margem_unitaria": 4.64,
       "eventos_comerciais_na_janela": []
+    },
+    {
+      "data_inicio": "2027-04-03",
+      "data_fim": "2027-04-04",
+      "categoria": "vinho",
+      "intensidade_idx": "3",
+      "dias_total": 2,
+      "intensidade": "combo",
+      "desconto_pct": 10,
+      "demanda_base_dia": 0.6,
+      "uplift_unidades_estimado": 0.2,
+      "lucro_adicional_estimado_R$": 5.53,
+      "preco_unitario": 39.99,
+      "margem_unitaria": 39.99,
+      "eventos_comerciais_na_janela": [],
+      "produto_complementar": "chocolate_premium"
     },
     {
       "data_inicio": "2027-04-06",
@@ -1078,21 +1002,6 @@
       "eventos_comerciais_na_janela": []
     },
     {
-      "data_inicio": "2027-04-16",
-      "data_fim": "2027-04-17",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
-      "eventos_comerciais_na_janela": []
-    },
-    {
       "data_inicio": "2027-04-20",
       "data_fim": "2027-04-21",
       "categoria": "cerveja",
@@ -1105,21 +1014,6 @@
       "lucro_adicional_estimado_R$": 4.32,
       "preco_unitario": 7.92,
       "margem_unitaria": 4.41,
-      "eventos_comerciais_na_janela": []
-    },
-    {
-      "data_inicio": "2027-04-23",
-      "data_fim": "2027-04-24",
-      "categoria": "vinho",
-      "intensidade_idx": "0",
-      "dias_total": 2,
-      "intensidade": "nada",
-      "desconto_pct": 0,
-      "demanda_base_dia": 0.6,
-      "uplift_unidades_estimado": 0.0,
-      "lucro_adicional_estimado_R$": 0.0,
-      "preco_unitario": 39.99,
-      "margem_unitaria": 39.99,
       "eventos_comerciais_na_janela": []
     },
     {

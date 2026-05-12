@@ -104,11 +104,14 @@ INTENS_NOMES = ['nada', 'desc5%', 'desc10%', 'combo', 'liq25%']
 INTENS_DESCONTO = [0, 5, 10, 10, 25]  # combo conta como 10% desconto
 
 decisoes_por_dia = (df_dec.groupby('data')
-                            .apply(lambda g: (g[g['produto_idx'] > 0]
-                                                .groupby(['categoria', 'intensidade_idx'])
-                                                .size().idxmax()
-                                              if (g['produto_idx'] > 0).any()
-                                              else (None, 0)),
+                            .apply(lambda g: (
+                                g[(g['produto_idx'] > 0)
+                                   & (g['intensidade_idx'] > 0)]
+                                  .groupby(['categoria', 'intensidade_idx'])
+                                  .size().idxmax()
+                                if ((g['produto_idx'] > 0)
+                                     & (g['intensidade_idx'] > 0)).any()
+                                else (None, 0)),
                                     include_groups=False)
                             .to_dict())
 

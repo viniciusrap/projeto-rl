@@ -43,7 +43,30 @@ for c in camp:
 
 # Ordenar por lucro adicional decrescente
 camp_sorted = sorted(camp, key=lambda c: -c['lucro_adicional_estimado_R$'])
-top = camp_sorted[:TOP_N]
+
+# DIVERSIFICAR top: max MAX_POR_GRUPO campanhas por (categoria, intensidade)
+# para mostrar variedade (combos, descontos em diferentes categorias)
+MAX_POR_GRUPO = 2
+from collections import defaultdict
+contagem = defaultdict(int)
+top = []
+# Primeiro pass: pegar até MAX_POR_GRUPO de cada (cat, intens)
+for c in camp_sorted:
+    chave = (c['categoria'], c['intensidade'])
+    if contagem[chave] < MAX_POR_GRUPO:
+        top.append(c)
+        contagem[chave] += 1
+    if len(top) >= TOP_N:
+        break
+# Se ainda não tem TOP_N, completar com as próximas melhores
+if len(top) < TOP_N:
+    ja_no_top = set(id(c) for c in top)
+    for c in camp_sorted:
+        if id(c) not in ja_no_top:
+            top.append(c)
+        if len(top) >= TOP_N:
+            break
+top = top[:TOP_N]
 
 # Uplift real (se disponível) para validar
 uplift_real = {}
