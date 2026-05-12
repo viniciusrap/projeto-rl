@@ -1050,3 +1050,161 @@ Hierarquia: ao calibrar a função de demanda do V11, dado interno do posto **se
 ---
 
 *Manhã 12/05/2026: Fase 1b 100% completa. Olist + Trends + IBGE PMC + calendário todos integrados. Próximo passo crítico: dados do posto.*
+
+---
+
+# COMPARAÇÃO V10 → V11 — PARA APRESENTAÇÃO FINAL
+
+> **Pedido do professor:** mostrar na apresentação final como a política do V10 era "tosca" e como V11 endereça as limitações estruturais. Esta seção concentra o material a ser usado.
+
+## A "política tosca" do V10 — análise técnica honesta
+
+O V10 entregou os números que estavam no contrato (reward +28%, perdas -39%, F1 do gelo 98,7%). Mas quando você abre a política aprendida, ela é mais simples do que parece. **Não é exatamente uma política de RL no sentido pleno — é mais perto de uma regra heurística aprendida**.
+
+### Sintoma 1 — Colapso para 2 ações de 5 possíveis
+
+Das 5 ações do espaço (sem-promo, desc 5%, desc 10%, combo, liquidação 25%), o agente usa **apenas 2**:
+
+| Ação | % de uso | Status |
+|---|---:|---|
+| 0 (sem-promo) | **67%** | usa |
+| 1 (desc 5%) | 0% | **nunca emerge** |
+| 2 (desc 10%) | 0% | **nunca emerge** |
+| 3 (combo) | **33%** | usa |
+| 4 (liquidação 25%) | 0% | **nunca emerge** |
+
+Em 1.512 contextos canônicos avaliados, a decisão é binária: combo ou nada. Descontos parciais e liquidação foram dominados economicamente e ignorados.
+
+### Sintoma 2 — Decisão IDÊNTICA por produto
+
+Quando agregamos a política por (dia, turno, mês), **TODOS os 6 produtos têm exatamente o mesmo split 67% / 33%**. Isso significa: o agente não está usando o estado de estoque/validade do produto específico para decidir; está usando só o contexto temporal global.
+
+Em outras palavras: a "decisão por produto" delegada pelo espaço de ação foi solucionada pelo ambiente (`argmax(idade/validade)`), não pelo agente.
+
+### Sintoma 3 — Política equivale a regra heurística simples
+
+A política aprendida pode ser resumida em **uma frase**:
+
+> *"Aplique combo Segunda, Terça, Quarta ou Quinta à noite, especialmente em meses de inverno (Mai, Jul, Set). Sábado, Domingo e Dezembro: não promova."*
+
+Distribuição por dia da semana confirma:
+- Segunda: promove em 97% dos turnos
+- Sábado/Domingo: promove em **0%**
+- Dezembro (verão/Natal): promove em 9,5%
+- Maio/Julho/Setembro (vales sazonais): promove em ~42%
+
+Uma heurística "promove segunda/quarta/quinta à noite quando demanda histórica é baixa" capturaria ~85% da política do V10 sem nenhum modelo.
+
+### Sintoma 4 — Contribuição econômica real é pequena
+
+| Métrica | DQN V10 | Sem promoção | Δ real |
+|---|---:|---:|---|
+| Reward médio | R$ 33.926 | R$ 26.452 | +28% (mas é shaping, não lucro) |
+| **Lucro médio** | **R$ 26.743** | **R$ 26.637** | **+0,4%** |
+| Perdas (un) | 3,0 | 4,9 | -39% |
+
+O "+28% reward" vem quase todo do `K_TIMING_BONUS=250` do shaping. **Em R$ líquidos, V10 ganha só R$ 106 por episódio sobre não-promover** — diferença não significativa. A contribuição real é redução de perdas (-39%).
+
+### Sintoma 5 — Heterogeneidade absurda por produto (validação 7.4)
+
+F1 do timing varia 3× entre produtos:
+
+| Produto | F1 | Interpretação |
+|---|---:|---|
+| Gelo | **98,7%** | quase perfeito — produto com sazonalidade extrema (sáb 2.24×, dez 2.19×) |
+| Energético | 54,5% | razoável |
+| Água | 48,1% | mediano |
+| Sorvete | 44,2% | mediano |
+| Cerveja | 35,1% | ruim |
+| Refrigerante | **29,9%** | quase aleatório — produto com sazonalidade fraca |
+
+O agente só "aprendeu" o produto que tinha sinal trivial. Onde o sinal é sutil, falhou.
+
+### Por que isso é tecnicamente honesto chamar de "política tosca"
+
+1. **Não usa diversidade do espaço de ação:** 60% das ações nunca emergem
+2. **Não usa estado de estoque/validade:** delega ao ambiente
+3. **Equivale a regra heurística:** ~85% capturado por if/else simples
+4. **Ganho econômico negligível:** +0,4% em lucro real
+5. **Generaliza mal por produto:** F1 varia 3×
+6. **Cegueira para eventos comerciais:** trata Dia dos Namorados igual a um sábado qualquer
+
+**Mas atenção:** isso não é fracasso do algoritmo. É **fracasso de modelagem do MDP**. O DQN otimizou corretamente dado o ambiente que demos a ele. O ambiente é que estava simplificado demais (6 produtos, sem datas comerciais, demanda calibrada em vendas SEM promoção). Esse diagnóstico é a **contribuição metodológica** do trabalho.
+
+---
+
+## Como V11 endereça cada limitação
+
+| # | Limitação V10 | Solução V11 |
+|---|---|---|
+| 1 | 60% das ações ignoradas | `MultiDiscrete([N+1, 5])` — produto + intensidade explícitos. Penalidade tiered por desconto faz cada ação ter razão de existir |
+| 2 | Não distingue por produto | Estado por SKU (estoque, validade, fraco_flag por produto) + ação por SKU |
+| 3 | Política = heurística | Estado tem 120-150 features (contra 47); sinal mais rico força aprendizado não-trivial |
+| 4 | Ganho econômico de +0,4% | Calendário comercial embutido permite ganhos em datas-pico (Black Friday, Dia dos Namorados, Copa) |
+| 5 | F1 varia 3× por produto | Calibração por SKU individual (DEMANDA_BASE, FATOR_*, ALPHA) — não mais média de categoria |
+| 6 | Não vê eventos | Estado: tipo de evento próximo (one-hot) + dias até evento. Recompensa: bonus_evento_comercial |
+
+### Tabela comparativa completa V10 vs V11
+
+| Componente | V10 | V11 |
+|---|---|---|
+| **Catálogo** | 6 produtos fixos | 20-30 SKUs ou 10-15 categorias (catálogo real do posto: 850 SKUs em 77 categorias) |
+| **Estado** | 47 features | ~120-150 features |
+| **Ações** | 5 discretas | `MultiDiscrete([N+1, 5])` (~100 ações) |
+| **Episódio** | 90 turnos abstratos (1 mês) | 1.095 turnos = 1 ano calendário real |
+| **Calendário** | Mês one-hot apenas | Mês + dia da semana + turno + datas comerciais BR + dia do mês + Δ temperatura 7d |
+| **Demanda calibrada em** | Vendas por CATEGORIA | Vendas por SKU |
+| **Combos** | Heurística fixa `PARES_COMBO` | Validado por market basket (Apriori sobre cupom fiscal real) |
+| **Elasticidade** | Bijmolt 2005 (literatura) | Literatura + ajuste por teste A/B in loco |
+| **Validade** | Idade média aproximada | Por SKU específico (catálogo real) |
+| **Recompensa** | 6 termos | 8 termos (+bonus_evento, +pen_instabilidade) |
+| **Train/val** | Aleatório no 6 anos | **Split temporal hold-out** (2020-24 treino, 2025-26 val) |
+| **Output operacional** | Decisão turno a turno (numérica) | Calendário de promoções: data início, duração, produto, desconto, uplift esperado |
+| **Priors externos** | Nenhum | Olist + Trends + IBGE PMC integrados via hierarquia bayesiana |
+| **Capacidade de generalizar** | Falha em SKUs de sazonalidade fraca | Sinal externo (calendário + clima + eventos) compensa fraqueza do sinal interno |
+
+---
+
+## Roteiro sugerido para a apresentação final (15-20 min)
+
+### Slide 1 — Problema
+"Posto de gasolina perde dinheiro com vencimento, ruptura e oportunidade perdida. Dono decide promoção por intuição. Vamos automatizar com RL."
+
+### Slide 2 — Por que RL (não regressão, não OR)
+"Decisão sequencial sob incerteza. Estado evolui. Trade-off curto/longo prazo. MDP é a formulação natural."
+
+### Slide 3 — Ambiente V10
+"Calibrado em 6 anos de vendas reais. 6 produtos, 5 ações, 47 features de estado, 90 turnos por episódio. Double DQN, 500 episódios × 5 seeds, baseline PPO."
+
+### Slide 4 — Iteração V1 → V10 (mostrar evolução)
+"10 versões. Bug crítico V1: mês fixo em janeiro. V2: elasticidade-preço vs promocional. V3: ação 4 era free lunch. V10: estado expandido com `fraco_flag` + reward shaping K=250 destravou o aprendizado."
+
+### Slide 5 — Resultados quantitativos V10
+"Reward +28%, perdas -39%, F1 do gelo 98.7%. Mas quando abro a política..."
+
+### Slide 6 — A política tosca (esta seção do CLAUDE.md)
+- Colapsou em 2 ações
+- Idêntica por produto
+- Equivale a regra heurística "promove segunda/quarta/quinta à noite"
+- Lucro real +0.4%
+- F1 varia 3× entre produtos
+
+"**Isso não é fracasso do algoritmo. É fracasso da modelagem. RL otimizou corretamente dado o ambiente.**"
+
+### Slide 7 — Validação 7.4 (contribuição metodológica)
+"Inventamos uma validação de timing usando ground truth derivado dos 6 anos. F1 por produto revela onde o agente acerta (gelo 98.7%) e onde falha (refrigerante 30%). Sem essa validação, teríamos reportado '+28% reward' como sucesso."
+
+### Slide 8 — V11 — como vai melhorar
+[Tabela comparativa V10 vs V11 desta seção]
+
+### Slide 9 — Roadmap para virar produto
+"V11 → output operacional (calendário de promoções) → teste A/B in loco no posto → calibração de elasticidade real → produção"
+
+### Slide 10 — Limitações honestas e contribuição
+- Off-policy evaluation problem (assumimos elasticidade da literatura)
+- Validação final só virá com A/B
+- **Mas contribuição metodológica é o trabalho de iteração documentada V1→V10 + a validação 7.4 que revelou a "política tosca"**
+
+---
+
+*12/05/2026: comparação V10→V11 documentada conforme pedido do professor para apresentação final.*
