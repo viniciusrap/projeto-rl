@@ -1,0 +1,9 @@
+categoria,media_copa_R$,media_baseline_nov_dez_outros_anos,uplift_periodo_copa,n_dias_copa,n_dias_baseline
+cerveja,228.94,182.34,1.256,29,116
+snack,95.45,98.49,0.969,29,116
+refrigerante,98.15,99.91,0.982,29,116
+gelo,68.64,85.87,0.799,25,92
+energetico,120.33,103.47,1.163,29,114
+isotonico,38.29,32.34,1.184,28,115
+agua,95.45,115.06,0.83,29,116
+padaria,26.57,44.38,0.599,16,42

@@ -217,14 +217,13 @@ for cat in dh['categoria'].unique():
         },
     }
 
-# ── 5. Carrega Olist (uplift por evento) ───────────────────────────────────
-
-try:
-    olist = pd.read_csv(PRIORS / 'olist' / 'uplift_agregado.csv')
-    olist_dict = {(r['categoria'], r['evento_base']): float(r['uplift_medio'])
-                   for _, r in olist.iterrows()}
-except FileNotFoundError:
-    olist_dict = {}
+# ── 5. Olist DESCONTINUADO (era e-commerce, dinâmica diferente de loja física)
+# Decisão 12/05/2026: Olist superestima uplift em datas comerciais para o posto.
+# Validação cruzada com dados reais do posto mostrou que datas movem venda em
+# magnitude muito menor (1.21× Namorados×chocolate no posto vs 2.5× Olist).
+# Substituído por: Dunnhumby (físico USA) + Iowa Liquor (físico USA álcool)
+# + Tesco Grocery (físico UK chocolate/snack) — quando esses chegarem.
+olist_dict = {}  # vazio = não usar Olist
 
 # ── 6. Carrega calendário comercial ────────────────────────────────────────
 

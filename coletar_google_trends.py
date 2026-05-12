@@ -39,13 +39,18 @@ TERMOS = [
     ('panetone', 'panettone', 'natal'),
     ('sorvete', 'sorvete', 'verao'),
     ('salgadinho', 'snack', 'copa;fim_semana'),
-    # Termos de presente (intenção)
+    # Termos de presente (intenção — CRÍTICOS para datas comerciais)
     ('presente dia dos namorados', 'intencao_namorados', 'namorados'),
     ('presente dia das mães', 'intencao_maes', 'maes'),
     ('presente dia dos pais', 'intencao_pais', 'pais'),
     # Eventos
     ('black friday', 'evento_bf', 'black_friday'),
     ('copa do mundo', 'evento_copa', 'copa'),
+    # Termos de promoção (NOVO — busca explícita por desconto)
+    ('promoção cerveja', 'promo_cerveja', 'fim_ano;copa'),
+    ('promoção chocolate', 'promo_chocolate', 'pascoa;datas'),
+    ('cerveja em oferta', 'oferta_cerveja', 'fim_ano'),
+    ('chocolate em oferta', 'oferta_chocolate', 'pascoa'),
 ]
 
 # ── Coleta ──────────────────────────────────────────────────────────────────
