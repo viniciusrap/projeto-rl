@@ -1,0 +1,9 @@
+modelo,politica,reward_medio,lucro_medio,perdas_medio
+V10 (6 produtos),DQN (nosso),33925.78,26742.9,3.0
+V10 (6 produtos),PPO (SB3),26451.51,26636.78,4.9
+V10 (6 produtos),Aleatória,20149.47,26546.11,0.7
+V10 (6 produtos),Sem promoção,26451.51,26636.78,4.9
+V11 (18 categorias),DQN V11 (nosso),688558.875,634650.99,1790.62
+V11 (18 categorias),Sempre combo,466354.84375,637688.95,1737.94
+V11 (18 categorias),Aleatória,442390.6875,629778.02,1742.51
+V11 (18 categorias),Sem promoção,571796.0,635390.73,1778.38
