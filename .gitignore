@@ -6,4 +6,11 @@ results/
 .ipynb_checkpoints/
 *.pt
 *.dll
-data/
+data/*
+# Excecoes: artefatos publicos derivados (calendario comercial, priors externos)
+# Dados confidenciais do posto (venda_*, descarte_*, produtos_*, temperatura_*)
+# continuam ignorados pelo wildcard acima.
+!data/calendario_comercial.csv
+!data/calendario_comercial_expandido.csv
+!data/priors_externos/
+!data/priors_externos/**

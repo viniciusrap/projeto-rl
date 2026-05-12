@@ -1,0 +1,8 @@
+termo,categoria,datas_alvo,linhas,indice_max,indice_min,indice_medio,arquivo
+cerveja,cerveja,fim_ano;copa;carnaval,262,100.0,37.0,55.6,cerveja.csv
+vinho,vinho,maes;namorados;natal,262,100.0,34.0,49.3,vinho.csv
+espumante,espumante,reveillon;namorados,262,100.0,9.0,17.2,espumante.csv
+whisky,whisky,pais;natal,262,100.0,21.0,32.8,whisky.csv
+energético,energetico,cotidiano,262,100.0,34.0,52.0,energetico.csv
+refrigerante,refrigerante,verao;copa,262,100.0,56.0,73.7,refrigerante.csv
+chocolate,chocolate,pascoa;namorados;maes,262,100.0,32.0,42.4,chocolate.csv

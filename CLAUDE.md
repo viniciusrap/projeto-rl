@@ -817,3 +817,102 @@ results/
 ---
 
 *Última atualização: 2026-05-11 após V6 — V6 é a versão final entregue.*
+
+---
+
+# ATUALIZAÇÃO 2026-05-11 (noite) — TRANSIÇÃO ACADÊMICO → PRODUTO
+
+Conversa do Vinicius redefiniu o objetivo do projeto:
+
+> "O modelo tem que ser um modelo funcional. Não foque em academia."
+
+A entrega do Insper (V10 + relatório 17/05) continua. **Mas a partir daqui o
+trabalho é para virar produto utilizável pelo posto** — não otimizar para banca.
+
+## Diferença concreta
+
+| V10 (acadêmico) | Modelo funcional |
+|---|---|
+| Decide ação numérica turno a turno | Devolve calendário: data início, duração, produto, desconto, uplift esperado |
+| 6 produtos fixos (energético, gelo, refri, água, cerveja, sorvete) | Catálogo completo do posto, incluindo chocolate, vinho, snacks, etc. |
+| Mês one-hot, sem datas comerciais | Reconhece Dia dos Namorados, Mães, Copa, Black Friday, Natal |
+| Combo via heurística PARES_COMBO | Combo validado por market basket (Apriori) no cupom fiscal real |
+| Elasticidade da literatura (Bijmolt 2005) | Calibrada por teste A/B in loco no posto |
+| Estoque simulado | Estoque real do ERP |
+
+## Roadmap acordado (7 fases)
+
+| Fase | Bloqueador | Duração | Status |
+|---|---|---|---|
+| 0 — Entrega acadêmica | nada | 1 semana | Em andamento (relatório + vídeo até 17/05) |
+| 1 — Levantar dados do posto | Acesso ERP do posto | 1-2 semanas | Vinicius coletando |
+| 1b — Priors externos | nada | 1 dia | ✓ Feito 11/05 (parcial) |
+| 2 — EDA estendida | Fase 1 dados | 1 semana | Pendente |
+| 3 — Reformular MDP (catálogo + calendário + ações multi-discretas) | Fases 1+2 | 2-3 semanas | Pendente |
+| 4 — Treino V11 | Fase 3 | 1-2 semanas | Pendente |
+| 5 — Output operacional (dashboard/API) | Fase 4 | 1-2 semanas | V1+V2 protótipos prontos |
+| 6 — Teste A/B in loco | Fase 5 + adesão do dono | 4-8 semanas | Pendente |
+| 7 — Produção (ERP + monitoramento) | Fase 6 | Contínuo | Pendente |
+
+## Dados que o Vinicius está pedindo ao posto
+
+**CRÍTICOS:**
+1. Catálogo completo de SKUs (preço, custo, margem, validade típica)
+2. Vendas detalhadas por SKU, dia, turno (24+ meses)
+3. Cupom fiscal com transaction_id (6-12 meses) — para market basket
+4. Descarte ampliado (12 meses) — hoje só temos março/2026
+5. Estoque atual + validade por lote (snapshot, idealmente diário)
+
+**IMPORTANTES:**
+6. Histórico de promoções passadas (mesmo informais) — para calibrar elasticidade real
+7. Conversa de 30min sobre perfil da loja, cliente, hábitos do dono
+8. Custos históricos por mês
+
+## Artefatos gerados na sessão de 11/05 (à noite)
+
+### Calendário comercial brasileiro
+- `gerar_calendario_comercial.py` — usa pacote `holidays` + lista manual
+- `data/calendario_comercial.csv` — 190 eventos 2020-2027 (84 feriados + 80 datas comerciais + 16 locais + 10 esportivos)
+- `data/calendario_comercial_expandido.csv` — 794 linhas (1 por dia × janela do evento)
+
+### Google Trends como prior
+- `coletar_google_trends.py` — pytrends, 5 anos rolantes, BR
+- `data/priors_externos/google_trends/` — 7 séries coletadas (8 pendentes por rate-limit 429)
+- `analisar_trends_uplift.py` — cruza Trends com calendário comercial
+- `data/priors_externos/uplift_trends_*.csv` — 248 medições, 57 agregadas
+
+### Output operacional V2 (com calendário comercial)
+- `gerar_calendario_v2.py` — V10 + calendário + Trends → classifica cada evento como cobertura total / parcial / cegueira
+- `results/calendario_v2.{json,md}` — 5 eventos em maio-julho 2026, TODOS parciais (V10 falta chocolate/vinho/espumante/snack)
+
+### Insight crítico descoberto
+**Google Trends ≠ vendas.** Trends mede BUSCAS:
+- Captura compra planejada (presente): espumante no Réveillon medido 6.32× vs prior 3.0×
+- Subestima rotina/impulso: cerveja no Réveillon medido só 1.57× (na vida real é maior)
+- Documentado em `data/priors_externos/README.md`
+
+## Olist — pendência manual
+
+Olist (dataset Kaggle) calibraria uplift de chocolate/vinho em datas comerciais
+mas requer login Kaggle. Instruções em `data/priors_externos/README.md`.
+
+## Decisão sobre catálogo expandido (V11)
+
+A análise V2 deixou óbvio: **os 6 produtos do V10 cobrem ZERO eventos
+comerciais totalmente.** Dia dos Namorados, Copa do Mundo, Black Friday,
+Dia das Mães — todos têm o pico de venda em produtos fora do modelo.
+
+**Decisão para V11:** atacar catálogo expandido como prioridade máxima da
+Fase 3. Curva ABC ~80% do faturamento provavelmente 20-30 SKUs.
+
+## Instruções para o próximo Claude
+
+1. **Não otimizar para academia.** O objetivo final é o posto usar.
+2. **Sempre pensar no formato OPERACIONAL.**
+3. **Catálogo expandido > otimização de algoritmo.** O DQN já funciona; o gargalo é dados/produtos.
+4. **Priors externos são apenas priors.** Validação real só vem do teste A/B no posto.
+5. **Honestidade > números bonitos.** Ganho real do V10 é -39% em perdas, não "+28% reward".
+
+---
+
+*Atualização 11/05 noite: roadmap produto definido, Fase 1b (priors externos) parcialmente entregue.*
