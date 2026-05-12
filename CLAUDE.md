@@ -2121,3 +2121,88 @@ Caminho B escolhido: **Pipeline com componentes especializados** (não MARL puro
 ---
 
 *12/05/2026 noite: discussão estratégica salva. Roadmap V11.5 → V12 → comparação acordado.*
+
+---
+
+# MODELO V11.7 FINAL (Vinicius escolheu) — 12/05/2026 noite
+
+Após iteração V11.5 → V11.6 → V11.7, escolhido o **V11.7 como versão operacional final**.
+
+## Por que V11.7 venceu
+
+| Métrica | V11.5 | V11.6 | **V11.7** |
+|---|---:|---:|---:|
+| Combos % | 18% | 47% | **52%** |
+| Lucro adicional est. (R$) | 480 | 636 | 585 |
+| **Δ lucro vs sem-promo** | -0.03% | -0.46% | **+0.10%** ✓ |
+| **Δ perdas vs sem-promo** | -2.03% | -0.86% | **-2.63%** ✓ |
+| F1 timing | 0.159 | 0.121 | 0.075 |
+| F1 evento | 0.179 | 0.082 | 0.106 |
+| Pct categorias promovidas | 35% | 45% | **70%** |
+| Convergência (CV) | 0.019 | 0.018 | 0.018 |
+
+**V11.7 é a primeira versão com lucro real POSITIVO** (+0.10% validado em 50 ep × 1095 turnos hold-out).
+
+## Validação robusta V11.7 (50 episódios hold-out 2024-2026)
+
+- Reward médio: R$ 873k
+- Lucro: R$ 658.804 vs sem-promo R$ 658.142 (**+0.10%**)
+- Perdas: 1732 un vs sem-promo 1779 un (**-2.63%**)
+- 70% das categorias promovidas
+- 52% das campanhas são combos
+- Convergência: ε=0.05, CV=0.018, slope 0.024%/ep
+
+## Padrões emergentes da política aprendida
+
+1. 🍫 **Chocolate Premium + Vinho** → top 1, 2, 14 — Véspera Natal e Réveillon
+2. 🧊 **Gelo + Cerveja** → fim-de-semana clássico (3-4× no top 15)
+3. 🍫 **Chocolate Impulso** → Copa do Mundo do Brasil
+4. 🍫 **Chocolate Premium** → Black Friday
+5. 🥤 **Refrigerante** → semanas com alta demanda
+6. 🍪 **Biscoito** → desconto leve durante a semana
+
+## Composição final da função de recompensa V11.7
+
+```
+r_t = lucro
+    - alpha × vencimento × custo
+    - 1.5 × ruptura × margem
+    - pen_desconto (tier: 5%/10%/25%)
+    + delta × bonus_giro
+    + 250 × bonus_timing (fraco_flag)
+    + bonus_evento_comercial
+    + 80 × bonus_padrao_dunnhumby
+    - 50 × pen_instabilidade
+    - 200 × pen_desc_alta_saudavel          [Vinicius regra 1]
+    + 200 × bonus_combo_alta                [Vinicius regra 2]
+    + 400 × bonus_combo_data_pico × uplift  [Vinicius regra 2b]
+    + 120 × bonus_desc_vencimento × escala  [Vinicius regra 3]
+    + 100 × bonus_desc_baixa                [Vinicius regra 4]
+    + bonus_dia_semana_categoria (DD)        [Vinicius regra 5]
+```
+
+Onde `bonus_dia_semana_categoria` é DATA-DRIVEN por categoria:
+`400 × (fator_dia[d] / média_fator_dia[cat] - 1)`
+
+## Combo cooperativo (Vinicius)
+
+- Agente decide o **produto principal** do combo (aprende por reward)
+- Env completa com o **par contextual** (top 1 produto promovível com maior fator no contexto atual)
+- Boost: principal 1.15× / par 1.10×
+- Desconto: 5% (sua decisão)
+- Não-promovível: água (categoria utilitária inelástica)
+
+## Roadmap futuro: V12 com Forecaster ML
+
+Análise mostrou que **ML reduz MAPE em 27,7%** sobre o forecaster manual atual:
+- Manual atual: MAPE 76.4%, R² 0.147
+- ML Ridge:     MAPE 55.3%, R² 0.047
+- Forecaster ML vale a pena implementar em V12
+
+V12 = V11.7 + Forecaster ML por categoria.
+Pipeline: Forecaster → Stock Manager → Promoter (DQN) → Validator.
+Roadmap para depois da apresentação acadêmica.
+
+---
+
+*12/05/2026 noite final: V11.7 validado em 50 ep, lucro REAL +0.10%, perdas -2.63%. Modelo final escolhido. V12 documentado como evolução futura com evidência de viabilidade.*
