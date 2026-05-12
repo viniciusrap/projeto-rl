@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Calendário de Promoções V3 — Auto Posto Parque Viana</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+  padding: 20px;
+  color: #1f2937;
+  line-height: 1.5;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+h1 {
+  margin-top: 0;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 12px;
+  color: #1e40af;
+}
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.metric {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+.metric-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1e40af;
+}
+.metric-label {
+  color: #6b7280;
+  font-size: 13px;
+}
+.month {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 2px solid #e5e7eb;
+}
+.month h2 {
+  margin: 0 0 16px 0;
+  color: #1f2937;
+  font-size: 22px;
+}
+.month-total {
+  display: inline-block;
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  margin-left: 12px;
+}
+.campaign {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-left: 6px solid #3b82f6;
+  padding: 14px 18px;
+  margin: 10px 0;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 110px 1fr 160px 120px;
+  gap: 16px;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.campaign:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.campaign .dates {
+  font-weight: bold;
+  font-size: 15px;
+  color: #1f2937;
+}
+.campaign .duration {
+  color: #6b7280;
+  font-size: 12px;
+}
+.campaign .category {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 15px;
+}
+.campaign .intensity {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.campaign .lucro {
+  color: #059669;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+}
+.event-tag {
+  display: inline-block;
+  background: #fce7f3;
+  color: #be185d;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  margin-top: 4px;
+}
+.uplift-real {
+  display: inline-block;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  margin-left: 6px;
+}
+.intro {
+  background: #fef3c7;
+  border-left: 4px solid #d97706;
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+}
+footer {
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 10px;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📅 Calendário de Promoções V3</h1>
+  <p style="color: #6b7280; margin-top: 4px;">
+    <strong>Auto Posto Parque Viana</strong> — gerado pelo modelo V11 (Double DQN com 20 categorias + calendário comercial brasileiro)
+  </p>
+
+  <div class="intro">
+    <strong>Como ler este calendário:</strong> cada bloco abaixo é uma <strong>campanha de promoção</strong>
+    recomendada pelo modelo. Mostra <strong>quando começar, quando terminar, qual categoria
+    promover, qual desconto aplicar e o lucro adicional estimado</strong>. Tags rosa indicam
+    coincidência com data comercial. Tags verdes mostram o uplift REAL medido nos 6 anos
+    de dados do posto.
+  </div>
+
+  <div class="summary">
+    <div class="metric">
+      <div class="metric-value">96</div>
+      <div class="metric-label">Campanhas no ano</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">R$ 2,443</div>
+      <div class="metric-label">Lucro adicional estimado</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">365</div>
+      <div class="metric-label">Dias de horizonte</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">12/05 a 11/05</div>
+      <div class="metric-label">Período</div>
+    </div>
+  </div>
+
+  <h3>Legenda — categorias promovidas</h3>
+  <div class="legend">
+    <span class="legend-item"><span class="legend-color" style="background: #3b82f6"></span>agua</span>
+    <span class="legend-item"><span class="legend-color" style="background: #fbbf24"></span>cerveja</span>
+    <span class="legend-item"><span class="legend-color" style="background: #991b1b"></span>cigarro_jti</span>
+    <span class="legend-item"><span class="legend-color" style="background: #dc2626"></span>cigarro_souza_cruz</span>
+  </div>
+
+  <div class="month">
+    <h2>Maio 2026
+      <span class="month-total">6 campanhas · R$ 91.23</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">12/05 – 14/05</div>
+        <div class="duration">3 dias · Ter, Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">16/05 – 17/05</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">20/05 – 22/05</div>
+        <div class="duration">3 dias · Qua, Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">23/05 – 24/05</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">27/05 – 29/05</div>
+        <div class="duration">3 dias · Qua, Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">30/05 – 31/05</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Junho 2026
+      <span class="month-total">13 campanhas · R$ 279.56</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">01/06 – 03/06</div>
+        <div class="duration">3 dias · Seg, Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">04/06 – 05/06</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          <br><span class="event-tag">🎯 Dia dos Namorados</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">06/06 – 07/06</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          <br><span class="event-tag">🎯 Dia dos Namorados</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">08/06 – 10/06</div>
+        <div class="duration">3 dias · Seg, Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          <br><span class="event-tag">🎯 Dia dos Namorados</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">11/06 – 12/06</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          <br><span class="event-tag">🎯 Copa 2026 — Abertura</span> <span class="event-tag">🎯 Dia dos Namorados</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">13/06 – 14/06</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">15/06 – 17/06</div>
+        <div class="duration">3 dias · Seg, Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          <br><span class="event-tag">🎯 Copa 2026 — Estreia provável Brasil</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">18/06 – 19/06</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">20/06 – 21/06</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          <br><span class="event-tag">🎯 Copa 2026 — Fase de grupos Brasil</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">22/06 – 23/06</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">24/06 – 26/06</div>
+        <div class="duration">3 dias · Qua, Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          <br><span class="event-tag">🎯 Copa 2026 — Fase de grupos Brasil</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">27/06 – 28/06</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">29/06 – 01/07</div>
+        <div class="duration">3 dias · Seg, Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Julho 2026
+      <span class="month-total">6 campanhas · R$ 114.25</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">02/07 – 03/07</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">09/07 – 10/07</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">16/07 – 17/07</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">18/07 – 20/07</div>
+        <div class="duration">3 dias · Sáb, Dom, Seg</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          <br><span class="event-tag">🎯 Copa 2026 — Final</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">23/07 – 24/07</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">30/07 – 31/07</div>
+        <div class="duration">2 dias · Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          <br><span class="event-tag">🎯 Dia dos Pais</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Agosto 2026
+      <span class="month-total">6 campanhas · R$ 69.33</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">01/08 – 02/08</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          <br><span class="event-tag">🎯 Dia dos Pais</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">07/08 – 09/08</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          <br><span class="event-tag">🎯 Dia dos Pais</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">14/08 – 16/08</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">18/08 – 19/08</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">21/08 – 23/08</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">28/08 – 30/08</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Setembro 2026
+      <span class="month-total">5 campanhas · R$ 105.78</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">01/09 – 02/09</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">08/09 – 10/09</div>
+        <div class="duration">3 dias · Ter, Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">15/09 – 17/09</div>
+        <div class="duration">3 dias · Ter, Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">22/09 – 23/09</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">29/09 – 02/10</div>
+        <div class="duration">4 dias · Ter, Qua, Qui (+1)</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +7.1 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 30.22</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Outubro 2026
+      <span class="month-total">9 campanhas · R$ 142.85</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">03/10 – 04/10</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">05/10 – 06/10</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          <br><span class="event-tag">🎯 Dia das Crianças</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">10/10 – 11/10</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          <br><span class="event-tag">🎯 Dia das Crianças</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">12/10 – 13/10</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          <br><span class="event-tag">🎯 Dia das Crianças</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">16/10 – 18/10</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">19/10 – 20/10</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">23/10 – 25/10</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">27/10 – 28/10</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">30/10 – 01/11</div>
+        <div class="duration">3 dias · Sex, Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +9.8 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 11.62</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Novembro 2026
+      <span class="month-total">9 campanhas · R$ 481.20</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">02/11 – 05/11</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">06/11 – 07/11</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">09/11 – 12/11</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">13/11 – 14/11</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">16/11 – 19/11</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">20/11 – 21/11</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">23/11 – 26/11</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          <br><span class="event-tag">🎯 Black Friday</span> 
+          <span class="uplift-real">✓ uplift real 1.23×</span>
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">27/11 – 28/11</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          <br><span class="event-tag">🎯 Black Friday</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">30/11 – 01/12</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          <br><span class="event-tag">🎯 Black Friday</span> <span class="event-tag">🎯 Cyber Monday</span> 
+          <span class="uplift-real">✓ uplift real 1.23×</span>
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Dezembro 2026
+      <span class="month-total">12 campanhas · R$ 476.70</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">02/12 – 03/12</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">04/12 – 05/12</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">07/12 – 08/12</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">09/12 – 10/12</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">11/12 – 12/12</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">14/12 – 15/12</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          <br><span class="event-tag">🎯 Véspera de Natal</span> 
+          <span class="uplift-real">✓ uplift real 1.43×</span>
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">16/12 – 17/12</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          <br><span class="event-tag">🎯 Véspera de Natal</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">18/12 – 19/12</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          <br><span class="event-tag">🎯 Véspera de Natal</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">21/12 – 22/12</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          <br><span class="event-tag">🎯 Véspera de Natal</span> 
+          <span class="uplift-real">✓ uplift real 1.43×</span>
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">23/12 – 26/12</div>
+        <div class="duration">4 dias · Qua, Qui, Sex (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +72.4 un
+          <br><span class="event-tag">🎯 Véspera de Natal</span> <span class="event-tag">🎯 Réveillon</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 124.50</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">28/12 – 29/12</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          <br><span class="event-tag">🎯 Réveillon</span> 
+          <span class="uplift-real">✓ uplift real 1.50×</span>
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">30/12 – 31/12</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          <br><span class="event-tag">🎯 Réveillon</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Janeiro 2027
+      <span class="month-total">9 campanhas · R$ 225.89</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">04/01 – 05/01</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">06/01 – 07/01</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">11/01 – 12/01</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">13/01 – 14/01</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">18/01 – 19/01</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">20/01 – 21/01</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">25/01 – 26/01</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">27/01 – 28/01</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">30/01 – 31/01</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +36.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 62.25</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Fevereiro 2027
+      <span class="month-total">4 campanhas · R$ 103.20</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">03/02 – 04/02</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">10/02 – 11/02</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">17/02 – 18/02</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">24/02 – 25/02</div>
+        <div class="duration">2 dias · Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +6.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 25.80</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Março 2027
+      <span class="month-total">5 campanhas · R$ 232.20</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">02/03 – 04/03</div>
+        <div class="duration">3 dias · Ter, Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          <br><span class="event-tag">🎯 Dia Internacional da Mulher</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">09/03 – 11/03</div>
+        <div class="duration">3 dias · Ter, Qua, Qui</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +9.2 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 38.70</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">15/03 – 18/03</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          <br><span class="event-tag">🎯 Dia do Consumidor</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">22/03 – 25/03</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+    <div class="campaign" style="border-left-color: #fbbf24">
+      <div>
+        <div class="dates">29/03 – 01/04</div>
+        <div class="duration">4 dias · Seg, Ter, Qua (+1)</div>
+      </div>
+      <div>
+        <div class="category">Cerveja</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          20.6 un/dia base → uplift +12.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 51.60</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Abril 2027
+      <span class="month-total">8 campanhas · R$ 68.00</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">02/04 – 03/04</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">05/04 – 07/04</div>
+        <div class="duration">3 dias · Seg, Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">09/04 – 10/04</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">13/04 – 14/04</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">16/04 – 17/04</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">20/04 – 21/04</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+    <div class="campaign" style="border-left-color: #dc2626">
+      <div>
+        <div class="dates">23/04 – 24/04</div>
+        <div class="duration">2 dias · Sex, Sáb</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Souza Cruz</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          122.3 un/dia base → uplift +0.0 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">NADA</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 0%</div>
+      </div>
+      <div class="lucro">+ R$ 0.00</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">27/04 – 28/04</div>
+        <div class="duration">2 dias · Ter, Qua</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+  </div>
+
+  <div class="month">
+    <h2>Maio 2027
+      <span class="month-total">4 campanhas · R$ 53.26</span>
+    </h2>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">01/05 – 02/05</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          <br><span class="event-tag">🎯 Dia das Mães</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">05/05 – 07/05</div>
+        <div class="duration">3 dias · Qua, Qui, Sex</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +5.3 un
+          <br><span class="event-tag">🎯 Dia das Mães</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 22.67</div>
+    </div>
+    <div class="campaign" style="border-left-color: #991b1b">
+      <div>
+        <div class="dates">08/05 – 09/05</div>
+        <div class="duration">2 dias · Sáb, Dom</div>
+      </div>
+      <div>
+        <div class="category">Cigarro Jti</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          22.0 un/dia base → uplift +6.5 un
+          <br><span class="event-tag">🎯 Dia das Mães</span> 
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 7.74</div>
+    </div>
+    <div class="campaign" style="border-left-color: #3b82f6">
+      <div>
+        <div class="dates">10/05 – 11/05</div>
+        <div class="duration">2 dias · Seg, Ter</div>
+      </div>
+      <div>
+        <div class="category">Agua</div>
+        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">
+          13.6 un/dia base → uplift +3.6 un
+          
+          
+        </div>
+      </div>
+      <div>
+        <span class="intensity">DESC5%</span>
+        <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">desconto 5%</div>
+      </div>
+      <div class="lucro">+ R$ 15.11</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Modelo V11 (DQN com 20 categorias) + Calendário comercial BR + Validação cruzada com priors externos.</p>
+    <p>Gerado em 2026-05-12. Próxima atualização recomendada: quando vendas detalhadas por SKU chegarem do ERP.</p>
+  </footer>
+</div>
+</body>
+</html>
