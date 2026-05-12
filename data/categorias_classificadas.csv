@@ -1,0 +1,78 @@
+categoria,tipo,motivo
+ADITIVOS STP,automotivo,Aditivo combustível/sistema
+ARRUELA,automotivo,Peça mecânica
+EXTINTOR,automotivo,"Equipamento do posto, não para venda"
+FILTRO DE AR,automotivo,Filtro motor
+FILTRO DE AR - ANTIGO,automotivo,Filtro motor (descontinuado)
+FILTRO DE ÓLEO,automotivo,Filtro motor
+LIMPA PNEU,automotivo,Produto para carro
+LIMPA VIDROS,automotivo,Produto para carro
+LUBRIFICANTE LUBRAX,automotivo,Óleo motor — dinâmica diferente
+ODORIZANTE,automotivo,Provavelmente odorizante de carro
+PALHETA,automotivo,Palheta limpador para-brisa
+PEGBOARD,automotivo,"Display/gancho do posto, NÃO produto à venda"
+ACHOCOLATADO,conveniencia,Bebida (chocolate)
+AGUA,conveniencia,Bebida
+AGUA SABORIZADA,conveniencia,Bebida
+AGUARDENTES,conveniencia,"Cachaça, pinga"
+AMENDOIN/NOZES,conveniencia,Snack
+BALA,conveniencia,Doce
+BALA FINI,conveniencia,Doce
+BEBIDA LÁCTEA,conveniencia,Bebida
+BISCOITO,conveniencia,Snack
+BOLO,conveniencia,Comida pronta
+CAFÉ,conveniencia,Bebida quente
+CARVÃO,conveniencia,Provavelmente churrasco
+CEREAIS,conveniencia,Cereal/granola
+CERVEJA AMBEV,conveniencia,Cerveja mainstream
+CERVEJA ESPECIAIS,conveniencia,Cerveja premium/artesanal
+CERVEJA FEMSA,conveniencia,Cerveja Heineken/Sol/Amstel
+CERVEJA ITAIPAVA,conveniencia,Cerveja popular
+CHICLETE,conveniencia,Doce
+CHOCOLATE ARCOR,conveniencia,Chocolate
+CHOCOLATE DIVERSOS,conveniencia,Chocolate
+CHOCOLATE FERRERO,conveniencia,Chocolate premium
+CHOCOLATE GAROTO,conveniencia,Chocolate
+CHOCOLATE LACTA,conveniencia,Chocolate — Dia dos Namorados/Páscoa
+CHOCOLATE M&M (MARS),conveniencia,Chocolate
+CHOCOLATE NESTLE,conveniencia,Chocolate
+CHÁ,conveniencia,Bebida
+CIGARRILHAS,conveniencia,Tabaco
+CONGELADOS,conveniencia,Comida congelada
+DESTILADOS DIVERSOS,conveniencia,Bebida alcoólica
+DOCES DIVERSOS,conveniencia,Doce
+ENERGÉTICO,conveniencia,Bebida
+HIGIENE PESSOAL,conveniencia,Compra de urgência
+IOGURTE,conveniencia,Laticínio
+ISOTÔNICO,conveniencia,Bebida esportiva
+ISQUEIROS,conveniencia,Acessório fumante
+JTI,conveniencia,Cigarro Japan Tobacco
+MENTOS,conveniencia,Doce/balas
+MERCEARIA ALIMENTICIA,conveniencia,Alimento básico
+NESCAFÉ BEBIDAS,conveniencia,Bebida quente pronta
+PADARIA,conveniencia,"Pão, doce de balcão"
+PASTILHAS,conveniencia,Doce
+PHILIP MORRIS,conveniencia,Cigarro Marlboro
+PILHAS,conveniencia,Compra de impulso
+PIPOCA,conveniencia,Snack
+REFRIGERANTE,conveniencia,Bebida
+SALGADO ASSADO/FRITO,conveniencia,Comida pronta
+SANDUÍCHE,conveniencia,Comida pronta
+SNACK DIVERSOS,conveniencia,Snack
+SNACK ELMA CHIPS,conveniencia,Snack
+SNACK PRINGLES,conveniencia,Snack
+SNACK TORCIDA,conveniencia,Snack
+SORVETE JUNDIÁ,conveniencia,Sorvete
+SORVETE KIBON,conveniencia,Sorvete — alta sazonalidade verão
+SORVETE PERFETTO,conveniencia,Sorvete premium
+SOUZA CRUZ,conveniencia,Cigarro — margem regulada baixa (~11%)
+SUCO,conveniencia,Bebida
+VINHO,conveniencia,Vinho — produto chave para Dia dos Namorados/Mães
+VODKA,conveniencia,Vodka
+WHISK,conveniencia,Whisky
+ÁGUA DE COCO,conveniencia,Bebida
+ACESSORIOS CELULAR,revisar,"Cabo, carregador, suporte veicular — incerto se promove"
+ACESSÓRIOS DIVERSOS,revisar,"1 SKU, R$ 6.99 — vago"
+BATERIA,revisar,"1 SKU, R$ 3.99 — provavelmente pilha/relógio"
+MERCEARIA MAT. LIMPEZA,revisar,Não é conveniência clássica
+UTILIDADES DOMESTICAS,revisar,"Vago — pode ser sabão, faxina"
