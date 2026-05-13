@@ -1,14 +1,14 @@
 """V4 do output operacional — usa o modelo V12 treinado.
 
 Diferenças vs V3:
-- Carrega dqn_v12.pt e env_v3 (forecasters embutidos)
+- Carrega dqn_v12.pt e env_v12 (forecasters embutidos)
 - Estado tem 150 features (era 130 no V11)
 - Resto da pipeline (rollout, agrupamento de campanhas, par dinâmico,
   enrichment com eventos comerciais) é idêntico ao V3.
 
 Pipeline:
 1. Carrega V12 treinado (dqn_v12.pt)
-2. Constrói env_v3 iniciando na data atual + horizonte
+2. Constrói env_v12 iniciando na data atual + horizonte
 3. Rollout determinístico (ε=0); captura par dinâmico via info['combo_par']
 4. Agrupa decisões consecutivas em CAMPANHAS (≥2 dias, ≤7 dias)
 5. Calcula uplift esperado de cada campanha
@@ -25,8 +25,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from env_v3 import construir_env_v3
-from treinar_v11 import BranchingDQN
+from env_v12 import construir_env_v12
+from dqn import BranchingDQN
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -54,7 +54,7 @@ modelo = BranchingDQN(cfg['obs_dim'], cfg['n_produtos'], cfg['n_intensidades'])
 modelo.load_state_dict(ckpt['state_dict'])
 modelo.eval()
 
-env = construir_env_v3(modo='validacao')
+env = construir_env_v12(modo='validacao')
 
 # Forçar data inicial específica
 env.estoque = env.estoque_inicial.copy()
@@ -226,7 +226,7 @@ for c in campanhas:
 
 calendario = {
     'versao': 'V4-modelo-V12',
-    'modelo_base': 'DQN V12 — env_v3 com Forecaster ML (Ridge) por categoria',
+    'modelo_base': 'DQN V12 — env_v12 consolidado (forecaster Ridge + harmonia categorial + harmonia evento)',
     'gerado_em': str(date.today()),
     'data_inicio': DATA_HOJE.isoformat(),
     'data_fim': (DATA_HOJE + timedelta(days=HORIZONTE - 1)).isoformat(),

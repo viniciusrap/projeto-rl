@@ -1,9 +1,10 @@
-"""Treina Double DQN no ConvenienceStoreEnvV3 (V12).
+"""Treina Double DQN no ConvenienceStoreEnvV12.
 
-Diferenças vs V11:
-- Env: env_v3 (V12 = V11 + forecaster ML no estado)
-- Obs dim: 150 (era 130) — +N features de forecast por categoria
-- Arquitetura idêntica (BranchingDQN), só obs_dim muda
+Pipeline V12 consolidado:
+- Env: env_v12 (consolidado V11.7+V12.1+V12.2 com forecaster ML, harmonia
+  categorial, harmonia evento→puxador)
+- Obs dim: 150 (50 base + 5N)
+- DQN: BranchingDQN com cabeças decompostas (dqn.py)
 - Saída: results/v12/dqn_v12.pt + training_log_v12.csv
 
 Uso: python treinar_v12.py [--episodios N] [--seeds N]
@@ -23,8 +24,8 @@ import torch.nn as nn
 torch.set_num_threads(8)
 torch.set_num_interop_threads(4)
 
-from env_v3 import construir_env_v3
-from treinar_v11 import BranchingDQN, ReplayBuffer
+from env_v12 import construir_env_v12
+from dqn import BranchingDQN, ReplayBuffer
 
 ROOT = Path(__file__).parent
 RESULTS = ROOT / 'results' / 'v12'
@@ -37,7 +38,7 @@ def treinar_seed(seed: int, n_episodios: int, max_steps: int, DEVICE=None):
     rng = np.random.default_rng(seed)
     torch.manual_seed(seed)
 
-    env = construir_env_v3(modo='treino')
+    env = construir_env_v12(modo='treino')
     obs_dim = env.observation_space.shape[0]
     n_p = env.action_space.nvec[0]
     n_i = env.action_space.nvec[1]
@@ -158,7 +159,7 @@ def main():
         args.max_steps_per_ep = 200
 
     DEVICE = torch.device(args.device)
-    print(f"V12 — Treinando DQN com env_v3 (forecast no estado)")
+    print(f"V12 — Treinando DQN com env_v12 (consolidado)")
     print(f"Device: {DEVICE}")
     print(f"Configuração: {args.episodios} episódios × {args.seeds} seeds, "
           f"{args.max_steps_per_ep} steps/ep")

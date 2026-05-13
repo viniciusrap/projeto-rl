@@ -20,8 +20,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from env_v3 import construir_env_v3
-from treinar_v11 import BranchingDQN
+from env_v12 import construir_env_v12
+from dqn import BranchingDQN
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -81,7 +81,7 @@ def rollout(env, modelo, n_ep, max_steps, seed_base):
 
 # ── Roda os 3 modelos ─────────────────────────────────────────────────────
 
-env = construir_env_v3(modo='validacao')
+env = construir_env_v12(modo='validacao')
 print(f"\n=== AVALIAÇÃO ({N_EP} ep × {MAX_STEPS} steps) ===")
 print(f"Env: V12.2 (cigarros NPM + K_EVENTO_PRESENTE + harmonia + janela)\n")
 

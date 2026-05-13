@@ -1,17 +1,18 @@
-"""Valida o modelo V12 e compara head-to-head com V11.7.
+"""Valida o modelo V12 no ambiente consolidado.
 
-Métricas idênticas ao validar_v11.py + diff explícito V12 vs V11.7.
-
-V11.7 (env_v2 obs_dim=130) e V12 (env_v3 obs_dim=150) NÃO podem rodar no
-mesmo ambiente. Rodamos ambos com mesmas seeds em seus respectivos envs e
-comparamos métricas agregadas.
+Métricas:
+- Reward, lucro, perdas, rupturas em hold-out (2024-2026)
+- Comparação com baselines (Aleatória, Sem promoção, Sempre combo)
+- Distribuição de ações por categoria
+- F1 timing por categoria
+- F1 evento comercial
 
 Saídas em results/v12/:
   - validacao_metricas_v12.csv
   - validacao_acoes_por_categoria_v12.csv
   - validacao_timing_v12.csv
   - validacao_eventos_v12.csv
-  - comparacao_v11_vs_v12.csv
+  - comparacao_v11_vs_v12.csv  (mantido nome legacy — agora só baselines)
 
 Uso: python validar_v12.py [--n_episodios N] [--seed N]
 """
@@ -25,14 +26,12 @@ import numpy as np
 import pandas as pd
 import torch
 
-from env_v2 import construir_env_v2
-from env_v3 import construir_env_v3
-from treinar_v11 import BranchingDQN
+from env_v12 import construir_env_v12
+from dqn import BranchingDQN
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 ROOT = Path(__file__).parent
-V11 = ROOT / 'results' / 'v11'
 V12 = ROOT / 'results' / 'v12'
 V12.mkdir(parents=True, exist_ok=True)
 
@@ -41,7 +40,6 @@ parser.add_argument('--n_episodios', type=int, default=20)
 parser.add_argument('--seed', type=int, default=42)
 parser.add_argument('--max_steps', type=int, default=1095)
 parser.add_argument('--modelo_v12', type=str, default='results/v12/dqn_v12.pt')
-parser.add_argument('--modelo_v11', type=str, default='results/v11/dqn_v11.pt')
 args = parser.parse_args()
 
 
@@ -95,25 +93,15 @@ def rollout(env, politica, n_ep: int, max_steps: int, seed_base: int):
     }
 
 
-# ── Carregar modelos V11 e V12 ─────────────────────────────────────────────
+# ── Carregar modelo V12 ─────────────────────────────────────────────
 
-print("Carregando modelos…")
+print("Carregando modelo V12…")
 modelo_v12, cfg_v12 = load_dqn(args.modelo_v12)
 print(f"  V12: obs_dim={cfg_v12['obs_dim']}, n_p={cfg_v12['n_produtos']}, n_i={cfg_v12['n_intensidades']}")
 
-try:
-    modelo_v11, cfg_v11 = load_dqn(args.modelo_v11)
-    print(f"  V11: obs_dim={cfg_v11['obs_dim']}, n_p={cfg_v11['n_produtos']}, n_i={cfg_v11['n_intensidades']}")
-    tem_v11 = True
-except FileNotFoundError as e:
-    print(f"  ⚠ V11 não encontrado: {e}")
-    print(f"  Comparação V11 vs V12 SKIPPED")
-    tem_v11 = False
+# ── Env ─────────────────────────────────────────────────────────────────
 
-# ── Envs ───────────────────────────────────────────────────────────────────
-
-env_v3 = construir_env_v3(modo='validacao')
-env_v2 = construir_env_v2(modo='validacao') if tem_v11 else None
+env = construir_env_v12(modo='validacao')
 
 # ── Políticas ──────────────────────────────────────────────────────────────
 
@@ -122,13 +110,8 @@ def pol_v12(obs):
     return modelo_v12.select_action(obs_t, eps=0.0,
                                       rng=np.random.default_rng(0))
 
-def pol_v11(obs):
-    obs_t = torch.tensor(obs, dtype=torch.float32).unsqueeze(0)
-    return modelo_v11.select_action(obs_t, eps=0.0,
-                                      rng=np.random.default_rng(0))
-
 def pol_aleatoria(obs):
-    return (int(np.random.randint(0, env_v3.N + 1)),
+    return (int(np.random.randint(0, env.N + 1)),
             int(np.random.randint(0, 5)))
 
 def pol_sempre_combo(obs):
@@ -144,25 +127,19 @@ print(f"\n=== COMPARAÇÃO ({args.n_episodios} ep × {args.max_steps} steps) ===
 resultados = {}
 decisoes_v12 = None
 
-print(f"  Rodando DQN V12 em env_v3…")
-out = rollout(env_v3, pol_v12, args.n_episodios, args.max_steps, args.seed)
+print(f"  Rodando DQN V12 (nosso)…")
+out = rollout(env, pol_v12, args.n_episodios, args.max_steps, args.seed)
 resultados['DQN V12 (nosso)'] = out
 decisoes_v12 = out['decisoes']
 
-if tem_v11:
-    print(f"  Rodando DQN V11 em env_v2…")
-    resultados['DQN V11.7'] = rollout(env_v2, pol_v11, args.n_episodios,
-                                        args.max_steps, args.seed)
-
-# Baselines em env_v3 (mesmo ambiente que V12)
-print(f"  Rodando Sempre combo em env_v3…")
-resultados['Sempre combo'] = rollout(env_v3, pol_sempre_combo,
+print(f"  Rodando Sempre combo…")
+resultados['Sempre combo'] = rollout(env, pol_sempre_combo,
                                        args.n_episodios, args.max_steps, args.seed)
-print(f"  Rodando Aleatória em env_v3…")
-resultados['Aleatória'] = rollout(env_v3, pol_aleatoria,
+print(f"  Rodando Aleatória…")
+resultados['Aleatória'] = rollout(env, pol_aleatoria,
                                     args.n_episodios, args.max_steps, args.seed)
-print(f"  Rodando Sem promoção em env_v3…")
-resultados['Sem promoção'] = rollout(env_v3, pol_sem_promo,
+print(f"  Rodando Sem promoção…")
+resultados['Sem promoção'] = rollout(env, pol_sem_promo,
                                       args.n_episodios, args.max_steps, args.seed)
 
 comparacao = []
@@ -182,29 +159,28 @@ print()
 print("Resultado:")
 print(df_cmp.to_string(index=False))
 
-# Δ V12 vs V11.7
-if tem_v11:
-    v12 = resultados['DQN V12 (nosso)']
-    v11 = resultados['DQN V11.7']
-    delta_lucro = (v12['lucro_medio'] - v11['lucro_medio']) / v11['lucro_medio'] * 100
-    delta_perdas = (v12['perdas_medio'] - v11['perdas_medio']) / max(v11['perdas_medio'], 1) * 100
-    print()
-    print(f"V12 vs V11.7:")
-    print(f"  Δ lucro:    {delta_lucro:+.2f}%")
-    print(f"  Δ perdas:   {delta_perdas:+.2f}%")
+# Δ V12 vs Sem promoção (baseline operacional)
+v12 = resultados['DQN V12 (nosso)']
+sp = resultados['Sem promoção']
+delta_lucro = (v12['lucro_medio'] - sp['lucro_medio']) / sp['lucro_medio'] * 100
+delta_perdas = (v12['perdas_medio'] - sp['perdas_medio']) / max(sp['perdas_medio'], 1) * 100
+print()
+print(f"V12 vs Sem promoção:")
+print(f"  Δ lucro:    {delta_lucro:+.2f}%")
+print(f"  Δ perdas:   {delta_perdas:+.2f}%")
 
 # ── 2. Distribuição de ações DQN V12 ─────────────────────────────────────
 
 df_dec = pd.DataFrame(decisoes_v12)
 total_steps = len(df_dec)
-n_p = env_v3.N + 1
+n_p = env.N + 1
 n_i = 5
 
 acao_dist = []
 for p in range(n_p):
     for i in range(n_i):
         n = int(((df_dec['produto'] == p) & (df_dec['intensidade'] == i)).sum())
-        cat_nome = env_v3.cats[p - 1]['categoria'] if p > 0 else '_sem_promo'
+        cat_nome = env.cats[p - 1]['categoria'] if p > 0 else '_sem_promo'
         intens_nome = ['nada', 'desc5%', 'desc10%', 'combo', 'liq25%'][i]
         acao_dist.append({
             'produto_idx': p,
@@ -225,8 +201,8 @@ print(df_acao.head(15).to_string(index=False))
 
 # ── 3. F1 timing por categoria ────────────────────────────────────────────
 
-fraco_por_cat = env_v3._limiar_fraco
-fator_combinado = env_v3._fator_combinado
+fraco_por_cat = env._limiar_fraco
+fator_combinado = env._fator_combinado
 
 def contexto_fraco_para_produto(produto_idx, data_str, turno):
     if produto_idx == 0:
@@ -244,8 +220,8 @@ df_dec['dia_sem'] = df_dec['data_dt'].apply(lambda d: d.weekday())
 df_dec['mes'] = df_dec['data_dt'].apply(lambda d: d.month - 1)
 
 metricas_timing = []
-for cat_idx in range(env_v3.N):
-    cat_nome = env_v3.cats[cat_idx]['categoria']
+for cat_idx in range(env.N):
+    cat_nome = env.cats[cat_idx]['categoria']
     fator_arr = fator_combinado[cat_idx]  # (7,3,12)
     df_dec['fraco_cat'] = df_dec.apply(
         lambda r: fator_arr[r['dia_sem'], r['turno'], r['mes']] < fraco_por_cat[cat_idx],
@@ -284,7 +260,7 @@ if len(df_timing) > 0:
 
 # ── 4. F1 evento comercial ────────────────────────────────────────────────
 
-eventos_por_data = env_v3._eventos_por_data
+eventos_por_data = env._eventos_por_data
 nomes_eventos = set()
 for evs in eventos_por_data.values():
     for ev in evs:
@@ -301,8 +277,8 @@ for nome_ev in sorted(nomes_eventos):
                 cats_alvo.update(ev['categorias'])
     if not datas_janela:
         continue
-    cats_alvo_idx = [env_v3.nome_para_idx[c] for c in cats_alvo
-                      if c in env_v3.nome_para_idx]
+    cats_alvo_idx = [env.nome_para_idx[c] for c in cats_alvo
+                      if c in env.nome_para_idx]
     if not cats_alvo_idx:
         continue
     df_jan = df_dec[df_dec['data'].isin(datas_janela)]
@@ -362,23 +338,13 @@ metricas_finais = {
     'f1_evento_medio': round(df_evento['f1'].mean(), 3) if len(df_evento) > 0 else 0.0,
     'pct_categorias_promovidas': round(
         len(df_acao[df_acao['produto_idx'] > 0]['produto_idx'].unique())
-        / env_v3.N * 100, 1
+        / env.N * 100, 1
     ),
     'pct_intensidades_usadas': round(
         len(df_acao[df_acao['produto_idx'] > 0]['intensidade'].unique())
         / 4 * 100, 1
     ),
 }
-if tem_v11:
-    metricas_finais['delta_lucro_vs_v11_pct'] = round(
-        (dqn_v12['lucro_medio'] - resultados['DQN V11.7']['lucro_medio'])
-        / resultados['DQN V11.7']['lucro_medio'] * 100, 2
-    )
-    metricas_finais['delta_perdas_vs_v11_pct'] = round(
-        (dqn_v12['perdas_medio'] - resultados['DQN V11.7']['perdas_medio'])
-        / max(resultados['DQN V11.7']['perdas_medio'], 1) * 100, 2
-    )
-
 pd.DataFrame([metricas_finais]).to_csv(
     V12 / 'validacao_metricas_v12.csv', index=False, encoding='utf-8'
 )
