@@ -2386,3 +2386,369 @@ a9516ce checkpoint V10
 ---
 
 *HANDOFF SALVO 12/05/2026 noite. Próxima sessão: corrigir bug par dinâmico → começar V12 Pipeline OU relatório.*
+
+---
+
+# V12 IMPLEMENTADO E VALIDADO — 12/05/2026 noite (segunda iteração)
+
+## Bug fix do par dinâmico (15 min)
+
+`gerar_calendario_v3.py` linha 222 estava usando par estático
+`cat_cfg['par_combo']` em vez do par dinâmico calculado pelo env. Fix:
+rollout captura `info['combo_par']` e enrichment usa o modo do par dentro
+da janela da campanha.
+
+Bonus: `gerar_html_premium.py` carregava `calendario_v3_anual.json`
+preferencialmente (stale). Agora carrega o JSON mais recente entre v3 e
+v3_anual.
+
+Validação: par dinâmico de chocolate_premium em segunda 14/12 = vinho
+(manhã) / destilados (tarde+noite). Gelo em março = destilados (era
+cerveja no estático). Mudança visível no HTML #2, #3, #4, #14, #15.
+
+## Pipeline V12 — 5 novos scripts
+
+| Arquivo | Função |
+|---|---|
+| `treinar_forecaster.py` | Ridge por categoria + StandardScaler. Features: dia_sem, mes, dia_mes, temp_norm, lag1/7/28, is_event, days_to_event, tipo_pico_pre/no_dia. MAPE val 57%, R² +0.045 |
+| `env_v3.py` | Herda env_v2. Adiciona 1 feature de forecast por categoria ao estado (130 → 150 features). Buffer rolling de 28d de receita, cache por dia |
+| `treinar_v12.py` | DQN idêntico ao V11 (só muda env e obs_dim) |
+| `validar_v12.py` | Métricas idênticas + comparação head-to-head V11.7 |
+| `gerar_calendario_v4.py` | Output operacional do V12 |
+
+Saídas em `results/v12/`: forecasters.pkl, forecaster_metricas.csv,
+dqn_v12.pt, training_log_v12.csv, validacao_*.csv, comparacao_v11_vs_v12.csv,
+calendario_v4.json.
+
+## Treino V12
+
+- 150 ep × 1 seed × 1095 steps em ~33 min
+- Reward subiu de R$ 467k → 829k ao longo do treino
+- Reward médio últimos 10 eps: R$ 789k (V11.7 era ~640k em treino)
+- ε final 0.104, promove 85% dos turnos
+
+Inicialmente HistGradientBoosting era 18× mais lento (0.12s/step → treino
+estimado em 5.5h). Trocado por Ridge: 0.0065s/step, MAPE igual (57%),
+R² ligeiramente melhor.
+
+## Validação V12 vs V11.7 (hold-out 2024-2026, 20 ep × 1095)
+
+| Métrica | V11.7 | V12 | Δ |
+|---|---:|---:|---|
+| Reward médio | R$ 872.803 | R$ 846.261 | -3.0% |
+| Lucro médio | R$ 658.349 | R$ 659.467 | **+0.17%** |
+| Perdas | 1.731 un | 1.751 un | +1.19% |
+| Rupturas | 169 un | 160 un | -5.3% |
+| F1 timing médio | 0.075 | **0.113** | +51% |
+| F1 evento médio | 0.106 | 0.059 | **-44%** |
+| % categorias promovidas | ~70% | 40% | menor |
+| % intensidades usadas | 75% | **125%** (5/4) | usa TODAS |
+
+**Resultado central:** V12 e V11.7 estão **estatisticamente empatados em
+lucro** (+0.17%, dentro do desvio R$ 7.339). V12 tem F1 timing 51% melhor
+mas F1 evento 44% pior. Cada modelo é melhor em uma dimensão.
+
+## Política aprendida pelo V12
+
+Top 7 ações (de 21k decisões em 20 episódios):
+
+1. **gelo combo** — 23,6%
+2. **cigarro_jti desc5%** — 15,2% ✨ (NEW — V11.7 nunca usava desc5%)
+3. **isotonico desc5%** — 8,0% ✨ (NEW)
+4. chocolate_impulso combo — 7,9%
+5. _sem_promo nada — 7,9%
+6. snack combo — 6,4%
+7. _sem_promo combo — 6,2%
+
+V12 **DESCOBRIU desc5%** como ação útil em cigarros e isotônicos — em
+V11.7 essa ação nunca emergia. Forecaster Ridge captou sazonalidade via
+lags que abriu espaço para o desconto direto leve fazer sentido.
+
+## Calendário V4 vs V3 (60 dias)
+
+| Métrica | V3 (V11.7) | V4 (V12) |
+|---|---:|---:|
+| N campanhas | 15 | 16 |
+| Lucro adicional estimado | R$ 77,84 | R$ 95,31 |
+| Categorias | chocolate_impulso, gelo, refrigerante | chocolate_impulso, gelo, **isotonico** |
+
+V12 trocou refrigerante por isotonico no top — alinhado com a política.
++22% em lucro adicional mas absoluto é só R$ 17/60d (ruído).
+
+## Interpretação acadêmica
+
+### O que V12 PROVOU
+
+1. **Forecaster ML diversifica espaço de ações** — desc5% emergiu pela
+   primeira vez. Sinal antes invisível para o DQN.
+2. **F1 timing melhora 51%** — agente usa forecast para promover em
+   contextos efetivamente fracos.
+3. **Arquitetura escala** — Forecaster pluga limpo no MDP (mais 1 feature
+   por categoria), sem refatoração estrutural.
+
+### O que V12 NÃO PROVOU
+
+- Forecaster Ridge não capta picos de eventos comerciais (alvos com
+  baixo volume: chocolate/vinho/espumante).
+- F1 evento das datas problemáticas (Mães/Namorados/Mulher) **continua 0**.
+- "+22% lucro" do calendário é dentro do ruído (R$ 17/60d).
+
+### Implicação prática
+
+**O gargalo final é vendas detalhadas por SKU.** Sem dados granulares,
+o forecaster não tem como capturar picos sazonais reais de chocolate
+premium / vinho na semana de mães. Quando ERP exportar SKU-level:
+
+1. Re-rodar `treinar_forecaster.py` calibra com volume real por SKU
+2. Re-rodar `treinar_v12.py` aprende com sinal mais rico
+3. F1 evento das datas de presente deve destravar
+
+## Decisão de deploy
+
+**V11.7 segue como modelo recomendado** para uso operacional do posto:
+- F1 evento 2× maior (0.106 vs 0.059)
+- Perdas marginalmente menores
+- Lucro estatisticamente equivalente
+
+**V12 é a base arquitetural** para evolução quando dados de SKU chegarem.
+
+## Tabela final V10 → V11.7 → V12 para apresentação
+
+| Versão | Estado | Lucro vs sem-promo | Perdas vs sem-promo | F1 evento | F1 timing |
+|---|---:|---:|---:|---:|---:|
+| V10 | 47 feat | +0,4% | -39% | 0 | 0,5 |
+| V11.7 | 130 feat | +0,10% | -2,63% | 0,106 | 0,075 |
+| V12 | 150 feat (+forecast ML) | +0,22% | -0,95% | 0,059 | **0,113** |
+
+**Narrativa:** cada versão adiciona uma dimensão de capacidade, mas
+o ganho marginal em LUCRO diminui sem dados melhores. V12 mostra que
+adicionar Forecaster melhora F1 timing mas o gargalo estrutural é o dado.
+
+## Arquivos novos / modificados
+
+```
+NOVOS:
+  treinar_forecaster.py       Ridge por categoria
+  env_v3.py                   ConvenienceStoreEnvV3 (V12 com forecast)
+  treinar_v12.py              DQN V12
+  validar_v12.py              Métricas + comparação V11.7 vs V12
+  gerar_calendario_v4.py      Output operacional V12
+  results/v12/                Diretório novo (8 arquivos)
+
+MODIFICADOS:
+  gerar_calendario_v3.py      Par dinâmico (bug fix)
+  gerar_html_premium.py       Lê JSON mais recente (bug fix)
+```
+
+---
+
+*12/05/2026 noite (segunda iteração): V12 pipeline completo, validado e
+documentado. Empate técnico com V11.7 em lucro (+0.17%). F1 timing +51%,
+F1 evento -44%. V11.7 segue como modelo de deploy. V12 é base
+arquitetural para quando dados de SKU chegarem.*
+
+---
+
+# V12.1 e V12.2 — Análise externa + 4 melhorias (12/05/2026 ainda à noite)
+
+## Origem das melhorias
+
+Vinicius pediu análise externa de cada campanha do top 15 do calendário
+V11.7/V12 base. Conclusões da análise:
+
+### Campanhas que fazem total sentido (75-85% prob real)
+- Chocolate Premium + Vinho/Destilados em Véspera de Natal e Réveillon
+- Chocolate Impulso na semana de Namorados + Copa Brasil
+
+### Campanhas moderadas (40-55% prob real)
+- Gelo + Destilados (março/maio) — destilados é volume baixo, instável
+- Refrigerante (Copa em junho)
+
+### Campanhas baixas (15-35% prob real)
+- Chocolate Premium em Black Friday (BF brasileiro é eletro/moda)
+- Chocolate Premium em fevereiro (sem evento)
+- Biscoito em novembro (ruído)
+
+### 🚨 PROBLEMA CRÍTICO descoberto
+
+V12 base promove **cigarro_jti com desc5% em 15% das decisões**. Isso é
+**ILEGAL pela Lei Antifumo (9.294/96 + ANVISA)**: cigarro não pode ter
+desconto/promoção/publicidade no Brasil. O modelo achou uma "borda
+lucrativa" matematicamente, mas inviável regulatoriamente.
+
+## 4 melhorias implementadas
+
+### V12.1 (cigarros NPM + K_EVENTO_PRESENTE)
+
+1. **Cigarros (jti, philip_morris, souza_cruz) marcados como NÃO-promovíveis**
+   em `calibrar_v2.py` (motivo regulatório)
+2. **K_EVENTO_PRESENTE = 600** (3× base) para eventos com `tipo_pico='pre'`
+   (Mães, Namorados, Mulher, Pais, Crianças, Páscoa, Véspera Natal)
+3. **K_EVENTO_PERDIDO_PRESENTE = 400** para penalizar mais ignorar essas datas
+
+### V12.2 (+ harmonia categoria + harmonia evento + janela reduzida)
+
+4. **Matriz HARMONIA_PARES** (62 pares categoria↔categoria):
+   - chocolate_premium ↔ vinho (2.5), padaria (1.8), café (1.6)
+   - cerveja ↔ snack (2.5), gelo (2.4)
+   - destilados ↔ gelo (2.2), snack (1.6)
+   - biscoito ↔ café (2.3), padaria ↔ café (2.2)
+   - + 50+ outros pares de varejo brasileiro
+
+5. **HARMONIA_EVENTO_CATEGORIA** (19 eventos com puxadores):
+   - Dia dos Namorados → chocolate_premium (1.8), vinho (1.6)
+   - Copa → cerveja (2.0), snack (1.8), gelo (1.6)
+   - Páscoa → chocolate_premium (2.0)
+   - Réveillon → vinho (1.6), gelo (1.7)
+   - + 15 outros (Mães, Pais, Crianças, BF, Carnaval, etc.)
+
+6. **Janela_pre_dias reduzida** para max 2 dias em eventos de presente
+   (Vinicius: "em posto cliente compra de última hora, D-1 a D apenas").
+   Aplicado em 84 entradas do calendário.
+
+7. **env_v2 modificado**:
+   - Combo dinâmico: `score_par = fator_ctx × harmonia[principal]` (em vez
+     de só fator_ctx). Chocolate em Mães escolhe **vinho** como par.
+   - Bonus_evento multiplicado pela harmonia evento→categoria (chocolate
+     em Namorados ganha 1.8× extra)
+
+8. **torch.set_num_threads(8)** para usar 8 cores explicitamente
+
+## Validação dos 3 modelos no env V12.2
+
+Tabela (20 ep × 1095 steps em hold-out 2024-2026):
+
+| Modelo | Reward | Δ Lucro | Δ Perdas | F1 evento médio |
+|---|---:|---:|---:|---:|
+| V12 base | R$ 773.659 | +0.36% | -1.53% | 0.053 |
+| **V12.1** | **R$ 859.248** | +0.23% | -1.81% | **0.208** ⭐ |
+| V12.2 | R$ 857.002 | +0.06% | -1.85% | 0.106 |
+| Sem promo | R$ 563.700 | 0% | 0% | — |
+
+**V12.1 é o vencedor.** Reward 11% maior que V12 base, F1 evento médio
+4× maior (0.053 → 0.208).
+
+## F1 por evento (a métrica que mais importa)
+
+| Evento | V12 base | V12.1 | V12.2 |
+|---|---:|---:|---:|
+| **Réveillon** | 0.24 | **0.96** | 0.52 |
+| **Dia das Mães** | 0 | **0.24** | 0 |
+| **Dia dos Namorados** | 0 | **0.22** | 0 |
+| Dia das Crianças | 0.02 | 0.04 | 0.22 |
+| Dia dos Pais | 0.10 | 0 | 0 |
+| Véspera de Natal | 0 | 0 | 0 |
+| Dia da Mulher | 0 | 0 | 0 |
+
+**V12.1 DESTRAVOU Dia das Mães e Dia dos Namorados** (F1 0 → 0.22-0.24)
+— eventos onde V10, V11.7 e V12 base TODOS falhavam em F1=0. **Esta é a
+contribuição operacional mais importante do trabalho até aqui.**
+
+V12.1 também levou Réveillon a F1=0.96 (quase perfeito).
+
+## Por que V12.2 piorou em F1 evento
+
+Hipótese: a **janela_pre_dias reduzida para 2 dias** deu MENOS sinal de
+treino. Antes o agente tinha 5-7 dias × 3 turnos = 15-21 turnos por
+evento para "descobrir" a recompensa. Com 2 dias = 6 turnos. Menos
+oportunidades de associar (estado, ação) com bonus_evento.
+
+Trade-off identificado:
+- **Janela larga durante treino** = melhor aprendizado (RL precisa de sinal)
+- **Janela curta na realidade** = mais fiel ao posto (cliente de última hora)
+
+Solução para V12.3 (próxima iteração se quiser):
+- Treinar com janela 5-7 dias
+- Deploy com janela 2 dias
+- OU usar decay agressivo de uplift (pico em D-2 a D, fraco antes)
+
+## Política aprendida pelo V12.1
+
+Top 5 ações (de 21k decisões em 20 episódios):
+
+1. **gelo combo** — 31.3% (sazonalidade de verão/fim-de-semana)
+2. **chocolate_premium desc5%** — 12.9% ⭐ NOVO (V12 base nem promovia)
+3. **chocolate_impulso desc5%** — 11.1% ⭐
+4. **vinho desc5%** — 10.5% ⭐ NOVO (categoria de presente)
+5. _sem_promo desc5% — 9.1%
+
+V12.1 promove especificamente **chocolate, vinho e chocolate_impulso** —
+exatamente as categorias-alvo de Mães/Namorados/Páscoa. Sinal claro de
+que o K_EVENTO_PRESENTE funcionou.
+
+## Calendário V12.1 (60 dias maio-junho 2026)
+
+Top campanhas em eventos comerciais:
+- **08/06-10/06: chocolate_impulso desc5% [Dia dos Namorados]** ⭐
+- 11/06-12/06: isotonico desc5% [Copa 2026 Abertura]
+- 15/06-17/06: chocolate_impulso desc5% [Copa 2026 Brasil x estreia]
+- 20/06-21/06: gelo+destilados combo [Copa 2026 grupos]
+- 25/06-26/06: isotonico desc5% [Copa 2026 grupos]
+
+Mostra que V12.1 captou tanto eventos de **presente** (Namorados →
+chocolate) quanto eventos de **consumo** (Copa → gelo/cerveja/isotônico).
+
+## Uso de CPU (8 cores)
+
+Antes: ~4-6 cores (PyTorch MKL default). Single-thread em Ridge + env.
+Agora: `torch.set_num_threads(8)` + `set_num_interop_threads(4)`.
+Treino V12.2 levou 1814s vs V12 base 1971s (~8% mais rápido).
+
+Para usar 8 cores plenamente seria preciso treinar **múltiplos seeds em
+paralelo** via multiprocessing — fica para V13 se valer a pena.
+
+## Modelos disponíveis
+
+```
+results/v12/
+  dqn_v12_base.pt    — sem cigarros NPM, sem K_EVENTO_PRESENTE, sem harmonia
+  dqn_v12_1.pt       — cigarros NPM + K_EVENTO_PRESENTE (RECOMENDADO)
+  dqn_v12_2.pt       — V12.1 + harmonia + janela reduzida (subótimo F1 evento)
+  dqn_v12.pt         — symlink para dqn_v12_1.pt (versão atual)
+```
+
+## Decisão de deploy
+
+**V12.1 substitui V11.7 como modelo recomendado:**
+- Reward 859k vs V11.7 ~873k (V11.7 marginalmente maior)
+- Mas V12.1 tem F1 evento 2× maior (0.208 vs 0.106 do V11.7)
+- V12.1 destravou Mães e Namorados (F1 0 → 0.22), V11.7 não
+- V12.1 tem cigarros corretamente NPM (regulatório)
+
+**V11.7 vs V12.1 (resumo):**
+
+| Métrica | V11.7 | V12.1 |
+|---|---:|---:|
+| Reward | 873k | 859k |
+| Lucro vs sem promo | +0.10% | +0.23% |
+| Perdas vs sem promo | -2.63% | -1.81% |
+| F1 evento médio | 0.106 | **0.208** |
+| Destrava Mães/Namorados | NÃO | **SIM** |
+| Cigarros não-promovíveis | NÃO | **SIM (legal)** |
+
+**V12.2 ainda tem valor como evidência académica** — mostra trade-off
+entre janela realista (posto) e capacidade de aprendizado. Material para
+discussão na apresentação.
+
+---
+
+*12/05/2026 noite (3ª iteração): V12.1 destrava F1 evento de Mães e
+Namorados (0 → 0.22+) com 2 mudanças simples (cigarros NPM +
+K_EVENTO_PRESENTE). V12.2 com harmonia funciona conceitualmente (combo
+chocolate → vinho) mas janela reduzida prejudica treino. **V12.1 vira
+modelo de deploy.**
+
+ARTEFATOS NOVOS (3 scripts + arquivos):
+  treinar_forecaster.py → results/v12/forecasters.pkl
+  env_v3.py             (V12 com forecast)
+  treinar_v12.py        (DQN V12)
+  validar_v12.py        (métricas + comparação V11.7)
+  gerar_calendario_v4.py
+  comparar_v12_versoes.py (compara 3 versões V12)
+  results/v12/dqn_v12_{base,1,2}.pt
+  results/v12/comparacao_versoes_v12.csv
+  results/v12/comparacao_versoes_f1_eventos.csv
+  results/v12/calendario_v4_v12_{1,2}.json
+  data/calibracao_v2.json v2.2 com harmonia_combo (20×20) e
+                           harmonia_evento_categoria (19 eventos)
+*

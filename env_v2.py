@@ -103,11 +103,31 @@ class ConvenienceStoreEnvV2(gym.Env):
         # Mapping nome → índice
         self.nome_para_idx = {c['categoria']: i for i, c in enumerate(self.cats)}
 
-        # Pares de combo
+        # Pares de combo (par_combo estático = fallback)
         self.par_idx = np.zeros(self.N, dtype=np.int32)
         for i, c in enumerate(self.cats):
             par_nome = c.get('par_combo', 'snack')
             self.par_idx[i] = self.nome_para_idx.get(par_nome, i)
+
+        # V12.2: Matriz de harmonia categorial (N×N). Usada no par dinâmico
+        # do combo: score_par = fator_contextual × harmonia[principal].
+        # Se ausente na calibração, vira matriz de 1s (sem efeito).
+        harm = self.cfg.get('harmonia_combo')
+        if harm:
+            self.harmonia_combo = np.array(harm, dtype=np.float32)
+            # Zera linha de não-promovíveis para garantir que não sejam par
+            for i, c in enumerate(self.cats):
+                if not c.get('promovivel', True):
+                    self.harmonia_combo[:, i] = 0.0
+        else:
+            self.harmonia_combo = np.ones((self.N, self.N), dtype=np.float32)
+            np.fill_diagonal(self.harmonia_combo, 0.0)
+
+        # V12.2: Harmonia evento → categoria-puxadora. Quando agente acerta
+        # a categoria-alvo do evento, bonus_evento é multiplicado pelo score
+        # desta tabela. Identifica o "puxador" de cada evento (chocolate em
+        # Mães/Namorados/Páscoa, cerveja em Copa/Pais, vinho em Réveillon).
+        self.harmonia_evento_cat = self.cfg.get('harmonia_evento_categoria', {})
 
         # Prior Dunnhumby por categoria (índice freq mensal)
         self.prior_freq_mes = np.zeros((self.N, 12), dtype=np.float32)
@@ -251,20 +271,23 @@ class ConvenienceStoreEnvV2(gym.Env):
                 preco_efetivo[p] *= 0.90
                 desconto_aplicado = 0.10
             elif intensidade == 3:  # combo -5% (Vinicius 12/05/26)
-                # COMBO COOPERATIVO:
+                # COMBO COOPERATIVO + HARMONIA (V12.2 Vinicius 12/05/26 noite):
                 # - Agente escolhe o produto PRINCIPAL (aprende qual promover)
-                # - Env completa com o melhor PAR contextual (top 1 produto
-                #   PROMOVIVEL com maior fator do dia, diferente do principal)
+                # - Env completa com par via score = fator_contextual × harmonia
+                #   (em vez de só fator contextual)
+                # - Em Dia dos Namorados, chocolate_premium principal escolhe
+                #   VINHO como par (harmonia 2.5) em vez de gelo/destilado
                 principal_din = p
                 dia_sem_tmp = self.data_atual.weekday()
                 mes_tmp = self.data_atual.month - 1
                 fator_ctx = (self.fator_dia[:, dia_sem_tmp]
                               * self.fator_turno[:, self.turno]
                               * self.fator_mes[:, mes_tmp])
-                fator_ctx_masked = np.where(self.promovivel,
-                                              fator_ctx, -np.inf)
-                fator_ctx_masked[principal_din] = -np.inf
-                par_din = int(np.argmax(fator_ctx_masked))
+                # Score combina demanda contextual com harmonia categorial
+                score_par = fator_ctx * self.harmonia_combo[principal_din]
+                score_masked = np.where(self.promovivel, score_par, -np.inf)
+                score_masked[principal_din] = -np.inf
+                par_din = int(np.argmax(score_masked))
                 # Aplicar boost AUMENTADO (V11.5: 1.15 e 1.10)
                 fator_promo[principal_din] = self.k.get('BOOST_COMBO_PRINCIPAL', 1.15)
                 fator_promo[par_din] = self.k.get('BOOST_COMBO_PAR', 1.10)
@@ -363,28 +386,38 @@ class ConvenienceStoreEnvV2(gym.Env):
             else:
                 bonus_timing = -self.k['K_TIMING_PENALTY']
 
-        # 11. Bonus evento comercial (NOVO V11)
+        # 11. Bonus evento comercial (V11 + V12.1 + V12.2)
         # Se ha evento e agente promove categoria-alvo: bonus
         # Se ha evento e agente NAO promove (ou promove categoria errada): penalty
+        #
+        # V12.1: eventos PRESENTE (tipo_pico=='pre') usam K_EVENTO_PRESENTE (3×)
+        # V12.2: bonus é multiplicado por harmonia_evento_cat[evento][categoria]
+        #        quando agente promove o PUXADOR do evento (chocolate em Mães,
+        #        cerveja em Copa, etc) — amplifica recompensa em ~1.5-2×.
         bonus_evento = 0.0
         evs = self._eventos_por_data.get(self.data_atual, [])
-        # Filtrar eventos relevantes (descartar feriados que tem 'todas')
         evs_relevantes = [ev for ev in evs if 'todas' not in ev['categorias']]
         if evs_relevantes:
-            # Encontrar evento com maior uplift_dia
             ev_main = max(evs_relevantes, key=lambda e: e['uplift_dia'])
+            eh_presente = ev_main.get('tipo_pico', '') == 'pre'
+            k_bonus = (self.k.get('K_EVENTO_PRESENTE', self.k['K_EVENTO'])
+                       if eh_presente else self.k['K_EVENTO'])
+            k_perdido = (self.k.get('K_EVENTO_PERDIDO_PRESENTE',
+                                     self.k.get('K_EVENTO_PERDIDO', 0))
+                         if eh_presente else self.k.get('K_EVENTO_PERDIDO', 0))
             if prod_idx > 0 and intensidade > 0:
                 p = prod_idx - 1
                 cat_p = self.cats[p]['categoria']
                 if self._categoria_bate_com_evento(cat_p, ev_main['categorias']):
-                    # Acertou: bonus
-                    bonus_evento = self.k['K_EVENTO'] * (ev_main['uplift_dia'] - 1)
+                    # V12.2: amplifica bonus pela harmonia evento → categoria
+                    harm_score = self._harmonia_evento_score(
+                        ev_main['evento'], cat_p
+                    )
+                    bonus_evento = k_bonus * (ev_main['uplift_dia'] - 1) * harm_score
                 else:
-                    # Promoveu produto errado durante evento: penalidade leve
-                    bonus_evento = -self.k.get('K_EVENTO_PERDIDO', 0) * 0.3 * (ev_main['uplift_dia'] - 1)
+                    bonus_evento = -k_perdido * 0.3 * (ev_main['uplift_dia'] - 1)
             else:
-                # Nao promoveu nada durante evento: penalidade
-                bonus_evento = -self.k.get('K_EVENTO_PERDIDO', 0) * (ev_main['uplift_dia'] - 1)
+                bonus_evento = -k_perdido * (ev_main['uplift_dia'] - 1)
 
         # 12. Bonus padrão Dunnhumby (NOVO V11)
         bonus_padrao = 0.0
@@ -624,6 +657,27 @@ class ConvenienceStoreEnvV2(gym.Env):
                 if self._categoria_bate_com_evento(cat_nome, ev['categorias']):
                     fator[i] = max(fator[i], ev['uplift_dia'])
         return fator
+
+    def _harmonia_evento_score(self, nome_evento: str, cat: str) -> float:
+        """V12.2: score harmonia evento→categoria via substring match.
+        Default 1.0 quando evento ou categoria não estão na tabela."""
+        if not self.harmonia_evento_cat:
+            return 1.0
+        # Normaliza nome do evento: minúsculo + remove acentos básicos
+        nome_norm = nome_evento.lower()
+        for orig, repl in [('á', 'a'), ('â', 'a'), ('ã', 'a'),
+                            ('é', 'e'), ('ê', 'e'),
+                            ('í', 'i'), ('ó', 'o'), ('ô', 'o'),
+                            ('ú', 'u'), ('ç', 'c'),
+                            ('Á', 'a'), ('É', 'e'), ('Í', 'i'),
+                            ('Ó', 'o'), ('Ú', 'u'), ('Ç', 'c')]:
+            nome_norm = nome_norm.replace(orig, repl)
+        # Match por substring: 'dia dos namorados' bate com 'Dia dos Namorados'
+        # 'copa' bate com qualquer 'Copa 2026 — ...'
+        for key, cat_dict in self.harmonia_evento_cat.items():
+            if key in nome_norm:
+                return float(cat_dict.get(cat, 1.0))
+        return 1.0
 
     @staticmethod
     def _categoria_bate_com_evento(cat_nome: str, cats_evento: set) -> bool:

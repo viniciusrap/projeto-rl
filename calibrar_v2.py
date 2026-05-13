@@ -451,9 +451,18 @@ for i, cat_m in enumerate(CATEGORIAS_MODELO):
         prior_mag_promo = 0.10
         prior_indice_freq_mes = {m: 1.0 for m in range(1, 13)}
 
-    # Categorias NÃO promovíveis (commodities inelásticas)
-    # Vinicius (12/05/2026): água é compra utilitária, preço não estimula compra.
-    CATEGORIAS_NAO_PROMOVIVEIS = {'agua'}
+    # Categorias NÃO promovíveis
+    # - 'agua' (Vinicius 12/05/2026): commodity inelástica
+    # - cigarros (Vinicius 12/05/2026 noite): proibido pela Lei 9.294/96 e
+    #   ANVISA. Cigarro não pode ter promoção/desconto/publicidade no Brasil.
+    #   V12 inicial promoveu cigarro_jti em 15% das decisões — decisão
+    #   matematicamente boa mas LEGALMENTE INVIÁVEL. Marca como não-promovível.
+    CATEGORIAS_NAO_PROMOVIVEIS = {
+        'agua',
+        'cigarro_souza_cruz',
+        'cigarro_philip_morris',
+        'cigarro_jti',
+    }
     promovivel = cat_m not in CATEGORIAS_NAO_PROMOVIVEIS
 
     # Bonus/penalidade por dia da semana DATA-DRIVEN (Vinicius 12/05/26)
@@ -522,6 +531,15 @@ constantes = {
     'K_TIMING_PENALTY': 250.0,
     'K_EVENTO': 200.0,
     'K_EVENTO_PERDIDO': 150.0,
+    # ── V12.1 (Vinicius 12/05/2026 noite): bonus DOBRADO para eventos de
+    # PRESENTE (Mães, Namorados, Mulher, Pais, Crianças, Páscoa). Estes
+    # eventos têm pico de venda em chocolate/vinho/espumante — categorias
+    # de baixo volume que são "abafadas" pelo lucro de volume das outras.
+    # K_EVENTO_PRESENTE = 600 (3× K_EVENTO base) e K_EVENTO_PERDIDO_PRESENTE
+    # = 400 forçam o agente a explorar essas categorias durante a janela
+    # do evento. tipo_pico == 'pre' identifica eventos de presente.
+    'K_EVENTO_PRESENTE': 600.0,
+    'K_EVENTO_PERDIDO_PRESENTE': 400.0,
     'THETA_PADRAO': 80.0,
     'LAMBDA_INSTABILIDADE': 50.0,
     'GAMMA_DESC_5': 2.0,
@@ -585,8 +603,259 @@ for cat_m in CATEGORIAS_MODELO:
             fatores[mes] = 1.0
     prior_loja_fisica_mes[cat_m] = fatores
 
+# ── V12.2 (Vinicius 12/05/2026 noite): Matrizes de HARMONIA ──────────────────
+#
+# DUAS matrizes complementares:
+#
+# 1. HARMONIA_PARES (categoria↔categoria): afinidade entre 2 produtos quando
+#    formam combo. 1.0 = neutro. >1 = cesta clássica. Aplicada no env quando
+#    agente escolhe principal, env completa par via fator_ctx × harmonia.
+#
+# 2. HARMONIA_EVENTO_CATEGORIA (evento→puxador): identifica QUAL categoria é
+#    o produto-puxador de cada evento. Quando agente promove a categoria
+#    puxadora no evento, bonus_evento é multiplicado por esse score.
+#    Ex: chocolate em Namorados ganha 1.8×, vinho em Réveillon ganha 1.6×.
+
+HARMONIA_PARES = {
+    # ─── Cestas de presente / fim de ano ───
+    ('chocolate_premium', 'vinho'):         2.5,
+    ('chocolate_premium', 'padaria'):       1.8,
+    ('chocolate_premium', 'cafe'):          1.6,
+    ('chocolate_premium', 'doce'):          1.4,
+    ('chocolate_premium', 'chocolate_impulso'): 1.2,
+    ('chocolate_premium', 'biscoito'):      1.3,
+    ('vinho', 'padaria'):                   1.7,
+    ('vinho', 'doce'):                      1.4,
+    ('vinho', 'cafe'):                      1.2,
+    # ─── Impulso / lanche compra rápida ───
+    ('chocolate_impulso', 'refrigerante'):  2.0,
+    ('chocolate_impulso', 'suco'):          1.7,
+    ('chocolate_impulso', 'cafe'):          1.5,
+    ('chocolate_impulso', 'agua'):          1.3,
+    ('chocolate_impulso', 'padaria'):       1.4,
+    ('chocolate_impulso', 'sorvete'):       1.7,
+    ('chocolate_impulso', 'biscoito'):      1.4,
+    ('chocolate_impulso', 'energetico'):    1.2,
+    # ─── Churrasco / Copa / fim de semana ───
+    ('cerveja', 'snack'):                   2.5,
+    ('cerveja', 'gelo'):                    2.4,
+    ('cerveja', 'isotonico'):               1.4,
+    ('cerveja', 'refrigerante'):            1.2,
+    ('cerveja', 'biscoito'):                1.1,
+    ('cerveja', 'sorvete'):                 1.1,
+    ('snack', 'refrigerante'):              2.0,
+    ('snack', 'isotonico'):                 1.6,
+    ('snack', 'energetico'):                1.6,
+    ('snack', 'suco'):                      1.3,
+    ('snack', 'gelo'):                      1.4,
+    ('gelo', 'refrigerante'):               1.8,
+    ('gelo', 'suco'):                       1.5,
+    ('gelo', 'isotonico'):                  1.5,
+    ('gelo', 'sorvete'):                    1.4,
+    # ─── Drinks (bar em casa) ───
+    ('destilados', 'gelo'):                 2.2,
+    ('destilados', 'snack'):                1.6,
+    ('destilados', 'refrigerante'):         1.5,
+    ('destilados', 'isotonico'):            1.2,
+    ('destilados', 'suco'):                 1.4,
+    # ─── Café da manhã / tarde ───
+    ('biscoito', 'cafe'):                   2.3,
+    ('biscoito', 'suco'):                   1.7,
+    ('biscoito', 'padaria'):                1.6,
+    ('biscoito', 'agua'):                   1.2,
+    ('cafe', 'padaria'):                    2.2,
+    ('cafe', 'doce'):                       1.4,
+    ('cafe', 'suco'):                       1.2,
+    ('padaria', 'suco'):                    1.6,
+    ('padaria', 'doce'):                    1.4,
+    # ─── Sobremesa / doce ───
+    ('sorvete', 'biscoito'):                1.8,
+    ('sorvete', 'doce'):                    1.5,
+    ('sorvete', 'suco'):                    1.4,
+    ('sorvete', 'refrigerante'):            1.3,
+    ('doce', 'refrigerante'):               1.6,
+    ('doce', 'cafe'):                       1.3,
+    # ─── Energético / Isotônico ───
+    ('energetico', 'agua'):                 1.4,
+    ('energetico', 'isotonico'):            1.3,
+    ('isotonico', 'agua'):                  1.7,
+    ('isotonico', 'snack'):                 1.6,
+    # ─── Refrigerante (versátil) ───
+    ('refrigerante', 'biscoito'):           1.4,
+    ('refrigerante', 'agua'):               1.0,
+    # ─── Antagonias suaves (cesta não-natural) ───
+    ('energetico', 'cerveja'):              0.8,
+    ('vinho', 'isotonico'):                 0.7,
+    ('destilados', 'agua'):                 0.9,
+    ('cigarro_souza_cruz', 'agua'):         0.5,  # cigarro não-promov, mas se fosse
+}
+
+# Harmonia EVENTO → CATEGORIA PUXADORA
+# Substring match (case-insensitive, sem acentos): chave em minúsculo simples.
+# Valor: dict categoria → multiplicador de bonus_evento quando agente acerta.
+# Default = 1.0 para categorias-alvo não listadas.
+HARMONIA_EVENTO_CATEGORIA = {
+    'dia dos namorados': {
+        'chocolate_premium': 1.8,
+        'chocolate_impulso': 1.3,
+        'vinho': 1.6,
+        'padaria': 1.2,
+        'cerveja': 1.3,  # cerveja_premium na verdade, mas mapeia cerveja
+    },
+    'dia das maes': {
+        'chocolate_premium': 1.8,
+        'chocolate_impulso': 1.2,
+        'vinho': 1.5,
+        'padaria': 1.5,
+        'cafe': 1.3,
+        'doce': 1.3,
+    },
+    'dia internacional da mulher': {
+        'chocolate_premium': 1.7,
+        'chocolate_impulso': 1.2,
+        'vinho': 1.5,
+        'padaria': 1.3,
+        'cafe': 1.2,
+    },
+    'dia dos pais': {
+        'cerveja': 1.8,
+        'destilados': 1.7,  # whisky/cachaca mapeia destilados
+        'snack': 1.4,
+        'chocolate_premium': 1.2,
+        'vinho': 1.4,
+        'gelo': 1.3,
+    },
+    'dia das criancas': {
+        'chocolate_impulso': 1.7,
+        'sorvete': 1.6,
+        'refrigerante': 1.5,
+        'suco': 1.5,
+        'biscoito': 1.4,
+        'doce': 1.5,
+        'snack': 1.4,
+        'chocolate_premium': 1.3,
+    },
+    'pascoa': {
+        'chocolate_premium': 2.0,  # PUXADOR MASSIVO
+        'chocolate_impulso': 1.5,
+        'doce': 1.3,
+        'vinho': 1.2,
+        'padaria': 1.4,
+    },
+    'vespera de natal': {
+        'chocolate_premium': 1.8,
+        'vinho': 1.7,
+        'padaria': 1.6,  # panettone
+        'cerveja': 1.3,
+        'cafe': 1.4,
+        'doce': 1.4,
+    },
+    'natal': {
+        'chocolate_premium': 1.8,
+        'vinho': 1.7,
+        'padaria': 1.6,
+        'cerveja': 1.3,
+        'cafe': 1.4,
+    },
+    'reveillon': {
+        'vinho': 1.6,
+        'cerveja': 1.5,
+        'gelo': 1.7,
+        'refrigerante': 1.4,
+        'energetico': 1.3,
+        'snack': 1.4,
+        'chocolate_premium': 1.3,
+    },
+    'copa': {  # qualquer jogo da Copa do Mundo
+        'cerveja': 2.0,
+        'snack': 1.8,
+        'gelo': 1.6,
+        'refrigerante': 1.5,
+        'isotonico': 1.2,
+        'energetico': 1.2,
+    },
+    'carnaval': {
+        'cerveja': 1.8,
+        'isotonico': 1.5,
+        'gelo': 1.5,
+        'refrigerante': 1.4,
+        'snack': 1.4,
+        'agua': 1.3,
+        'energetico': 1.3,
+    },
+    'black friday': {
+        'chocolate_premium': 1.4,
+        'chocolate_impulso': 1.3,
+        'doce': 1.3,
+        'snack': 1.2,
+        'refrigerante': 1.2,
+    },
+    'cyber monday': {
+        'chocolate_premium': 1.3,
+        'chocolate_impulso': 1.2,
+        'doce': 1.2,
+        'snack': 1.2,
+    },
+    'dia do consumidor': {
+        'snack': 1.3,
+        'cerveja': 1.3,
+        'refrigerante': 1.2,
+        'chocolate_impulso': 1.2,
+    },
+    'independencia': {
+        'cerveja': 1.5,
+        'snack': 1.4,
+        'gelo': 1.4,
+        'refrigerante': 1.3,
+    },
+    'tiradentes': {
+        'cerveja': 1.4,
+        'snack': 1.3,
+        'gelo': 1.3,
+    },
+    'corpus christi': {
+        'cerveja': 1.4,
+        'padaria': 1.3,
+        'snack': 1.3,
+    },
+    'aniversario': {  # SP, Barueri, etc.
+        'cerveja': 1.4,
+        'snack': 1.3,
+        'refrigerante': 1.3,
+    },
+    'festa junina': {
+        'cerveja': 1.5,
+        'snack': 1.4,
+        'refrigerante': 1.4,
+        'doce': 1.6,  # paçoca, pé de moleque
+    },
+}
+
+# Matriz simétrica N×N (lista de listas para JSON)
+nomes_cats = [c['categoria'] for c in config_categorias]
+N = len(nomes_cats)
+harmonia_matriz = [[1.0] * N for _ in range(N)]
+for (a, b), score in HARMONIA_PARES.items():
+    if a in nomes_cats and b in nomes_cats:
+        i = nomes_cats.index(a)
+        j = nomes_cats.index(b)
+        harmonia_matriz[i][j] = score
+        harmonia_matriz[j][i] = score
+# Zera a diagonal (não pode combo consigo mesmo)
+for i in range(N):
+    harmonia_matriz[i][i] = 0.0
+
+# ── V12.2: REDUZIR janela_pre_dias para eventos de PRESENTE ───────────────
+# Em posto de conveniência, cliente compra presente de última hora (D-1 a D).
+# Janela padrão (5-7 dias do varejo geral) é otimista demais. Reduz para 2.
+for ev in calendario_para_env:
+    if ev.get('tipo_pico') == 'pre' and int(ev.get('janela_pre_dias', 0)) > 2:
+        ev['janela_pre_dias_original'] = ev['janela_pre_dias']
+        ev['janela_pre_dias'] = 2
+print(f"  Janela_pre_dias reduzida para 2 em {sum(1 for ev in calendario_para_env if ev.get('janela_pre_dias_original')) } eventos de presente")
+
 calibracao = {
-    'versao': 'v2.1',
+    'versao': 'v2.2',
     'gerado_em': str(date.today()),
     'n_categorias': N_CATEGORIAS,
     'categorias': config_categorias,
@@ -596,6 +865,10 @@ calibracao = {
     'clima_params': clima_params,
     'ibge_fator_mes': ibge_fator_mes,
     'mapa_categoria_posto_para_modelo': MAPA_CATEGORIA_MODELO,
+    'harmonia_combo': harmonia_matriz,
+    'harmonia_pares_definidos': {f"{a}__{b}": s
+                                   for (a, b), s in HARMONIA_PARES.items()},
+    'harmonia_evento_categoria': HARMONIA_EVENTO_CATEGORIA,
     # NOVOS PRIORS DE LOJA FÍSICA (12/05/2026):
     'prior_loja_fisica_mes': prior_loja_fisica_mes,  # Tesco UK
     # Iowa: tuple keys (evento, cat) → string para JSON

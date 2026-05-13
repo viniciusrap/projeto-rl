@@ -1,5 +1,5 @@
 {
-  "versao": "v2.1",
+  "versao": "v2.2",
   "gerado_em": "2026-05-12",
   "n_categorias": 20,
   "categorias": [
@@ -467,7 +467,7 @@
         "JTI",
         "CIGARRILHAS"
       ],
-      "promovivel": true,
+      "promovivel": false,
       "bonus_promo_dia_semana": [
         -10.9,
         4.7,
@@ -541,7 +541,7 @@
       "categorias_posto_agregadas": [
         "PHILIP MORRIS"
       ],
-      "promovivel": true,
+      "promovivel": false,
       "bonus_promo_dia_semana": [
         -2.8,
         -13.2,
@@ -616,7 +616,7 @@
         "SOUZA CRUZ",
         "ISQUEIROS"
       ],
-      "promovivel": true,
+      "promovivel": false,
       "bonus_promo_dia_semana": [
         -11.1,
         -15.1,
@@ -1529,9 +1529,10 @@
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2016-03-15",
@@ -1547,36 +1548,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2016-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2016-08-14",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2016-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2016-11-25",
@@ -1601,27 +1606,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2016-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2017-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2017-03-15",
@@ -1637,36 +1645,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2017-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2017-08-13",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2017-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2017-11-24",
@@ -1691,27 +1703,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2017-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2018-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2018-03-15",
@@ -1727,36 +1742,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2018-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2018-08-12",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2018-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2018-11-30",
@@ -1781,27 +1800,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2018-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2019-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2019-03-15",
@@ -1817,36 +1839,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2019-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2019-08-11",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2019-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2019-11-29",
@@ -1871,27 +1897,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2019-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2020-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2020-03-15",
@@ -1907,36 +1936,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2020-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2020-08-09",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2020-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2020-11-27",
@@ -1961,27 +1994,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2020-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2021-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2021-03-15",
@@ -1997,36 +2033,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2021-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2021-08-08",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2021-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2021-11-26",
@@ -2051,27 +2091,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2021-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2022-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2022-03-15",
@@ -2087,36 +2130,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2022-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2022-08-14",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2022-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2022-11-24",
@@ -2186,27 +2233,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2022-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2023-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2023-03-15",
@@ -2222,36 +2272,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2023-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2023-08-13",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2023-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2023-11-24",
@@ -2276,27 +2330,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2023-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2024-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2024-03-15",
@@ -2312,36 +2369,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2024-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2024-08-11",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2024-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2024-11-29",
@@ -2366,27 +2427,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2024-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2025-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2025-03-15",
@@ -2402,36 +2466,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2025-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2025-08-10",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2025-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2025-11-28",
@@ -2456,27 +2524,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2025-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2026-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2026-03-15",
@@ -2492,9 +2563,10 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2026-06-11",
@@ -2510,9 +2582,10 @@
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2026-06-15",
@@ -2555,18 +2628,20 @@
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2026-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2026-11-27",
@@ -2591,27 +2666,30 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2026-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2027-03-08",
       "nome_evento": "Dia Internacional da Mulher",
       "categorias_afetadas": "chocolate;vinho;espumante;flores",
       "uplift_prior": 1.6,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     },
     {
       "data": "2027-03-15",
@@ -2627,36 +2705,40 @@
       "nome_evento": "Dia das Mães",
       "categorias_afetadas": "chocolate;vinho;espumante;perfume",
       "uplift_prior": 2.2,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2027-06-12",
       "nome_evento": "Dia dos Namorados",
       "categorias_afetadas": "chocolate;vinho;espumante;cerveja_premium",
       "uplift_prior": 2.5,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2027-08-08",
       "nome_evento": "Dia dos Pais",
       "categorias_afetadas": "cerveja;whisky;cachaca;vinho_tinto;snack",
       "uplift_prior": 1.9,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2027-10-12",
       "nome_evento": "Dia das Crianças",
       "categorias_afetadas": "chocolate;salgadinho;refrigerante;sorvete;suco",
       "uplift_prior": 1.7,
-      "janela_pre_dias": 7,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 7
     },
     {
       "data": "2027-11-26",
@@ -2681,18 +2763,20 @@
       "nome_evento": "Véspera de Natal",
       "categorias_afetadas": "vinho;espumante;chocolate;cerveja;refrigerante;panettone",
       "uplift_prior": 2.8,
-      "janela_pre_dias": 10,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 10
     },
     {
       "data": "2027-12-31",
       "nome_evento": "Réveillon",
       "categorias_afetadas": "champagne;espumante;cerveja;gelo;refrigerante;energetico",
       "uplift_prior": 3.0,
-      "janela_pre_dias": 5,
+      "janela_pre_dias": 2,
       "janela_pos_dias": 0,
-      "tipo_pico": "pre"
+      "tipo_pico": "pre",
+      "janela_pre_dias_original": 5
     }
   ],
   "constantes": {
@@ -2700,6 +2784,8 @@
     "K_TIMING_PENALTY": 250.0,
     "K_EVENTO": 200.0,
     "K_EVENTO_PERDIDO": 150.0,
+    "K_EVENTO_PRESENTE": 600.0,
+    "K_EVENTO_PERDIDO_PRESENTE": 400.0,
     "THETA_PADRAO": 80.0,
     "LAMBDA_INSTABILIDADE": 50.0,
     "GAMMA_DESC_5": 2.0,
@@ -2808,6 +2894,648 @@
     "CAFÉ": "cafe",
     "NESCAFÉ BEBIDAS": "cafe",
     "CHÁ": "cafe"
+  },
+  "harmonia_combo": [
+    [
+      0.0,
+      1.2,
+      1.0,
+      1.0,
+      1.3,
+      1.0,
+      1.0,
+      1.0,
+      0.5,
+      0.9,
+      1.0,
+      1.4,
+      1.0,
+      1.7,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.2,
+      0.0,
+      2.3,
+      1.1,
+      1.4,
+      1.3,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.6,
+      1.4,
+      1.0,
+      1.8,
+      1.7,
+      1.0
+    ],
+    [
+      1.0,
+      2.3,
+      0.0,
+      1.0,
+      1.5,
+      1.6,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.3,
+      1.0,
+      1.0,
+      1.0,
+      2.2,
+      1.0,
+      1.0,
+      1.0,
+      1.2,
+      1.2
+    ],
+    [
+      1.0,
+      1.1,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.8,
+      2.4,
+      1.4,
+      1.0,
+      1.2,
+      2.5,
+      1.1,
+      1.0,
+      1.0
+    ],
+    [
+      1.3,
+      1.4,
+      1.5,
+      1.0,
+      0.0,
+      1.2,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.2,
+      1.0,
+      1.0,
+      1.4,
+      2.0,
+      1.0,
+      1.7,
+      1.7,
+      1.0
+    ],
+    [
+      1.0,
+      1.3,
+      1.6,
+      1.0,
+      1.2,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.0,
+      1.8,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      2.5
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.5,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.9,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      2.2,
+      1.2,
+      1.0,
+      1.5,
+      1.6,
+      1.0,
+      1.4,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.3,
+      1.0,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.4,
+      1.6,
+      1.0,
+      1.5,
+      1.0,
+      1.4
+    ],
+    [
+      1.4,
+      1.0,
+      1.0,
+      0.8,
+      1.2,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.3,
+      1.0,
+      1.0,
+      1.6,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      2.4,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      2.2,
+      1.0,
+      1.0,
+      0.0,
+      1.5,
+      1.0,
+      1.8,
+      1.4,
+      1.4,
+      1.5,
+      1.0
+    ],
+    [
+      1.7,
+      1.0,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.2,
+      1.0,
+      1.3,
+      1.5,
+      0.0,
+      1.0,
+      1.0,
+      1.6,
+      1.0,
+      1.0,
+      0.7
+    ],
+    [
+      1.0,
+      1.6,
+      2.2,
+      1.0,
+      1.4,
+      1.8,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.6,
+      1.7
+    ],
+    [
+      1.0,
+      1.4,
+      1.0,
+      1.2,
+      2.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.5,
+      1.6,
+      1.0,
+      1.8,
+      1.0,
+      1.0,
+      0.0,
+      2.0,
+      1.3,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      2.5,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.6,
+      1.0,
+      1.6,
+      1.4,
+      1.6,
+      1.0,
+      2.0,
+      0.0,
+      1.0,
+      1.3,
+      1.0
+    ],
+    [
+      1.0,
+      1.8,
+      1.0,
+      1.1,
+      1.7,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.5,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.3,
+      1.0,
+      0.0,
+      1.4,
+      1.0
+    ],
+    [
+      1.0,
+      1.7,
+      1.2,
+      1.0,
+      1.7,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      1.5,
+      1.0,
+      1.6,
+      1.0,
+      1.3,
+      1.4,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.2,
+      1.0,
+      1.0,
+      2.5,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.4,
+      1.0,
+      1.0,
+      0.7,
+      1.7,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ]
+  ],
+  "harmonia_pares_definidos": {
+    "chocolate_premium__vinho": 2.5,
+    "chocolate_premium__padaria": 1.8,
+    "chocolate_premium__cafe": 1.6,
+    "chocolate_premium__doce": 1.4,
+    "chocolate_premium__chocolate_impulso": 1.2,
+    "chocolate_premium__biscoito": 1.3,
+    "vinho__padaria": 1.7,
+    "vinho__doce": 1.4,
+    "vinho__cafe": 1.2,
+    "chocolate_impulso__refrigerante": 2.0,
+    "chocolate_impulso__suco": 1.7,
+    "chocolate_impulso__cafe": 1.5,
+    "chocolate_impulso__agua": 1.3,
+    "chocolate_impulso__padaria": 1.4,
+    "chocolate_impulso__sorvete": 1.7,
+    "chocolate_impulso__biscoito": 1.4,
+    "chocolate_impulso__energetico": 1.2,
+    "cerveja__snack": 2.5,
+    "cerveja__gelo": 2.4,
+    "cerveja__isotonico": 1.4,
+    "cerveja__refrigerante": 1.2,
+    "cerveja__biscoito": 1.1,
+    "cerveja__sorvete": 1.1,
+    "snack__refrigerante": 2.0,
+    "snack__isotonico": 1.6,
+    "snack__energetico": 1.6,
+    "snack__suco": 1.3,
+    "snack__gelo": 1.4,
+    "gelo__refrigerante": 1.8,
+    "gelo__suco": 1.5,
+    "gelo__isotonico": 1.5,
+    "gelo__sorvete": 1.4,
+    "destilados__gelo": 2.2,
+    "destilados__snack": 1.6,
+    "destilados__refrigerante": 1.5,
+    "destilados__isotonico": 1.2,
+    "destilados__suco": 1.4,
+    "biscoito__cafe": 2.3,
+    "biscoito__suco": 1.7,
+    "biscoito__padaria": 1.6,
+    "biscoito__agua": 1.2,
+    "cafe__padaria": 2.2,
+    "cafe__doce": 1.4,
+    "cafe__suco": 1.2,
+    "padaria__suco": 1.6,
+    "padaria__doce": 1.4,
+    "sorvete__biscoito": 1.8,
+    "sorvete__doce": 1.5,
+    "sorvete__suco": 1.4,
+    "sorvete__refrigerante": 1.3,
+    "doce__refrigerante": 1.6,
+    "doce__cafe": 1.3,
+    "energetico__agua": 1.4,
+    "energetico__isotonico": 1.3,
+    "isotonico__agua": 1.7,
+    "isotonico__snack": 1.6,
+    "refrigerante__biscoito": 1.4,
+    "refrigerante__agua": 1.0,
+    "energetico__cerveja": 0.8,
+    "vinho__isotonico": 0.7,
+    "destilados__agua": 0.9,
+    "cigarro_souza_cruz__agua": 0.5
+  },
+  "harmonia_evento_categoria": {
+    "dia dos namorados": {
+      "chocolate_premium": 1.8,
+      "chocolate_impulso": 1.3,
+      "vinho": 1.6,
+      "padaria": 1.2,
+      "cerveja": 1.3
+    },
+    "dia das maes": {
+      "chocolate_premium": 1.8,
+      "chocolate_impulso": 1.2,
+      "vinho": 1.5,
+      "padaria": 1.5,
+      "cafe": 1.3,
+      "doce": 1.3
+    },
+    "dia internacional da mulher": {
+      "chocolate_premium": 1.7,
+      "chocolate_impulso": 1.2,
+      "vinho": 1.5,
+      "padaria": 1.3,
+      "cafe": 1.2
+    },
+    "dia dos pais": {
+      "cerveja": 1.8,
+      "destilados": 1.7,
+      "snack": 1.4,
+      "chocolate_premium": 1.2,
+      "vinho": 1.4,
+      "gelo": 1.3
+    },
+    "dia das criancas": {
+      "chocolate_impulso": 1.7,
+      "sorvete": 1.6,
+      "refrigerante": 1.5,
+      "suco": 1.5,
+      "biscoito": 1.4,
+      "doce": 1.5,
+      "snack": 1.4,
+      "chocolate_premium": 1.3
+    },
+    "pascoa": {
+      "chocolate_premium": 2.0,
+      "chocolate_impulso": 1.5,
+      "doce": 1.3,
+      "vinho": 1.2,
+      "padaria": 1.4
+    },
+    "vespera de natal": {
+      "chocolate_premium": 1.8,
+      "vinho": 1.7,
+      "padaria": 1.6,
+      "cerveja": 1.3,
+      "cafe": 1.4,
+      "doce": 1.4
+    },
+    "natal": {
+      "chocolate_premium": 1.8,
+      "vinho": 1.7,
+      "padaria": 1.6,
+      "cerveja": 1.3,
+      "cafe": 1.4
+    },
+    "reveillon": {
+      "vinho": 1.6,
+      "cerveja": 1.5,
+      "gelo": 1.7,
+      "refrigerante": 1.4,
+      "energetico": 1.3,
+      "snack": 1.4,
+      "chocolate_premium": 1.3
+    },
+    "copa": {
+      "cerveja": 2.0,
+      "snack": 1.8,
+      "gelo": 1.6,
+      "refrigerante": 1.5,
+      "isotonico": 1.2,
+      "energetico": 1.2
+    },
+    "carnaval": {
+      "cerveja": 1.8,
+      "isotonico": 1.5,
+      "gelo": 1.5,
+      "refrigerante": 1.4,
+      "snack": 1.4,
+      "agua": 1.3,
+      "energetico": 1.3
+    },
+    "black friday": {
+      "chocolate_premium": 1.4,
+      "chocolate_impulso": 1.3,
+      "doce": 1.3,
+      "snack": 1.2,
+      "refrigerante": 1.2
+    },
+    "cyber monday": {
+      "chocolate_premium": 1.3,
+      "chocolate_impulso": 1.2,
+      "doce": 1.2,
+      "snack": 1.2
+    },
+    "dia do consumidor": {
+      "snack": 1.3,
+      "cerveja": 1.3,
+      "refrigerante": 1.2,
+      "chocolate_impulso": 1.2
+    },
+    "independencia": {
+      "cerveja": 1.5,
+      "snack": 1.4,
+      "gelo": 1.4,
+      "refrigerante": 1.3
+    },
+    "tiradentes": {
+      "cerveja": 1.4,
+      "snack": 1.3,
+      "gelo": 1.3
+    },
+    "corpus christi": {
+      "cerveja": 1.4,
+      "padaria": 1.3,
+      "snack": 1.3
+    },
+    "aniversario": {
+      "cerveja": 1.4,
+      "snack": 1.3,
+      "refrigerante": 1.3
+    },
+    "festa junina": {
+      "cerveja": 1.5,
+      "snack": 1.4,
+      "refrigerante": 1.4,
+      "doce": 1.6
+    }
   },
   "prior_loja_fisica_mes": {
     "agua": {

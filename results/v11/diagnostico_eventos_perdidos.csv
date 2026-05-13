@@ -1,8 +1,0 @@
-evento,f1,precision,recall,n_categorias_alvo,n_no_catalogo_v11,pct_cobertura_alvo_v11,categorias_cobertas,categorias_faltantes
-Réveillon,0.606,0.606,0.606,6,4,66.7,cerveja;energetico;gelo;refrigerante,champagne;espumante
-Véspera de Natal,0.457,0.463,0.452,6,3,50.0,cerveja;chocolate;refrigerante,espumante;panettone;vinho
-Dia das Crianças,0.264,0.29,0.242,5,4,80.0,chocolate;refrigerante;sorvete;suco,salgadinho
-Dia dos Pais,0.237,0.278,0.206,5,2,40.0,cerveja;snack,cachaca;vinho_tinto;whisky
-Dia das Mães,0.004,0.005,0.003,4,1,25.0,chocolate,espumante;perfume;vinho
-Dia Internacional da Mulher,0.0,0.0,0.0,4,1,25.0,chocolate,espumante;flores;vinho
-Dia dos Namorados,0.0,0.0,0.0,4,1,25.0,chocolate,cerveja_premium;espumante;vinho
