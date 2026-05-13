@@ -1,0 +1,2 @@
+modelo,data_validacao,n_episodios,steps_por_episodio,reward_medio_dqn,lucro_medio_dqn,lucro_medio_sem_promo,delta_lucro_pct,perdas_dqn,perdas_sem_promo,delta_perdas_pct,f1_timing_medio,f1_evento_medio,pct_categorias_promovidas,pct_intensidades_usadas
+V11,2026-05-12,50,1095,873274.25,658804.27,658141.55,0.1,1732.23,1779.09,-2.63,0.076,0.106,70.0,75.0

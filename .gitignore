@@ -2,15 +2,22 @@
 __pycache__/
 *.pyc
 *.pyd
-results/
 .ipynb_checkpoints/
-*.pt
 *.dll
-data/*
-# Excecoes: artefatos publicos derivados (calendario comercial, priors externos)
+
+# Modelos binários pesados não vão pro GitHub (modelo treinado fica local)
+*.pt
+*.pkl
+*.zip
+
 # Dados confidenciais do posto (venda_*, descarte_*, produtos_*, temperatura_*)
-# continuam ignorados pelo wildcard acima.
+data/*
+# Exceções: artefatos públicos derivados (calendário comercial, priors externos)
 !data/calendario_comercial.csv
 !data/calendario_comercial_expandido.csv
 !data/priors_externos/
 !data/priors_externos/**
+
+# Resultados: CSV/JSON/HTML/PNG sobem para GitHub (artefatos legíveis).
+# Modelos .pt/.pkl/.zip já são excluídos pelas regras acima.
+# Cache de Python (__pycache__) também já ignorado.

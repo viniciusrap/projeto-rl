@@ -1,0 +1,109 @@
+{
+  "versao": "V2-calendario-comercial",
+  "modelo_base": "DQN V10 (6 produtos) + calendário comercial BR",
+  "gerado_em": "2026-05-11",
+  "horizonte_dias": 60,
+  "eventos_detectados": 5,
+  "eventos_v10_cobre_total": 0,
+  "eventos_v10_cobre_parcial": 5,
+  "eventos_v10_nao_cobre": 0,
+  "recomendacoes": [
+    {
+      "data_inicio": "2026-06-11",
+      "data_fim": "2026-06-11",
+      "data_evento": "2026-06-11",
+      "evento": "Copa 2026 — Abertura",
+      "tipo_evento": "evento_esportivo",
+      "duracao_dias": 1,
+      "classificacao": "cobertura_parcial",
+      "acao_recomendada": "V10 cobre parcialmente. Pode promover cerveja, refrigerante, gelo do catálogo atual, mas o pico real é em snack (FORA do modelo). ATENÇÃO: priorizar expandir catálogo para incluir essas categorias.",
+      "produto_principal": "cerveja",
+      "produto_complementar": "refrigerante",
+      "desconto_recomendado_%": 10,
+      "categorias_perdidas": [
+        "snack"
+      ],
+      "uplift_prior": 1.8,
+      "v10_dias_com_promo": 1,
+      "v10_dias_total": 1
+    },
+    {
+      "data_inicio": "2026-06-05",
+      "data_fim": "2026-06-12",
+      "data_evento": "2026-06-12",
+      "evento": "Dia dos Namorados",
+      "tipo_evento": "data_comercial",
+      "duracao_dias": 8,
+      "classificacao": "cobertura_parcial",
+      "acao_recomendada": "V10 cobre parcialmente. Pode promover cerveja do catálogo atual, mas o pico real é em chocolate, vinho, espumante (FORA do modelo). ATENÇÃO: priorizar expandir catálogo para incluir essas categorias.",
+      "produto_principal": "cerveja",
+      "produto_complementar": "refrigerante",
+      "desconto_recomendado_%": 10,
+      "categorias_perdidas": [
+        "chocolate",
+        "vinho",
+        "espumante"
+      ],
+      "uplift_prior": 2.5,
+      "v10_dias_com_promo": 6,
+      "v10_dias_total": 8
+    },
+    {
+      "data_inicio": "2026-06-15",
+      "data_fim": "2026-06-15",
+      "data_evento": "2026-06-15",
+      "evento": "Copa 2026 — Estreia provável Brasil",
+      "tipo_evento": "evento_esportivo",
+      "duracao_dias": 1,
+      "classificacao": "cobertura_parcial",
+      "acao_recomendada": "V10 cobre parcialmente. Pode promover cerveja, refrigerante, gelo do catálogo atual, mas o pico real é em snack (FORA do modelo). ATENÇÃO: priorizar expandir catálogo para incluir essas categorias.",
+      "produto_principal": "cerveja",
+      "produto_complementar": "refrigerante",
+      "desconto_recomendado_%": 10,
+      "categorias_perdidas": [
+        "snack"
+      ],
+      "uplift_prior": 2.5,
+      "v10_dias_com_promo": 1,
+      "v10_dias_total": 1
+    },
+    {
+      "data_inicio": "2026-06-20",
+      "data_fim": "2026-06-20",
+      "data_evento": "2026-06-20",
+      "evento": "Copa 2026 — Fase de grupos Brasil",
+      "tipo_evento": "evento_esportivo",
+      "duracao_dias": 1,
+      "classificacao": "cobertura_parcial",
+      "acao_recomendada": "V10 cobre parcialmente. Pode promover cerveja, refrigerante, gelo do catálogo atual, mas o pico real é em snack (FORA do modelo). ATENÇÃO: priorizar expandir catálogo para incluir essas categorias.",
+      "produto_principal": "cerveja",
+      "produto_complementar": "refrigerante",
+      "desconto_recomendado_%": 10,
+      "categorias_perdidas": [
+        "snack"
+      ],
+      "uplift_prior": 2.3,
+      "v10_dias_com_promo": 0,
+      "v10_dias_total": 1
+    },
+    {
+      "data_inicio": "2026-06-25",
+      "data_fim": "2026-06-25",
+      "data_evento": "2026-06-25",
+      "evento": "Copa 2026 — Fase de grupos Brasil",
+      "tipo_evento": "evento_esportivo",
+      "duracao_dias": 1,
+      "classificacao": "cobertura_parcial",
+      "acao_recomendada": "V10 cobre parcialmente. Pode promover cerveja, refrigerante, gelo do catálogo atual, mas o pico real é em snack (FORA do modelo). ATENÇÃO: priorizar expandir catálogo para incluir essas categorias.",
+      "produto_principal": "cerveja",
+      "produto_complementar": "refrigerante",
+      "desconto_recomendado_%": 10,
+      "categorias_perdidas": [
+        "snack"
+      ],
+      "uplift_prior": 2.5,
+      "v10_dias_com_promo": 1,
+      "v10_dias_total": 1
+    }
+  ]
+}
