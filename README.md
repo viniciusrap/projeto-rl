@@ -7,6 +7,7 @@
 
 **Vídeo de apresentação:** _(link a inserir antes da entrega — YouTube/Vimeo)_
 **Relatório final:** [`relatorio/latex/main.pdf`](relatorio/latex/main.pdf)
+**Manual de uso (explicação simples):** [`rl_promocoes_v21_pdv_native/COMO_FUNCIONA.md`](rl_promocoes_v21_pdv_native/COMO_FUNCIONA.md)
 
 ---
 
