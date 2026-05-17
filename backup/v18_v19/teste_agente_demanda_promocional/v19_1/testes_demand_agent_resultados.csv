@@ -1,0 +1,13 @@
+id,cenario,esperado,obtido,bate,d_base,d_promo,uplift_%,canib_%,tipo_produto,tipo_evento,qualidade,flags
+BOA-1,Chocolate Premium + Vinho no Dia dos Namor,BOA,BOA,True,9.95,18.91,90.0,21.0,puxador_presente,presente,🟢 BOA,cap_uplift_atingido
+BOA-2,Gelo + Cerveja em sábado VERÃO,BOA,BOA,True,7.12,10.03,40.9,30.0,puxador_consumo,nenhum,🟢 BOA,
+BOA-3,Sorvete liquidação (validade próxima),BOA,BOA,True,7.14,12.84,79.8,45.0,impulso,nenhum,🟢 BOA,canibalizacao_alta;estrategia_defensiva_vencimento
+MED-1,Gelo + Destilados no Réveillon (consumo in,MÉDIA,BOA,False,9.78,18.58,90.0,30.0,puxador_consumo,consumo_intenso,🟢 BOA,cap_uplift_atingido
+MED-2,Chocolate impulso desc10% segunda fraca,MÉDIA,RUIM,False,6.69,7.29,9.0,30.0,impulso,nenhum,🔴 RUIM,
+MED-3,Vinho parado com desc10%,MÉDIA,RUIM,False,0.74,0.8,8.7,30.0,puxador_premium,nenhum,🔴 RUIM,
+RUIM-1,Cerveja desc direto em SEX (alta natural),RUIM,RUIM,True,22.84,25.35,11.0,30.0,puxador_consumo,nenhum,🔴 RUIM,desc_direto_em_puxador_destrói_margem
+RUIM-2,Isotônico desc5% dia comum (commodity),RUIM,RUIM,True,1.72,1.75,1.5,25.0,commodity,nenhum,🔴 RUIM,
+RUIM-3,Combo ABSURDO café + cerveja,RUIM,RUIM,True,1.15,1.11,-3.5,30.0,rotina,nenhum,🔴 RUIM,
+RUIM-4,Destilados desc10% sem evento (puxador pre,RUIM,RUIM,True,0.42,0.44,5.0,30.0,puxador_premium,nenhum,🔴 RUIM,desc_direto_em_puxador_destrói_margem
+CONTR-1,Chocolate Impulso em Dia das Crianças (dev,BOA,BOA,True,10.29,14.35,39.5,21.0,impulso,presente,🟢 BOA,
+PROIB-1,Cigarro com desc (Lei 9.294/96),PROIBIDA,PROIBIDA,True,122.31,122.31,0.0,0.0,proibida,nenhum,🚫 PROIBIDA,proibida_por_lei

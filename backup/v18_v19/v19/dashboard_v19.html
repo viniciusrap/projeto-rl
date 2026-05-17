@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>V19 Dashboard — Auto Posto Parque Viana</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #0a0a0f;
+    color: #e1e1e6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 32px;
+    line-height: 1.5;
+}
+.mono { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; }
+.container { max-width: 1400px; margin: 0 auto; }
+
+.header {
+    border-bottom: 1px solid #2a2a35;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+.header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.header .subtitle { color: #8a8a98; font-size: 14px; }
+.header .badge {
+    display: inline-block;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.kpi {
+    background: #14141f;
+    border: 1px solid #2a2a35;
+    border-radius: 12px;
+    padding: 20px;
+}
+.kpi .label { color: #8a8a98; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi .value { font-size: 28px; font-weight: 700; margin-top: 8px; }
+.kpi .delta { font-size: 12px; margin-top: 4px; }
+.delta.up { color: #4ade80; }
+.delta.down { color: #f87171; }
+
+.section {
+    margin-bottom: 40px;
+}
+.section h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a35;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.section h2 .count {
+    font-size: 13px;
+    color: #8a8a98;
+    font-weight: 400;
+}
+
+.card {
+    background: #14141f;
+    border: 1px solid #2a2a35;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 1fr 200px 200px 160px;
+    gap: 20px;
+    align-items: center;
+    transition: border-color 0.2s;
+}
+.card:hover { border-color: #4a4a55; }
+.card.prioritaria { border-left: 3px solid #fbbf24; }
+.card.aprovada { border-left: 3px solid #4ade80; }
+.card.condicional { border-left: 3px solid #f59e0b; }
+.card.rejeitada { border-left: 3px solid #f87171; opacity: 0.55; }
+.card.proibida { border-left: 3px solid #ef4444; opacity: 0.55; }
+
+.card-info .title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.card-info .subtitle { color: #8a8a98; font-size: 12px; margin-bottom: 8px; }
+.card-info .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+    background: #1f1f2e;
+    color: #c1c1cc;
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    border: 1px solid #2a2a35;
+}
+.tag.evento { background: linear-gradient(90deg, #ec4899, #8b5cf6); color: #fff; border: 0; }
+.tag.tipo-estrutural { background: #1e3a8a; color: #93c5fd; border: 0; }
+.tag.tipo-eventual { background: #14532d; color: #86efac; border: 0; }
+
+.demand-bar {
+    background: #1f1f2e;
+    border-radius: 6px;
+    padding: 8px;
+    position: relative;
+}
+.demand-bar .label { font-size: 11px; color: #8a8a98; }
+.demand-bar .nums { font-size: 13px; font-weight: 600; margin: 4px 0; }
+.demand-bar .bar-container {
+    height: 4px;
+    background: #14141f;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+.demand-bar .bar-base {
+    position: absolute;
+    height: 100%;
+    background: #4f46e5;
+    left: 0;
+    top: 0;
+}
+.demand-bar .bar-promo {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, #4ade80, #22d3ee);
+    left: 0;
+    top: 0;
+}
+.demand-bar .uplift {
+    font-size: 11px;
+    color: #4ade80;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.metric { text-align: right; }
+.metric .label { font-size: 11px; color: #8a8a98; text-transform: uppercase; }
+.metric .value { font-size: 18px; font-weight: 700; margin-top: 4px; }
+.metric .delta { font-size: 11px; margin-top: 2px; }
+
+.decision {
+    text-align: right;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+.decision .label { font-size: 11px; color: #8a8a98; }
+.decision .value { font-size: 14px; font-weight: 700; margin-top: 4px; }
+.decision.prioritaria .value { color: #fbbf24; }
+.decision.aprovada .value { color: #4ade80; }
+.decision.condicional .value { color: #f59e0b; }
+.decision.rejeitada .value { color: #f87171; }
+.decision .score {
+    font-size: 10px;
+    color: #8a8a98;
+    margin-top: 2px;
+    font-family: 'SF Mono', monospace;
+}
+
+.motivo {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    color: #8a8a98;
+    padding: 10px 12px;
+    background: #0f0f18;
+    border-radius: 8px;
+    margin-top: 8px;
+    border-left: 2px solid #2a2a35;
+}
+
+.footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #2a2a35;
+    color: #6a6a78;
+    font-size: 11px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+    <h1>
+        <span class="badge">V19</span>
+        Pipeline de 3 Agentes
+    </h1>
+    <div class="subtitle">
+        Demanda → Receita → Decisão · Auto Posto Parque Viana · Gerado em 2026-05-14
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="label">Campanhas Aprovadas</div>
+        <div class="value">24 <span style="color: #6a6a78; font-size: 18px;">/ 24</span></div>
+        <div class="delta">0 rejeitadas · 0 proibidas</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Lucro V17 (estimativa antiga)</div>
+        <div class="value mono">R$ 1,675</div>
+        <div class="delta">linha de base operacional</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Lucro V19 (com 3 agentes)</div>
+        <div class="value mono">R$ 9,768</div>
+        <div class="delta up">+483.0% sobre V17</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Δ por campanha aprovada</div>
+        <div class="value mono">R$ 407</div>
+        <div class="delta">média de retorno</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>
+        Campanhas Estruturais
+        <span class="count">4 aprovadas · padrões recorrentes</span>
+    </h2>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📅 Esquenta de Sexta</div>
+            <div class="subtitle">CERVEJA + AMENDOIM • R$ 14,90 • Sex-Sáb</div>
+            <div class="tags">
+                <span class="tag tipo-estrutural">ESTRUTURAL</span>
+                <span class="tag">104 dias/ano</span>
+                <span class="tag">cerveja + snack</span>
+                <span class="tag">canib 30%</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">20.6 → 34.3</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 83.15559864275328%;"></div>
+            </div>
+            <div class="uplift">+66.3% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Anual</div>
+            <div class="value mono">R$ 6,409</div>
+            <div class="delta up">+5,387 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 2874% · Score 100</div>
+        </div>
+        <div class="motivo">Estrutural 104d/ano. Lucro R$61.77/dia × 104 = R$6409.08. ROI anual 2874%.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📅 Verão Gelado</div>
+            <div class="subtitle">GELO + REFRI • R$ 12,90 • Fins de semana</div>
+            <div class="tags">
+                <span class="tag tipo-estrutural">ESTRUTURAL</span>
+                <span class="tag">34 dias/ano</span>
+                <span class="tag">gelo + refrigerante</span>
+                <span class="tag">canib 30%</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 8.0</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 71.73524150268335%;"></div>
+            </div>
+            <div class="uplift">+43.4% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Anual</div>
+            <div class="value mono">R$ 583</div>
+            <div class="delta up">+427 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 702% · Score 70</div>
+        </div>
+        <div class="motivo">Estrutural 34d/ano. Lucro R$17.58/dia × 34 = R$582.72. ROI anual 702%.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📅 Drink de Sábado</div>
+            <div class="subtitle">DRINK COMPLETO: WHISKY/CACHAÇA + GELO • R$ 39,90</div>
+            <div class="tags">
+                <span class="tag tipo-estrutural">ESTRUTURAL</span>
+                <span class="tag">52 dias/ano</span>
+                <span class="tag">destilados + gelo</span>
+                <span class="tag">canib 30%</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">0.5 → 0.7</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 67.9245283018868%;"></div>
+            </div>
+            <div class="uplift">+36.2% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Anual</div>
+            <div class="value mono">R$ 383</div>
+            <div class="delta up">+235 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 322% · Score 32</div>
+        </div>
+        <div class="motivo">Estrutural 52d/ano. Lucro R$7.65/dia × 52 = R$382.80. ROI anual 322%.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📅 Café da Manhã</div>
+            <div class="subtitle">CAFÉ + PÃO • R$ 9,90 • Manhãs Seg-Sex</div>
+            <div class="tags">
+                <span class="tag tipo-estrutural">ESTRUTURAL</span>
+                <span class="tag">261 dias/ano</span>
+                <span class="tag">cafe + padaria</span>
+                <span class="tag">canib 30%</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">1.3 → 2.0</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 76.35658914728683%;"></div>
+            </div>
+            <div class="uplift">+52.8% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Anual</div>
+            <div class="value mono">R$ 658</div>
+            <div class="delta up">+534 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 123% · Score 12</div>
+        </div>
+        <div class="motivo">Estrutural 261d/ano. Lucro R$2.58/dia × 261 = R$658.38. ROI anual 123%.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>
+        Campanhas Eventuais
+        <span class="count">20 aprovadas · datas específicas</span>
+    </h2>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-05-16 → 2026-05-17 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-05-23 → 2026-05-24 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-06-06 → 2026-06-07 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 2.7×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 9.3</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 83.6314847942755%;"></div>
+            </div>
+            <div class="uplift">+67.2% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 35</div>
+            <div class="delta up">+25 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 182% · Score 62</div>
+        </div>
+        <div class="motivo">ROI 182.4%, lucro R$34.66 em 2d (R$26.83/dia). Uplift 67.2% vs breakeven 24.9% (2.7× margem). Score 62.0/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 chocolate_premium + vinho</div>
+            <div class="subtitle">2026-06-09 → 2026-06-12 · 4d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Dia dos Namorados</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 5.4×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">8.2 → 15.7</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 95.02427184466019%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 117</div>
+            <div class="delta up">+105 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 508% · Score 81</div>
+        </div>
+        <div class="motivo">ROI 507.7%, lucro R$116.76 em 4d (R$34.94/dia). Uplift 90.0% vs breakeven 16.7% (5.4× margem). Score 80.8/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-06-13 → 2026-06-14 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 2.7×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 9.3</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 83.6314847942755%;"></div>
+            </div>
+            <div class="uplift">+67.2% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 35</div>
+            <div class="delta up">+25 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 182% · Score 62</div>
+        </div>
+        <div class="motivo">ROI 182.4%, lucro R$34.66 em 2d (R$26.83/dia). Uplift 67.2% vs breakeven 24.9% (2.7× margem). Score 62.0/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-08-01 → 2026-08-02 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 2.7×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 9.3</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 83.6314847942755%;"></div>
+            </div>
+            <div class="uplift">+67.2% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 35</div>
+            <div class="delta up">+25 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 182% · Score 62</div>
+        </div>
+        <div class="motivo">ROI 182.4%, lucro R$34.66 em 2d (R$26.83/dia). Uplift 67.2% vs breakeven 24.9% (2.7× margem). Score 62.0/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 cerveja + snack</div>
+            <div class="subtitle">2026-08-06 → 2026-08-09 · 4d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Dia dos Pais</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 8.4×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">20.6 → 32.8</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 79.37469704314107%;"></div>
+            </div>
+            <div class="uplift">+58.8% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 203</div>
+            <div class="delta up">+191 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 883% · Score 85</div>
+        </div>
+        <div class="motivo">ROI 883.2%, lucro R$203.14 em 4d (R$56.53/dia). Uplift 58.8% vs breakeven 7.0% (8.4× margem). Score 85.2/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + cerveja</div>
+            <div class="subtitle">2026-09-05 → 2026-09-06 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + cerveja</div>
+            <div class="subtitle">2026-09-12 → 2026-09-13 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 chocolate_impulso + refrigerante</div>
+            <div class="subtitle">2026-10-08 → 2026-10-12 · 5d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Dia das Crianças</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 2.5×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">6.9 → 10.9</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 78.54046242774567%;"></div>
+            </div>
+            <div class="uplift">+57.1% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 51</div>
+            <div class="delta up">+39 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 206% · Score 67</div>
+        </div>
+        <div class="motivo">ROI 205.6%, lucro R$51.41 em 5d (R$15.28/dia). Uplift 57.1% vs breakeven 23.3% (2.5× margem). Score 67.4/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-10-17 → 2026-10-18 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + cerveja</div>
+            <div class="subtitle">2026-11-07 → 2026-11-08 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + cerveja</div>
+            <div class="subtitle">2026-11-14 → 2026-11-15 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-12-05 → 2026-12-06 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 chocolate_premium + vinho</div>
+            <div class="subtitle">2026-12-19 → 2026-12-24 · 6d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Véspera de Natal</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 6.9×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">8.2 → 15.7</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 95.02427184466019%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 183</div>
+            <div class="delta up">+171 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 676% · Score 84</div>
+        </div>
+        <div class="motivo">ROI 676.5%, lucro R$182.65 em 6d (R$34.94/dia). Uplift 90.0% vs breakeven 13.1% (6.9× margem). Score 84.1/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2026-12-25 → 2026-12-31 · 7d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Réveillon</span>
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 8.3×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 221</div>
+            <div class="delta up">+189 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 761% · Score 84</div>
+        </div>
+        <div class="motivo">ROI 760.7%, lucro R$220.61 em 7d (R$35.66/dia). Uplift 90.0% vs breakeven 10.8% (8.3× margem). Score 83.5/100.</div>
+    </div>
+
+    <div class="card aprovada">
+        <div class="card-info">
+            <div class="title">📌 gelo + destilados</div>
+            <div class="subtitle">2027-01-02 → 2027-01-03 · 2d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                
+                <span class="tag">canib 30%</span>
+                <span class="tag">BE 3.6×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">5.6 → 10.6</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 94.99105545617174%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 52</div>
+            <div class="delta up">+43 vs V17</div>
+        </div>
+        <div class="decision aprovada">
+            <div class="label">Decisão</div>
+            <div class="value">🟢 APROVADA</div>
+            <div class="score">ROI 275% · Score 70</div>
+        </div>
+        <div class="motivo">ROI 275.4%, lucro R$52.32 em 2d (R$35.66/dia). Uplift 90.0% vs breakeven 24.9% (3.6× margem). Score 69.6/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 chocolate_premium + vinho</div>
+            <div class="subtitle">2027-03-05 → 2027-03-08 · 4d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Dia da Mulher</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 5.4×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">8.2 → 15.7</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 95.02427184466019%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 117</div>
+            <div class="delta up">+105 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 508% · Score 81</div>
+        </div>
+        <div class="motivo">ROI 507.7%, lucro R$116.76 em 4d (R$34.94/dia). Uplift 90.0% vs breakeven 16.7% (5.4× margem). Score 80.8/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 chocolate_premium + chocolate_impulso</div>
+            <div class="subtitle">2027-03-23 → 2027-03-28 · 6d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Páscoa</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 4.7×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">8.2 → 13.3</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 80.58252427184466%;"></div>
+            </div>
+            <div class="uplift">+61.2% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 119</div>
+            <div class="delta up">+107 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 442% · Score 80</div>
+        </div>
+        <div class="motivo">ROI 442.3%, lucro R$119.41 em 6d (R$24.40/dia). Uplift 61.2% vs breakeven 13.1% (4.7× margem). Score 79.7/100.</div>
+    </div>
+
+    <div class="card prioritaria">
+        <div class="card-info">
+            <div class="title">📌 chocolate_premium + vinho</div>
+            <div class="subtitle">2027-05-05 → 2027-05-09 · 5d · combo 10%</div>
+            <div class="tags">
+                <span class="tag tipo-eventual">EVENTUAL</span>
+                <span class="tag evento">🎉 Dia das Mães</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag">BE 6.2×</span>
+            </div>
+        </div>
+        <div class="demand-bar">
+            <div class="label">Demanda base → promo (un/dia)</div>
+            <div class="nums mono">8.2 → 15.7</div>
+            <div class="bar-container">
+                <div class="bar-base" style="width: 50%;"></div>
+                <div class="bar-promo" style="width: 95.02427184466019%;"></div>
+            </div>
+            <div class="uplift">+90.0% uplift</div>
+        </div>
+        <div class="metric">
+            <div class="label">Lucro Campanha</div>
+            <div class="value mono">R$ 150</div>
+            <div class="delta up">+138 vs V17</div>
+        </div>
+        <div class="decision prioritaria">
+            <div class="label">Decisão</div>
+            <div class="value">🌟 APROVADA_PRIORITARIA</div>
+            <div class="score">ROI 599% · Score 82</div>
+        </div>
+        <div class="motivo">ROI 598.8%, lucro R$149.71 em 5d (R$34.94/dia). Uplift 90.0% vs breakeven 14.5% (6.2× margem). Score 82.5/100.</div>
+    </div>
+
+</div>
+
+<div class="footer">
+    Pipeline V19 · Demand Agent + Revenue Agent + Decision Agent · 2026-05-14 12:37
+</div>
+
+</div>
+</body>
+</html>

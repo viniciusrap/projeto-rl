@@ -1,0 +1,82 @@
+# ============================================================================
+# REGRAS DE NEGÓCIO — RL Conveniência Viana
+# ============================================================================
+# Arquivo externalizado para ajuste sem mexer no código Python.
+# Carregado por calibrar_v2.py → injetado em data/calibracao_v2.json.
+# Cada constante tem comentário com origem e impacto.
+# ============================================================================
+
+constantes_mdp:
+  # ---- Recompensas base V11 ----
+  K_TIMING_BONUS: 250.0        # bonus por promover em contexto fraco
+  K_TIMING_PENALTY: 250.0      # penalty por promover em forte saudável
+
+  K_EVENTO: 200.0              # bonus base por acertar categoria-alvo evento
+  K_EVENTO_PERDIDO: 150.0      # penalty por ignorar evento
+
+  # ---- V12.1 Vinicius: eventos de PRESENTE (Mães/Namorados) ----
+  K_EVENTO_PRESENTE: 600.0     # 3× K_EVENTO base
+  K_EVENTO_PERDIDO_PRESENTE: 400.0
+
+  THETA_PADRAO: 80.0           # bonus padrão Dunnhumby por mês típico
+  LAMBDA_INSTABILIDADE: 50.0   # penalty mudar categoria turno-a-turno
+
+  # ---- Penalidades de desconto ----
+  GAMMA_DESC_5: 2.0
+  GAMMA_DESC_10: 5.0
+  GAMMA_DESC_25: 12.0
+
+  BETA_RUPTURA: 1.5
+  DELTA_GIRO: 1.0
+
+  # ---- Política Vinicius oferta/procura V11.7 ----
+  K_DESC_ALTA_SAUDAVEL: 70.0   # V16: 200→70 (permite 30% promo em alta demanda)
+  K_COMBO_ALTA: 200.0          # bonus combo em alta demanda
+  K_COMBO_DATA_PICO: 400.0     # bonus combo em data certa × uplift
+
+  K_DESC_VENCIMENTO: 120.0     # bonus desconto em produto perto de vencer
+  K_DESC_BAIXA: 100.0          # bonus desconto em vale sazonal
+
+  # ---- Limiares de classificação ----
+  PCT_FRACO: 0.30              # percentil contexto fraco (bottom 30%)
+  PCT_FORTE: 0.70              # percentil contexto forte (top 30%)
+  LIMIAR_VENCIMENTO: 0.70      # idade/validade ≥ 70% = perto vencer
+  LIMIAR_SAUDAVEL: 0.30        # idade/validade < 30% = saudável
+
+  # ---- Mecânica do MDP ----
+  TURNOS_POR_DIA: 3
+  EPISODIO_DIAS: 365
+  COBERTURA_ALVO_DIAS: 7
+
+  # ---- Combo cooperativo ----
+  DESC_COMBO_MAX: 0.10         # V16: 5%→10% (vantagem percebida)
+  BOOST_COMBO_PRINCIPAL: 1.15
+  BOOST_COMBO_PAR: 1.10
+
+# ============================================================================
+# Categorias NÃO-promovíveis (hard mask)
+# ============================================================================
+nao_promoviveis:
+  - agua                       # commodity inelástica
+  - cigarro_souza_cruz         # Lei Antifumo 9.294/96
+  - cigarro_philip_morris      # Lei Antifumo 9.294/96
+  - cigarro_jti                # Lei Antifumo 9.294/96
+
+# ============================================================================
+# Política do dono (regras qualitativas)
+# ============================================================================
+politica_dono:
+  desconto_direto_em_alta_saudavel: false   # mas K=70 permite ~30% das vezes
+  desconto_maximo_categoria_mes: 1          # max 1 promo por categoria/mês
+  duracao_minima_campanha_dias: 3
+  intervalo_entre_promos_mesma_categoria: 14  # dias
+
+# ============================================================================
+# Filtros de priorização operacional (gerar_calendario_operacional.py)
+# ============================================================================
+priorizacao:
+  max_campanhas_eventuais_ano: 15
+  max_eventuais_por_mes: 2
+  lucro_minimo_R$: 2.0
+  duracao_minima_dias: 2
+  custo_operacional_por_campanha_R$: 25.0  # cartaz + treino + PDV

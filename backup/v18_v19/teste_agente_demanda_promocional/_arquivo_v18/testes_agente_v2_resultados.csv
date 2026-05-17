@@ -1,0 +1,11 @@
+id,cenario,esperado,classificacao,tipo_produto,tipo_evento,d_base,d_promo,uplift_%,roi,lucro_total,cap,flags
+A,Gelo + Cerveja em fim de semana QUENTE,"BOA — produto puxador, combo n",🔴 RUIM,puxador_consumo,nenhum,5.59,8.18,46.4,0.97,18.42,False,roi_baixo
+B,Gelo + Destilados no Réveillon,"BOA — evento consumo intenso, ",🟢 BOA,puxador_consumo,consumo_intenso,5.59,8.12,45.3,2.18,50.1,False,
+C,Chocolate Premium + Vinho no Dia dos Nam,BOA — match perfeito puxador_p,🟢 BOA,puxador_presente,presente,8.24,15.09,83.1,4.64,106.65,False,
+D,Isotônico com desconto em dia COMUM,"RUIM — commodity, sem evento, ",🔴 RUIM,commodity,nenhum,2.47,2.2,-11.1,-0.95,-19.01,False,baixo_uplift;roi_baixo;prejuizo
+E,Chocolate Impulso com desconto por BAIXA,"MÉDIA — produto impulso, conte",🔴 RUIM,impulso,nenhum,6.92,7.54,9.0,-0.65,-13.58,False,baixo_uplift;roi_baixo;prejuizo
+F,Produto de ALTA DEMANDA (cerveja sex/sáb,"RUIM — cerveja já vende, dar d",🟡 MÉDIA,puxador_consumo,nenhum,20.63,25.62,24.2,1.2,22.84,False,
+G,Produto PERTO DO VENCIMENTO com liquidaç,"BOA — liquidação é defensiva, ",🟢 BOA,impulso,nenhum,12.09,16.46,36.1,14.13,296.7,False,canibalizacao_alta
+H,Produto PARADO em estoque com desconto 1,MÉDIA — estoque alto + desc co,🔴 RUIM,puxador_premium,nenhum,0.64,0.79,23.0,0.12,2.41,False,roi_baixo
+I,Combo FRACO entre produtos sem relação (,"RUIM — sem harmonia, combo não",🔴 RUIM,rotina,nenhum,1.29,1.31,1.4,-0.93,-14.86,False,baixo_uplift;roi_baixo;prejuizo
+J,Cigarro com desconto (Lei 9.294/96),PROIBIDA — não deve ser promov,🚫 PROIBIDA,proibida,nenhum,122.31,122.31,0.0,0.0,0.0,False,proibida_lei

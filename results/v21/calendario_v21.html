@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>V21 PDV-Native — Calendário Operacional</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {background:#0a0a0f;color:#e1e1e6;font-family:-apple-system,Segoe UI,sans-serif;
+       padding:32px;line-height:1.5;}
+.container {max-width:1500px;margin:0 auto;}
+.header {border-bottom:1px solid #2a2a35;padding-bottom:24px;margin-bottom:32px;}
+.header h1 {font-size:28px;font-weight:700;}
+.header .subtitle {color:#8a8a98;margin-top:8px;font-size:14px;}
+.badge {display:inline-block;padding:4px 12px;border-radius:12px;font-size:11px;
+        font-weight:600;text-transform:uppercase;margin-right:8px;letter-spacing:0.5px;
+        background:linear-gradient(90deg,#10b981,#06b6d4);color:#fff;}
+.kpi-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+.kpi {background:#14141f;border:1px solid #2a2a35;border-radius:12px;padding:20px;}
+.kpi .label {color:#8a8a98;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
+.kpi .value {font-size:24px;font-weight:700;margin-top:8px;}
+.kpi .delta {font-size:12px;margin-top:4px;color:#4ade80;}
+.h2 {font-size:18px;font-weight:600;margin:32px 0 12px;padding-bottom:8px;
+       border-bottom:1px solid #2a2a35;}
+.section-flex {display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px;}
+.card {background:#14141f;border:1px solid #2a2a35;border-radius:12px;padding:18px;}
+.card.priori {border-left:3px solid #fbbf24;}
+.card.normal {border-left:3px solid #4ade80;}
+.card.combo-row {display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;
+                  align-items:center;padding:14px;margin-bottom:8px;}
+.combo-icon {font-size:28px;}
+.combo-info .titulo {font-weight:600;font-size:14px;}
+.combo-info .sub {color:#8a8a98;font-size:11px;margin-top:2px;}
+.combo-info .tags {display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;}
+.tag {background:#1f1f2e;color:#c1c1cc;padding:2px 8px;border-radius:6px;
+       font-size:10px;border:1px solid #2a2a35;}
+.tag.evt {background:linear-gradient(90deg,#ec4899,#8b5cf6);color:#fff;border:0;}
+.combo-lucro {font-family:'SF Mono',Monaco,monospace;font-weight:700;
+                color:#4ade80;text-align:right;}
+.combo-int {font-family:'SF Mono',Monaco,monospace;font-size:11px;color:#06b6d4;
+              padding:3px 8px;background:#0a2a30;border-radius:6px;}
+.aside h3 {font-size:14px;margin-bottom:12px;color:#c1c1cc;}
+.aside-row {display:flex;justify-content:space-between;padding:6px 0;
+              border-bottom:1px solid #1f1f2a;font-size:12px;}
+.aside-row:last-child {border-bottom:0;}
+.aside-row .nome {font-family:'SF Mono',Monaco,monospace;color:#c1c1cc;}
+.aside-row .freq {font-family:'SF Mono',Monaco,monospace;color:#06b6d4;font-weight:600;}
+.mes-section {margin-bottom:24px;}
+.mes-title {font-size:14px;color:#8a8a98;text-transform:uppercase;
+              letter-spacing:0.5px;margin-bottom:8px;}
+.linha {display:grid;grid-template-columns:80px 30px 1fr auto auto;gap:12px;
+         align-items:center;padding:8px 12px;background:#0f0f18;
+         border-radius:6px;margin-bottom:4px;border-left:2px solid #2a2a35;font-size:12px;}
+.linha:hover {border-left-color:#06b6d4;}
+.linha .data {font-family:'SF Mono',Monaco,monospace;color:#8a8a98;}
+.linha .icon {font-size:18px;}
+.linha .desc {font-family:'SF Mono',Monaco,monospace;}
+.linha .lucro {font-family:'SF Mono',Monaco,monospace;color:#4ade80;font-weight:600;}
+.linha .int {font-family:'SF Mono',Monaco,monospace;font-size:10px;color:#06b6d4;
+              padding:2px 6px;background:#0a2a30;border-radius:4px;}
+.evt-line {display:flex;align-items:center;gap:8px;margin-top:2px;
+             font-size:11px;color:#ec4899;}
+</style>
+</head><body><div class="container">
+
+<div class="header">
+    <h1>
+        <span class="badge">V21 PDV-Native</span>
+        Calendário Operacional
+    </h1>
+    <div class="subtitle">
+        Agente RL com calibração SEM Instacart · 157 campanhas em 365 dias ·
+        início: 2026-05-15
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="label">Campanhas no Ano</div>
+        <div class="value">157</div>
+        <div class="delta">157 combos · 13 categorias</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Lucro Anual Estimado</div>
+        <div class="value">R$ 16,015</div>
+        <div class="delta">média R$ 102/campanha</div>
+    </div>
+    <div class="kpi">
+        <div class="label">PDV-inválidos</div>
+        <div class="value" style="color:#4ade80;">0</div>
+        <div class="delta">agente aprendeu sem hard rule</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Reward Total</div>
+        <div class="value" style="font-family:'SF Mono',monospace;">248,898</div>
+        <div class="delta">após 5 iter de treino</div>
+    </div>
+</div>
+
+<h2 class="h2">🏆 Top 15 campanhas por lucro</h2>
+<div class="card">
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2027-02-06 · 1 dia(s) · uplift +78%</div>
+            <div class="tags">
+                <span class="tag">demanda base 50.3/dia → promo 89.5</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 928</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2027-01-08 · 1 dia(s) · uplift +78%</div>
+            <div class="tags">
+                <span class="tag">demanda base 44.0/dia → promo 78.3</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 807</div>
+    </div>
+
+    <div class="card combo-row priori">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-10-09 · 1 dia(s) · uplift +78%</div>
+            <div class="tags">
+                <span class="tag">demanda base 38.8/dia → promo 69.0</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag evt">🎉 Dia das Crianças</span>
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 714</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2027-03-11 · 3 dia(s) · uplift +48%</div>
+            <div class="tags">
+                <span class="tag">demanda base 23.7/dia → promo 35.1</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 549</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-12-11 · 2 dia(s) · uplift +48%</div>
+            <div class="tags">
+                <span class="tag">demanda base 50.8/dia → promo 75.3</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 526</div>
+    </div>
+
+    <div class="card combo-row priori">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2027-05-07 · 1 dia(s) · uplift +78%</div>
+            <div class="tags">
+                <span class="tag">demanda base 26.2/dia → promo 46.6</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag evt">🎉 Dia das Mães</span>
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 470</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-07-11 · 1 dia(s) · uplift +78%</div>
+            <div class="tags">
+                <span class="tag">demanda base 25.9/dia → promo 46.1</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 460</div>
+    </div>
+
+    <div class="card combo-row priori">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-12-18 · 1 dia(s) · uplift +85%</div>
+            <div class="tags">
+                <span class="tag">demanda base 50.8/dia → promo 94.0</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag evt">🎉 Véspera de Natal</span>
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 451</div>
+    </div>
+
+    <div class="card combo-row priori">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-06-12 · 1 dia(s) · uplift +78%</div>
+            <div class="tags">
+                <span class="tag">demanda base 22.7/dia → promo 40.3</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag evt">🎉 Dia dos Namorados</span>
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 402</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🥤</div>
+        <div class="combo-info">
+            <div class="titulo">refrigerante + snack_salgado</div>
+            <div class="sub">2026-12-10 · 1 dia(s) · uplift +69%</div>
+            <div class="tags">
+                <span class="tag">demanda base 24.8/dia → promo 41.9</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 310</div>
+    </div>
+
+    <div class="card combo-row priori">
+        <div class="combo-icon">🥤</div>
+        <div class="combo-info">
+            <div class="titulo">refrigerante + snack_salgado</div>
+            <div class="sub">2026-10-11 · 1 dia(s) · uplift +85%</div>
+            <div class="tags">
+                <span class="tag">demanda base 22.4/dia → promo 41.5</span>
+                <span class="tag">canib 21%</span>
+                <span class="tag evt">🎉 Dia das Crianças</span>
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 305</div>
+    </div>
+
+    <div class="card combo-row priori">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-11-27 · 1 dia(s) · uplift +82%</div>
+            <div class="tags">
+                <span class="tag">demanda base 35.4/dia → promo 64.3</span>
+                <span class="tag">canib 30%</span>
+                <span class="tag evt">🎉 Black Friday</span>
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 285</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2026-08-13 · 3 dia(s) · uplift +48%</div>
+            <div class="tags">
+                <span class="tag">demanda base 14.6/dia → promo 21.7</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 267</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🥤</div>
+        <div class="combo-info">
+            <div class="titulo">refrigerante + snack_salgado</div>
+            <div class="sub">2027-03-10 · 1 dia(s) · uplift +69%</div>
+            <div class="tags">
+                <span class="tag">demanda base 20.7/dia → promo 35.0</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 254</div>
+    </div>
+
+    <div class="card combo-row normal">
+        <div class="combo-icon">🍻</div>
+        <div class="combo-info">
+            <div class="titulo">cerveja + snack_salgado</div>
+            <div class="sub">2027-01-16 · 1 dia(s) · uplift +48%</div>
+            <div class="tags">
+                <span class="tag">demanda base 50.3/dia → promo 74.6</span>
+                <span class="tag">canib 30%</span>
+                
+            </div>
+        </div>
+        <div class="combo-int">combo</div>
+        <div class="combo-lucro">R$ 249</div>
+    </div>
+
+</div>
+
+<div class="section-flex">
+<div>
+
+<h2 class="h2">📅 Calendário completo (por mês)</h2>
+<div class="mes-section"><div class="mes-title">Maio 2026 (4 campanhas)</div>
+            <div class="linha">
+                <div class="data">15/05 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 246</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/05 Seg</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 33</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">22/05 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 112</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">23/05 Sáb</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 30</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Junho 2026 (14 campanhas)</div>
+            <div class="linha">
+                <div class="data">01/06 Seg</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">03/06 Qua</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -15</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">04/06 Qui</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -1</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">06/06 Sáb</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Namorados</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 121</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/06 Seg</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_unit + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Namorados</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 35</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/06 Qui</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Namorados</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 137</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">12/06 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Namorados</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 402</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">14/06 Dom</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 83</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/06 Ter</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 42</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/06 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 39</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/06 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 111</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">22/06 Seg</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 120</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">24/06 Qua</div>
+                <div class="icon">🥪</div>
+                <div class="desc">sanduiche + agua </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 122</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/06 Ter</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 28</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Julho 2026 (12 campanhas)</div>
+            <div class="linha">
+                <div class="data">02/07 Qui</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -15</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">03/07 Sex</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 2</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">05/07 Dom</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -1</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/07 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 460</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">13/07 Seg</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 132</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">14/07 Ter</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 28</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/07 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 39</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/07 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 111</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/07 Seg</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 5</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">22/07 Qua</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 109</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">24/07 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 92</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/07 Qui</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Pais</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 96</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Agosto 2026 (10 campanhas)</div>
+            <div class="linha">
+                <div class="data">01/08 Sáb</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Pais</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -13</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">02/08 Dom</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Pais</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 0</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">04/08 Ter</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia dos Pais</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 40</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/08 Ter</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + doce_balcao </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 80</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">12/08 Qua</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 162</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">13/08 Qui</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 267</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/08 Ter</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 39</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">21/08 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 100</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">24/08 Seg</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 39</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/08 Dom</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 91</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Setembro 2026 (16 campanhas)</div>
+            <div class="linha">
+                <div class="data">01/09 Ter</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -17</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">02/09 Qua</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 2</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">04/09 Sex</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 168</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">05/09 Sáb</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_unit + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 84</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/09 Ter</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 9</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/09 Qua</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 51</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/09 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + doce_balcao </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 63</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">12/09 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 153</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">15/09 Ter</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/09 Qua</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 92</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">17/09 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 28</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/09 Sex</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 31</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/09 Dom</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 25</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">22/09 Ter</div>
+                <div class="icon">🥪</div>
+                <div class="desc">sanduiche + agua </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 104</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/09 Seg</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 41</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/09 Qua</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -16</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Outubro 2026 (16 campanhas)</div>
+            <div class="linha">
+                <div class="data">01/10 Qui</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 6</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">03/10 Sáb</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 10</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">05/10 Seg</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_unit + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia das Crianças</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 43</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">07/10 Qua</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia das Crianças</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 26</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/10 Qui</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia das Crianças</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 108</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/10 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia das Crianças</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 714</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/10 Dom</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia das Crianças</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 305</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">12/10 Seg</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia das Crianças</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 51</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">14/10 Qua</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 25</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/10 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 147</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/10 Dom</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 25</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/10 Ter</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 91</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">22/10 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 25</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/10 Qua</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 62</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/10 Sex</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -10</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">31/10 Sáb</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 19</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Novembro 2026 (13 campanhas)</div>
+            <div class="linha">
+                <div class="data">02/11 Seg</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">06/11 Sex</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 19</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/11 Seg</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 69</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/11 Ter</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 214</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/11 Qua</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 72</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">13/11 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 204</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/11 Seg</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">17/11 Ter</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 27</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">19/11 Qui</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 85</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/11 Sex</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 12</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">21/11 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 193</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">27/11 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Black Friday</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 285</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">29/11 Dom</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -7</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Dezembro 2026 (13 campanhas)</div>
+            <div class="linha">
+                <div class="data">02/12 Qua</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 14</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">04/12 Sex</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_unit + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 36</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">06/12 Dom</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 30</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/12 Ter</div>
+                <div class="icon">🍦</div>
+                <div class="desc">sorvete + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 227</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/12 Qua</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 51</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/12 Qui</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 310</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/12 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 526</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">13/12 Dom</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 23</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/12 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Véspera de Natal</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 451</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">19/12 Sáb</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja <span style="color:#ec4899;font-size:10px;">🎉 Véspera de Natal</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 53</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/12 Seg</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Réveillon</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 186</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/12 Qua</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + agua <span style="color:#ec4899;font-size:10px;">🎉 Réveillon</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -22</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">31/12 Qui</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe <span style="color:#ec4899;font-size:10px;">🎉 Réveillon</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 14</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Janeiro 2027 (12 campanhas)</div>
+            <div class="linha">
+                <div class="data">06/01 Qua</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">07/01 Qui</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 50</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/01 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 807</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/01 Dom</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 195</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/01 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 249</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">17/01 Dom</div>
+                <div class="icon">🍦</div>
+                <div class="desc">sorvete + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -4</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/01 Seg</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 72</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/01 Qua</div>
+                <div class="icon">🥪</div>
+                <div class="desc">sanduiche + agua </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 85</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">26/01 Ter</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 89</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/01 Qui</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -16</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">29/01 Sex</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 6</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">31/01 Dom</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 2</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Fevereiro 2027 (14 campanhas)</div>
+            <div class="linha">
+                <div class="data">04/02 Qui</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">05/02 Sex</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 69</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">06/02 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 928</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/02 Seg</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 247</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/02 Ter</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 89</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/02 Qua</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 13</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">13/02 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 249</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">15/02 Seg</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 16</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">17/02 Qua</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 70</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/02 Qui</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -4</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">19/02 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 213</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">25/02 Qui</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 115</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">27/02 Sáb</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -14</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/02 Dom</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 2</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Março 2027 (12 campanhas)</div>
+            <div class="linha">
+                <div class="data">02/03 Ter</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 25</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">04/03 Qui</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_unit + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia Internacional da Mulher</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 32</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/03 Seg</div>
+                <div class="icon">🍦</div>
+                <div class="desc">sorvete + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia Internacional da Mulher</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 157</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/03 Ter</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 70</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/03 Qua</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 254</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">11/03 Qui</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 549</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">14/03 Dom</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia do Consumidor</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 22</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">19/03 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 184</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">26/03 Sex</div>
+                <div class="icon">💧</div>
+                <div class="desc">agua + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -5</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/03 Dom</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 169</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">30/03 Ter</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + agua </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -25</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">31/03 Qua</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 2</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Abril 2027 (14 campanhas)</div>
+            <div class="linha">
+                <div class="data">02/04 Sex</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 134</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">06/04 Ter</div>
+                <div class="icon">🧃</div>
+                <div class="desc">suco + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 9</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">07/04 Qua</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 98</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">08/04 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + doce_balcao </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 63</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/04 Sáb</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 163</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">13/04 Ter</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 24</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">14/04 Qua</div>
+                <div class="icon">🥐</div>
+                <div class="desc">padaria + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 92</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">15/04 Qui</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 28</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">16/04 Sex</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 31</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">18/04 Dom</div>
+                <div class="icon">🥨</div>
+                <div class="desc">snack_salgado + cerveja </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 37</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">20/04 Ter</div>
+                <div class="icon">🥪</div>
+                <div class="desc">sanduiche + agua </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 122</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">26/04 Seg</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 45</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">28/04 Qua</div>
+                <div class="icon">🍪</div>
+                <div class="desc">biscoito + cafe </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ -12</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">29/04 Qui</div>
+                <div class="icon">🍬</div>
+                <div class="desc">doce_balcao + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia das Mães</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 11</div>
+            </div>
+</div><div class="mes-section"><div class="mes-title">Maio 2027 (7 campanhas)</div>
+            <div class="linha">
+                <div class="data">03/05 Seg</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_unit + biscoito <span style="color:#ec4899;font-size:10px;">🎉 Dia das Mães</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 34</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">06/05 Qui</div>
+                <div class="icon">🍫</div>
+                <div class="desc">chocolate_caixa + cafe <span style="color:#ec4899;font-size:10px;">🎉 Dia das Mães</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 125</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">07/05 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia das Mães</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 470</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">09/05 Dom</div>
+                <div class="icon">🥤</div>
+                <div class="desc">refrigerante + snack_salgado <span style="color:#ec4899;font-size:10px;">🎉 Dia das Mães</span></div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 215</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">10/05 Seg</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 33</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">12/05 Qua</div>
+                <div class="icon">☕</div>
+                <div class="desc">cafe + biscoito </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 31</div>
+            </div>
+
+            <div class="linha">
+                <div class="data">14/05 Sex</div>
+                <div class="icon">🍻</div>
+                <div class="desc">cerveja + snack_salgado </div>
+                <div class="int">combo</div>
+                <div class="lucro">R$ 112</div>
+            </div>
+</div>
+</div>
+<div>
+
+<h2 class="h2">📊 Agregados</h2>
+
+<div class="card aside" style="margin-bottom:16px;">
+    <h3>Categorias mais promovidas</h3>
+<div class="aside-row"><span class="nome">🍻 cerveja</span><span class="freq">45x</span></div><div class="aside-row"><span class="nome">☕ cafe</span><span class="freq">22x</span></div><div class="aside-row"><span class="nome">🍬 doce_balcao</span><span class="freq">17x</span></div><div class="aside-row"><span class="nome">🍪 biscoito</span><span class="freq">11x</span></div><div class="aside-row"><span class="nome">🥨 snack_salgado</span><span class="freq">10x</span></div><div class="aside-row"><span class="nome">🥤 refrigerante</span><span class="freq">10x</span></div><div class="aside-row"><span class="nome">🥐 padaria</span><span class="freq">8x</span></div><div class="aside-row"><span class="nome">🍫 chocolate_caixa</span><span class="freq">7x</span></div><div class="aside-row"><span class="nome">🧃 suco</span><span class="freq">7x</span></div><div class="aside-row"><span class="nome">💧 agua</span><span class="freq">7x</span></div><div class="aside-row"><span class="nome">🍫 chocolate_unit</span><span class="freq">6x</span></div><div class="aside-row"><span class="nome">🥪 sanduiche</span><span class="freq">4x</span></div>
+</div>
+
+<div class="card aside" style="margin-bottom:16px;">
+    <h3>Top combos (par)</h3>
+<div class="aside-row"><span class="nome">🍻 cerveja<br>+ 🥨 snack_salgado</span><span class="freq">45x</span></div><div class="aside-row"><span class="nome">☕ cafe<br>+ 🍪 biscoito</span><span class="freq">19x</span></div><div class="aside-row"><span class="nome">🍬 doce_balcao<br>+ ☕ cafe</span><span class="freq">17x</span></div><div class="aside-row"><span class="nome">🥨 snack_salgado<br>+ 🍻 cerveja</span><span class="freq">10x</span></div><div class="aside-row"><span class="nome">🥤 refrigerante<br>+ 🥨 snack_salgado</span><span class="freq">10x</span></div><div class="aside-row"><span class="nome">🍪 biscoito<br>+ ☕ cafe</span><span class="freq">9x</span></div><div class="aside-row"><span class="nome">🥐 padaria<br>+ ☕ cafe</span><span class="freq">8x</span></div><div class="aside-row"><span class="nome">🍫 chocolate_caixa<br>+ ☕ cafe</span><span class="freq">7x</span></div><div class="aside-row"><span class="nome">🧃 suco<br>+ 🍪 biscoito</span><span class="freq">7x</span></div><div class="aside-row"><span class="nome">🍫 chocolate_unit<br>+ 🍪 biscoito</span><span class="freq">6x</span></div><div class="aside-row"><span class="nome">💧 agua<br>+ 🍪 biscoito</span><span class="freq">5x</span></div><div class="aside-row"><span class="nome">🥪 sanduiche<br>+ 💧 agua</span><span class="freq">4x</span></div>
+</div>
+
+<div class="card aside" style="margin-bottom:16px;">
+    <h3>Eventos comerciais capturados</h3>
+<div class="aside-row"><span class="nome">🎉 Dia das Crianças</span><span class="freq">6x</span></div><div class="aside-row"><span class="nome">🎉 Dia das Mães</span><span class="freq">5x</span></div><div class="aside-row"><span class="nome">🎉 Dia dos Namorados</span><span class="freq">4x</span></div><div class="aside-row"><span class="nome">🎉 Dia dos Pais</span><span class="freq">4x</span></div><div class="aside-row"><span class="nome">🎉 Réveillon</span><span class="freq">3x</span></div><div class="aside-row"><span class="nome">🎉 Véspera de Natal</span><span class="freq">2x</span></div><div class="aside-row"><span class="nome">🎉 Dia Internacional da Mulher</span><span class="freq">2x</span></div><div class="aside-row"><span class="nome">🎉 Black Friday</span><span class="freq">1x</span></div><div class="aside-row"><span class="nome">🎉 Dia do Consumidor</span><span class="freq">1x</span></div>
+</div>
+
+</div>
+</div>
+
+</div></body></html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>V19 vs V19.1 — Efeito Fase A+B</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #0a0a0f; color: #e1e1e6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 32px; line-height: 1.5;
+}
+.mono { font-family: 'SF Mono', Monaco, monospace; }
+.container { max-width: 1500px; margin: 0 auto; }
+.header { border-bottom: 1px solid #2a2a35; padding-bottom: 24px; margin-bottom: 32px; }
+.header h1 { font-size: 28px; font-weight: 700; }
+.header .subtitle { color: #8a8a98; margin-top: 8px; }
+.badge {
+    display: inline-block; padding: 4px 12px; border-radius: 12px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.5px; margin-right: 8px;
+}
+.b-v19 { background: #475569; color: #e2e8f0; }
+.b-v19_1 { background: linear-gradient(90deg, #6366f1, #8b5cf6); color: #fff; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+.kpi { background: #14141f; border: 1px solid #2a2a35; border-radius: 12px; padding: 20px; }
+.kpi .label { color: #8a8a98; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi .value { font-size: 24px; font-weight: 700; margin-top: 8px; }
+.kpi .delta { font-size: 12px; margin-top: 4px; }
+.delta.up { color: #4ade80; }
+.delta.down { color: #f87171; }
+
+.h2 { font-size: 18px; font-weight: 600; margin: 24px 0 12px;
+       padding-bottom: 8px; border-bottom: 1px solid #2a2a35; }
+
+table { width: 100%; border-collapse: collapse; background: #14141f;
+         border-radius: 12px; overflow: hidden; border: 1px solid #2a2a35; }
+th { background: #0f0f18; padding: 10px; text-align: left;
+      font-size: 10px; color: #8a8a98; text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid #2a2a35; }
+td { padding: 12px 10px; border-bottom: 1px solid #1f1f2a; font-size: 12px; }
+tr:hover { background: #18182a; }
+
+.col-id .sub { color: #8a8a98; font-size: 10px; }
+.mono-cell { font-family: 'SF Mono', monospace; }
+.razao { display: inline-block; padding: 3px 10px; border-radius: 8px;
+         font-family: 'SF Mono', monospace; font-weight: 700; font-size: 11px; }
+.razao.up-big { background: #16213e; color: #4ade80; }
+.razao.up { background: #1f1f2a; color: #a3e635; }
+.razao.flat { background: #1f1f2a; color: #94a3b8; }
+.razao.down { background: #2a1414; color: #f87171; }
+
+.dec { font-size: 10px; padding: 3px 8px; border-radius: 6px;
+        font-weight: 600; white-space: nowrap; }
+.dec.aprov { background: #14532d; color: #86efac; }
+.dec.prio { background: #422006; color: #fbbf24; }
+.dec.cond { background: #422036; color: #f59e0b; }
+.dec.rej { background: #2a1414; color: #f87171; }
+
+.diagnostico {
+    margin-top: 32px; padding: 20px; background: #14141f;
+    border-radius: 12px; border: 1px solid #2a2a35;
+}
+.diagnostico h3 { margin-bottom: 12px; }
+.diagnostico p { font-size: 13px; line-height: 1.8; color: #c1c1cc; }
+</style>
+</head><body><div class="container">
+
+<div class="header">
+    <h1>
+        <span class="badge b-v19">V19</span> vs
+        <span class="badge b-v19_1">V19.1</span>
+        Efeito da Fase A+B
+    </h1>
+    <div class="subtitle">
+        Sazonalidade movida do uplift para demanda base · uplift_prior do calendário real ·
+        Pré/pós-feriado · Eventos esportivos · Temperatura real
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="label">Lucro Total V19</div>
+        <div class="value mono">R$ 9,768</div>
+        <div class="delta" style="color:#8a8a98;">baseline (otimista)</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Lucro Total V19.1</div>
+        <div class="value mono">R$ 8,111</div>
+        <div class="delta down">
+            -17.0% vs V19
+        </div>
+    </div>
+    <div class="kpi">
+        <div class="label">Variância gelo eventual</div>
+        <div class="value mono">11×</div>
+        <div class="delta up">V19.1 diferencia por contexto</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Filtro discriminando</div>
+        <div class="value">7+0</div>
+        <div class="delta up">
+            cond+rej vs 0 no V19
+        </div>
+    </div>
+</div>
+
+<div class="h2">Tabela comparativa por campanha (ordenada por maior diferença)</div>
+
+<table>
+<thead><tr>
+    <th>Campanha</th>
+    <th>Evento</th>
+    <th style="text-align:right;">d_base V19</th>
+    <th style="text-align:right;">d_base V19.1</th>
+    <th style="text-align:right;">Uplift V19</th>
+    <th style="text-align:right;">Uplift V19.1</th>
+    <th style="text-align:right;">Lucro V19</th>
+    <th style="text-align:right;">Lucro V19.1</th>
+    <th style="text-align:center;">V19.1/V19</th>
+    <th>Decisão V19</th>
+    <th>Decisão V19.1</th>
+</tr></thead>
+<tbody>
+
+<tr>
+    <td>Esquenta de Sexta</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">20.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">22.8</td>
+    <td class="mono-cell" style="text-align:right;">66%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">44%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 6,409</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 4,835</td>
+    <td style="text-align:center;"><span class="razao down">0.8×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2026-12-25 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;">Réveillon</td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">14.0</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">90%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 221</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 595</td>
+    <td style="text-align:center;"><span class="razao up-big">2.7×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>Café da Manhã</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">1.3</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">1.1</td>
+    <td class="mono-cell" style="text-align:right;">53%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">32%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 658</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 358</td>
+    <td style="text-align:center;"><span class="razao down">0.5×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>Verão Gelado</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">5.5</td>
+    <td class="mono-cell" style="text-align:right;">43%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">25%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 583</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 337</td>
+    <td style="text-align:center;"><span class="razao down">0.6×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2026-08-06 cerveja</td>
+    <td style="color: #ec4899; font-size: 11px;">Dia dos Pais</td>
+    <td class="mono-cell" style="text-align:right;">20.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">23.4</td>
+    <td class="mono-cell" style="text-align:right;">59%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">90%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 203</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 357</td>
+    <td style="text-align:center;"><span class="razao up">1.8×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>Drink de Sábado</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">0.5</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">0.5</td>
+    <td class="mono-cell" style="text-align:right;">36%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">33%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 383</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 297</td>
+    <td style="text-align:center;"><span class="razao down">0.8×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2026-12-19 chocolate_premium</td>
+    <td style="color: #ec4899; font-size: 11px;">Véspera de Natal</td>
+    <td class="mono-cell" style="text-align:right;">8.2</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">10.6</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">90%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 183</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 243</td>
+    <td style="text-align:center;"><span class="razao up">1.3×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2027-05-05 chocolate_premium</td>
+    <td style="color: #ec4899; font-size: 11px;">Dia das Mães</td>
+    <td class="mono-cell" style="text-align:right;">8.2</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">10.6</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">90%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 150</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 200</td>
+    <td style="text-align:center;"><span class="razao up">1.3×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2026-10-08 chocolate_impulso</td>
+    <td style="color: #ec4899; font-size: 11px;">Dia das Crianças</td>
+    <td class="mono-cell" style="text-align:right;">6.9</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">10.0</td>
+    <td class="mono-cell" style="text-align:right;">57%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">66%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 51</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 100</td>
+    <td style="text-align:center;"><span class="razao up">1.9×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2026-06-09 chocolate_premium</td>
+    <td style="color: #ec4899; font-size: 11px;">Dia dos Namorados</td>
+    <td class="mono-cell" style="text-align:right;">8.2</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">10.6</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">90%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 117</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 157</td>
+    <td style="text-align:center;"><span class="razao up">1.3×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2026-05-16 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.3</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 19</td>
+    <td style="text-align:center;"><span class="razao down">0.4×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>2026-05-23 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.3</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 19</td>
+    <td style="text-align:center;"><span class="razao down">0.4×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>2026-10-17 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.8</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 21</td>
+    <td style="text-align:center;"><span class="razao down">0.4×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>2027-03-23 chocolate_premium</td>
+    <td style="color: #ec4899; font-size: 11px;">Páscoa</td>
+    <td class="mono-cell" style="text-align:right;">8.2</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">10.4</td>
+    <td class="mono-cell" style="text-align:right;">61%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">58%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 119</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 149</td>
+    <td style="text-align:center;"><span class="razao up">1.3×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2026-09-12 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.5</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">41%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 25</td>
+    <td style="text-align:center;"><span class="razao down">0.5×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2027-01-02 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">9.7</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 31</td>
+    <td style="text-align:center;"><span class="razao down">0.6×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2027-03-05 chocolate_premium</td>
+    <td style="color: #ec4899; font-size: 11px;">Dia da Mulher</td>
+    <td class="mono-cell" style="text-align:right;">8.2</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">9.5</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">90%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 117</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 137</td>
+    <td style="text-align:center;"><span class="razao up">1.2×</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+    <td><span class="dec prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td>2026-11-07 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">9.0</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">41%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 34</td>
+    <td style="text-align:center;"><span class="razao down">0.7×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2026-09-05 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">9.0</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">41%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 35</td>
+    <td style="text-align:center;"><span class="razao down">0.7×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2026-08-01 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.3</td>
+    <td class="mono-cell" style="text-align:right;">67%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 35</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 19</td>
+    <td style="text-align:center;"><span class="razao down">0.5×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>2026-06-06 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.7</td>
+    <td class="mono-cell" style="text-align:right;">67%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 35</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 21</td>
+    <td style="text-align:center;"><span class="razao down">0.6×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>2026-06-13 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">7.7</td>
+    <td class="mono-cell" style="text-align:right;">67%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 35</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 21</td>
+    <td style="text-align:center;"><span class="razao down">0.6×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec cond">🟡 CONDICIONAL</span></td>
+</tr>
+
+<tr>
+    <td>2026-11-14 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">10.9</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">41%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 45</td>
+    <td style="text-align:center;"><span class="razao down">0.9×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td>2026-12-05 gelo</td>
+    <td style="color: #ec4899; font-size: 11px;"></td>
+    <td class="mono-cell" style="text-align:right;">5.6</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">14.0</td>
+    <td class="mono-cell" style="text-align:right;">90%</td>
+    <td class="mono-cell" style="text-align:right; color: #4ade80;">36%</td>
+    <td class="mono-cell" style="text-align:right;">R$ 52</td>
+    <td class="mono-cell" style="text-align:right; font-weight: 600;">R$ 54</td>
+    <td style="text-align:center;"><span class="razao flat">1.0×</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+    <td><span class="dec aprov">🟢 APROVADA</span></td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="diagnostico">
+    <h3>Diagnóstico</h3>
+    <p>
+    • <strong style="color:#4ade80;">Diferenciação temporal funcionou</strong>: a variância
+    do lucro de campanhas de gelo eventuais aumentou
+    <strong>11×</strong> — V19.1 distingue gelo no Réveillon
+    (R$ 595) de gelo numa sexta de outubro (R$ 19).
+    </p>
+    <p>
+    • <strong style="color:#a3e635;">Lucro total mais defensável</strong>:
+    -17.0% vs V19. V19 era
+    +483% sobre V17 (suspeito); V19.1 reduz isso.
+    </p>
+    <p>
+    • <strong style="color:#f59e0b;">Filtro começa a discriminar</strong>:
+    7 CONDICIONAIS no V19.1 (V19 tinha 0). Campanhas marginais
+    de gelo SEM evento agora ficam em compasso de espera.
+    </p>
+    <p style="color:#8a8a98; font-size:12px; margin-top:12px;">
+    Para mais detalhes técnicos sobre as mudanças, ver
+    <code>teste_agente_demanda_promocional/v19_1/README.md</code>.
+    </p>
+</div>
+
+</div></body></html>

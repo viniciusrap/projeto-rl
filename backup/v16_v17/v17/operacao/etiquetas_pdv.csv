@@ -1,0 +1,25 @@
+tipo,campanha,categoria_principal,par_combo,preco_combo,desconto_efetivo_pct,data_inicio,data_fim,dias_semana_validos,observacao
+estrutural,Esquenta de Sexta,cerveja,snack,14.9,10,2026-05-13,2027-05-12,ver_padrao,"CERVEJA + AMENDOIM • R$ 14,90 • Sex-Sáb"
+estrutural,Café da Manhã,cafe,padaria,9.9,10,2026-05-13,2027-05-12,ver_padrao,"CAFÉ + PÃO • R$ 9,90 • Manhãs Seg-Sex"
+estrutural,Verão Gelado,gelo,refrigerante,12.9,10,2026-05-13,2027-05-12,ver_padrao,"GELO + REFRI • R$ 12,90 • Fins de semana"
+estrutural,Drink de Sábado,destilados,gelo,39.9,10,2026-05-13,2027-05-12,ver_padrao,"DRINK COMPLETO: WHISKY/CACHAÇA + GELO • R$ 39,90"
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-05-16,2026-05-17,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-05-23,2026-05-24,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-06-06,2026-06-07,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,COMBO NAMORADOS: CHOCOLATE + VINHO • R$ ,chocolate_premium,vinho,24.9,10,2026-06-09,2026-06-12,todos,"COMBO NAMORADOS: CHOCOLATE + VINHO • R$ 24,90"
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-06-13,2026-06-14,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-08-01,2026-08-02,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,PRESENTE DO PAI: CERVEJA + SNACK • R$ 17,cerveja,snack,17.9,10,2026-08-06,2026-08-09,todos,"PRESENTE DO PAI: CERVEJA + SNACK • R$ 17,90"
+eventual,COMBO GELO + CERVEJA • R$ 17.90,gelo,cerveja,17.9,10,2026-09-05,2026-09-06,todos,COMBO GELO + CERVEJA • R$ 17.90
+eventual,COMBO GELO + CERVEJA • R$ 17.90,gelo,cerveja,17.9,10,2026-09-12,2026-09-13,todos,COMBO GELO + CERVEJA • R$ 17.90
+eventual,"KIT CRIANÇA: CHOCOLATE + REFRI • R$ 9,90",chocolate_impulso,refrigerante,9.9,10,2026-10-08,2026-10-12,todos,"KIT CRIANÇA: CHOCOLATE + REFRI • R$ 9,90"
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-10-17,2026-10-18,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,COMBO GELO + CERVEJA • R$ 17.90,gelo,cerveja,17.9,10,2026-11-07,2026-11-08,todos,COMBO GELO + CERVEJA • R$ 17.90
+eventual,COMBO GELO + CERVEJA • R$ 17.90,gelo,cerveja,17.9,10,2026-11-14,2026-11-15,todos,COMBO GELO + CERVEJA • R$ 17.90
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-12-05,2026-12-06,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,"CEIA: CHOCOLATE + VINHO • R$ 29,90",chocolate_premium,vinho,29.9,10,2026-12-19,2026-12-24,todos,"CEIA: CHOCOLATE + VINHO • R$ 29,90"
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2026-12-25,2026-12-31,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,COMBO GELO + DESTILADOS • R$ 17.90,gelo,destilados,17.9,10,2027-01-02,2027-01-03,todos,COMBO GELO + DESTILADOS • R$ 17.90
+eventual,"PARA ELAS: CHOCOLATE + VINHO • R$ 19,90 ",chocolate_premium,vinho,19.9,10,2027-03-05,2027-03-08,todos,"PARA ELAS: CHOCOLATE + VINHO • R$ 19,90 • 3-8 mar"
+eventual,OVO + BOMBOM: CHOCOLATE PREMIUM + IMPULS,chocolate_premium,chocolate_impulso,14.9,10,2027-03-23,2027-03-28,todos,"OVO + BOMBOM: CHOCOLATE PREMIUM + IMPULSO • R$ 14,90"
+eventual,PRESENTE DAS MÃES: CHOCOLATE PREMIUM + V,chocolate_premium,vinho,24.9,10,2027-05-05,2027-05-09,todos,"PRESENTE DAS MÃES: CHOCOLATE PREMIUM + VINHO • R$ 24,90"

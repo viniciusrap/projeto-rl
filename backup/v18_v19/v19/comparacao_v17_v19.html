@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>V17 vs V19 — Comparação</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #0a0a0f;
+    color: #e1e1e6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 32px;
+    line-height: 1.5;
+}
+.mono { font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; }
+.container { max-width: 1500px; margin: 0 auto; }
+
+.header { border-bottom: 1px solid #2a2a35; padding-bottom: 24px; margin-bottom: 32px; }
+.header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.header .subtitle { color: #8a8a98; font-size: 14px; }
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.kpi {
+    background: #14141f;
+    border: 1px solid #2a2a35;
+    border-radius: 12px;
+    padding: 20px;
+}
+.kpi .label { color: #8a8a98; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi .value { font-size: 26px; font-weight: 700; margin-top: 8px; }
+.kpi .delta { font-size: 12px; margin-top: 4px; color: #4ade80; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #14141f;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #2a2a35;
+}
+th {
+    background: #0f0f18;
+    padding: 12px;
+    text-align: left;
+    font-size: 11px;
+    color: #8a8a98;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #2a2a35;
+}
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #1f1f2a;
+    font-size: 13px;
+    vertical-align: middle;
+}
+tr:last-child td { border-bottom: 0; }
+tr:hover { background: #18182a; }
+
+.col-id { font-weight: 600; }
+.col-id .sub { color: #8a8a98; font-size: 11px; font-weight: 400; margin-top: 2px; }
+.tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.tag-estrutural { background: #1e3a8a; color: #93c5fd; }
+.tag-eventual { background: #14532d; color: #86efac; }
+.tag-evento { background: linear-gradient(90deg, #ec4899, #8b5cf6); color: #fff; }
+
+.lucro-cell {
+    font-family: 'SF Mono', monospace;
+    font-weight: 600;
+    text-align: right;
+}
+.lucro-v17 { color: #8a8a98; }
+.lucro-v19 { color: #4ade80; }
+.razao {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-family: 'SF Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+}
+.razao.up-big { background: #16213e; color: #4ade80; }
+.razao.up { background: #1f1f2a; color: #a3e635; }
+.razao.flat { background: #1f1f2a; color: #94a3b8; }
+.razao.down { background: #2a1414; color: #f87171; }
+
+.decisao {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.decisao.aprov { background: #14532d; color: #86efac; }
+.decisao.prio { background: #422006; color: #fbbf24; }
+.decisao.rej { background: #2a1414; color: #f87171; }
+
+.demanda-cell {
+    font-family: 'SF Mono', monospace;
+    font-size: 12px;
+}
+.demanda-cell .uplift { color: #4ade80; font-weight: 600; margin-left: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+    <h1>V17 vs V19 — Comparação Lado a Lado</h1>
+    <div class="subtitle">
+        Calendário operacional original (V17) vs filtrado pelos 3 agentes (V19) ·
+        Gerado em 2026-05-14
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="label">Campanhas Comparadas</div>
+        <div class="value">24</div>
+        <div class="delta">24 subestimadas pelo V17</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Lucro V17 (anual)</div>
+        <div class="value mono">R$ 1,675</div>
+        <div class="delta" style="color: #8a8a98;">cálculo simples uplift × dias × margem</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Lucro V19 (3 agentes)</div>
+        <div class="value mono">R$ 9,768</div>
+        <div class="delta">+483% sobre V17</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Razão V19/V17 média</div>
+        <div class="value mono">5.8×</div>
+        <div class="delta">V17 subestima sistematicamente</div>
+    </div>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th style="width: 28%;">Campanha</th>
+    <th style="width: 12%;">Demanda base→promo</th>
+    <th style="width: 9%;">Canib</th>
+    <th style="width: 10%; text-align: right;">Lucro V17</th>
+    <th style="width: 10%; text-align: right;">Lucro V19</th>
+    <th style="width: 10%; text-align: right;">Δ R$</th>
+    <th style="width: 8%; text-align: center;">V19/V17</th>
+    <th style="width: 13%; text-align: right;">Decisão V19</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-estrutural">EST</span>
+            Esquenta de Sexta
+        </div>
+        <div class="sub">104 dias/ano </div>
+    </td>
+    <td class="demanda-cell">
+        20.6 → 34.3
+        <span class="uplift">+66%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 1,021.87</td>
+    <td class="lucro-cell lucro-v19">R$ 6,409.08</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 5,387.21</td>
+    <td style="text-align: center;"><span class="razao up-big">6.3×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-estrutural">EST</span>
+            Café da Manhã
+        </div>
+        <div class="sub">261 dias/ano </div>
+    </td>
+    <td class="demanda-cell">
+        1.3 → 2.0
+        <span class="uplift">+53%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 124.36</td>
+    <td class="lucro-cell lucro-v19">R$ 658.38</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 534.02</td>
+    <td style="text-align: center;"><span class="razao up-big">5.3×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-estrutural">EST</span>
+            Verão Gelado
+        </div>
+        <div class="sub">34 dias/ano </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 8.0
+        <span class="uplift">+43%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 155.80</td>
+    <td class="lucro-cell lucro-v19">R$ 582.72</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 426.92</td>
+    <td style="text-align: center;"><span class="razao up">3.7×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-estrutural">EST</span>
+            Drink de Sábado
+        </div>
+        <div class="sub">52 dias/ano </div>
+    </td>
+    <td class="demanda-cell">
+        0.5 → 0.7
+        <span class="uplift">+36%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 147.37</td>
+    <td class="lucro-cell lucro-v19">R$ 382.80</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 235.43</td>
+    <td style="text-align: center;"><span class="razao up">2.6×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-08-06 cerveja
+        </div>
+        <div class="sub">2026-08-06 → 2026-08-09 (4d) <span class="tag tag-evento">🎉 Dia dos Pais</span></div>
+    </td>
+    <td class="demanda-cell">
+        20.6 → 32.8
+        <span class="uplift">+59%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 203.14</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 191.14</td>
+    <td style="text-align: center;"><span class="razao up-big">16.9×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-12-25 gelo
+        </div>
+        <div class="sub">2026-12-25 → 2026-12-31 (7d) <span class="tag tag-evento">🎉 Réveillon</span></div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 32.08</td>
+    <td class="lucro-cell lucro-v19">R$ 220.61</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 188.53</td>
+    <td style="text-align: center;"><span class="razao up-big">6.9×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-12-19 chocolate_premium
+        </div>
+        <div class="sub">2026-12-19 → 2026-12-24 (6d) <span class="tag tag-evento">🎉 Véspera de Natal</span></div>
+    </td>
+    <td class="demanda-cell">
+        8.2 → 15.7
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 182.65</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 170.65</td>
+    <td style="text-align: center;"><span class="razao up-big">15.2×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2027-05-05 chocolate_premium
+        </div>
+        <div class="sub">2027-05-05 → 2027-05-09 (5d) <span class="tag tag-evento">🎉 Dia das Mães</span></div>
+    </td>
+    <td class="demanda-cell">
+        8.2 → 15.7
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 149.71</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 137.71</td>
+    <td style="text-align: center;"><span class="razao up-big">12.5×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2027-03-23 chocolate_premium
+        </div>
+        <div class="sub">2027-03-23 → 2027-03-28 (6d) <span class="tag tag-evento">🎉 Páscoa</span></div>
+    </td>
+    <td class="demanda-cell">
+        8.2 → 13.3
+        <span class="uplift">+61%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 119.41</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 107.41</td>
+    <td style="text-align: center;"><span class="razao up-big">10.0×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-06-09 chocolate_premium
+        </div>
+        <div class="sub">2026-06-09 → 2026-06-12 (4d) <span class="tag tag-evento">🎉 Dia dos Namorados</span></div>
+    </td>
+    <td class="demanda-cell">
+        8.2 → 15.7
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 116.76</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 104.76</td>
+    <td style="text-align: center;"><span class="razao up-big">9.7×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2027-03-05 chocolate_premium
+        </div>
+        <div class="sub">2027-03-05 → 2027-03-08 (4d) <span class="tag tag-evento">🎉 Dia da Mulher</span></div>
+    </td>
+    <td class="demanda-cell">
+        8.2 → 15.7
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 116.76</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 104.76</td>
+    <td style="text-align: center;"><span class="razao up-big">9.7×</span></td>
+    <td style="text-align: right;"><span class="decisao prio">🌟 APROVADA_PRIORITARIA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-05-16 gelo
+        </div>
+        <div class="sub">2026-05-16 → 2026-05-17 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-05-23 gelo
+        </div>
+        <div class="sub">2026-05-23 → 2026-05-24 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-09-05 gelo
+        </div>
+        <div class="sub">2026-09-05 → 2026-09-06 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-09-12 gelo
+        </div>
+        <div class="sub">2026-09-12 → 2026-09-13 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-10-17 gelo
+        </div>
+        <div class="sub">2026-10-17 → 2026-10-18 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-11-07 gelo
+        </div>
+        <div class="sub">2026-11-07 → 2026-11-08 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-11-14 gelo
+        </div>
+        <div class="sub">2026-11-14 → 2026-11-15 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-12-05 gelo
+        </div>
+        <div class="sub">2026-12-05 → 2026-12-06 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2027-01-02 gelo
+        </div>
+        <div class="sub">2027-01-02 → 2027-01-03 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 10.6
+        <span class="uplift">+90%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 52.32</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 43.16</td>
+    <td style="text-align: center;"><span class="razao up-big">5.7×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-10-08 chocolate_impulso
+        </div>
+        <div class="sub">2026-10-08 → 2026-10-12 (5d) <span class="tag tag-evento">🎉 Dia das Crianças</span></div>
+    </td>
+    <td class="demanda-cell">
+        6.9 → 10.9
+        <span class="uplift">+57%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">21%</td>
+    <td class="lucro-cell lucro-v17">R$ 12.00</td>
+    <td class="lucro-cell lucro-v19">R$ 51.41</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 39.41</td>
+    <td style="text-align: center;"><span class="razao up">4.3×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-06-06 gelo
+        </div>
+        <div class="sub">2026-06-06 → 2026-06-07 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 9.3
+        <span class="uplift">+67%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 34.66</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 25.50</td>
+    <td style="text-align: center;"><span class="razao up">3.8×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-06-13 gelo
+        </div>
+        <div class="sub">2026-06-13 → 2026-06-14 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 9.3
+        <span class="uplift">+67%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 34.66</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 25.50</td>
+    <td style="text-align: center;"><span class="razao up">3.8×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+<tr>
+    <td class="col-id">
+        <div>
+            <span class="tag tag-eventual">EVT</span>
+            2026-08-01 gelo
+        </div>
+        <div class="sub">2026-08-01 → 2026-08-02 (2d) </div>
+    </td>
+    <td class="demanda-cell">
+        5.6 → 9.3
+        <span class="uplift">+67%</span>
+    </td>
+    <td class="mono" style="color: #f59e0b;">30%</td>
+    <td class="lucro-cell lucro-v17">R$ 9.16</td>
+    <td class="lucro-cell lucro-v19">R$ 34.66</td>
+    <td class="lucro-cell" style="color: #4ade80;">+R$ 25.50</td>
+    <td style="text-align: center;"><span class="razao up">3.8×</span></td>
+    <td style="text-align: right;"><span class="decisao aprov">🟢 APROVADA</span></td>
+</tr>
+
+</tbody>
+</table>
+
+<div style="margin-top: 32px; padding: 20px; background: #14141f; border-radius: 12px; border: 1px solid #2a2a35;">
+    <h3 style="margin-bottom: 12px; font-size: 14px; color: #c1c1cc;">Diagnóstico</h3>
+    <div style="font-size: 13px; color: #c1c1cc; line-height: 1.8;">
+        <p>• <strong style="color: #4ade80;">24 campanhas</strong> que o V17 subestimava em 1.5×+ (V19 reconhece halo, uplift de evento e match produto×evento).</p>
+        <p>• <strong style="color: #f59e0b;">Campanhas com evento</strong> têm razão média <strong>10.6×</strong> entre V17 e V19. V17 não modelava o efeito de calendário comercial.</p>
+        <p>• <strong style="color: #6366f1;">Campanhas sem evento</strong> têm razão média <strong>5.0×</strong>. V19 ainda corrige por causa de halo e cap realista.</p>
+        <p style="margin-top: 12px; color: #8a8a98; font-size: 12px;">
+            <strong>Interpretação:</strong> o V17 estimava lucro a partir de "uplift × margem × dias", sem modelar canibalização, halo (cross-sell), uplift de evento ou cap por intensidade. V19 incorpora todos esses efeitos via os 3 agentes especializados, produzindo uma estimativa mais realista (e geralmente maior, exceto onde o V17 ignorava cap de intensidade).
+        </p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

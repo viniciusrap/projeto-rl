@@ -1,0 +1,26 @@
+id,desc,qualidade,d_base,d_promo,uplift_%,canib_%,cap,falhas,flags
+STR-01,Réveillon 31/12,🟢 BOA,5.59,8.93,59.8,30.0,False,OK,
+STR-02,1º de janeiro pós-festa,🔴 RUIM,13.56,15.14,11.7,25.0,False,OK,
+STR-03,Campanha de 30 dias (longa),🔴 RUIM,3.2,3.34,4.5,25.0,False,OK,
+STR-04,Réveillon + Natal sobrepostos,🟢 BOA,8.24,15.66,90.0,21.0,True,OK,cap_uplift_atingido
+STR-05,Combo vinho + água (estranho mas possível),🔴 RUIM,0.64,0.48,-24.3,30.0,False,OK,
+STR-06,Combo sorvete + sorvete (mesmo produto),🔴 RUIM,12.09,9.48,-21.6,30.0,False,OK,combo_antagonico
+STR-07,Combo isotônico + energético (consumo coerent,🟡 MÉDIA,2.47,3.15,27.4,30.0,False,OK,
+STR-08,Combo SEM par definido,🔴 RUIM,20.63,22.79,10.5,30.0,False,OK,
+STR-09,Sem desconto (desc=0),🔴 RUIM,1.29,1.29,0.0,20.0,True,OK,cap_uplift_atingido
+STR-10,Intensidade desconhecida (inválida),🔴 RUIM,5.59,6.23,11.4,50.0,False,OK,canibalizacao_alta
+STR-11,Desc 25% combo (cap forte),🟡 MÉDIA,5.59,10.62,90.0,45.0,True,OK,cap_uplift_atingido;canibalizacao_alta
+STR-12,Liquidação 25% validade 5% restante (defensiv,🟡 MÉDIA,20.63,23.7,14.9,45.0,False,OK,canibalizacao_alta;estrategia_defensiva_vencimento
+STR-13,Estoque 5x normal (super parado),🔴 RUIM,3.2,3.61,12.8,30.0,False,OK,
+STR-14,Puxador premium em consumo intenso (vinho na ,🟡 MÉDIA,0.64,0.83,29.1,30.0,False,OK,
+STR-15,Café em Páscoa (rotina em presente),🔴 RUIM,1.29,1.36,5.6,17.5,False,OK,
+STR-16,Cerveja desc10% no Dia dos Pais (puxador em e,🟡 MÉDIA,20.63,25.33,22.8,21.0,False,OK,
+STR-17,Gelo combo Carnaval (consumo intenso),🟢 BOA,5.59,10.62,90.0,30.0,True,OK,cap_uplift_atingido
+STR-18,Cerveja + Gelo combo verão (par PERFEITO),🟢 BOA,20.63,32.2,56.1,30.0,False,OK,
+STR-19,Destilados + Vinho combo (harmonia 2.5!),🟡 MÉDIA,0.53,0.67,26.1,30.0,False,OK,
+STR-20,Vinho desc25% em Mães (volume baixo + evento ,🟡 MÉDIA,0.64,0.8,25.7,31.5,False,OK,
+STR-21,Cerveja em Dia das Mães (puxador_consumo em p,🟢 BOA,20.63,32.29,56.5,21.0,False,OK,
+STR-22,Sorvete liq25% em DEZ verão (já vende sozinho,🔴 RUIM,12.09,13.04,7.9,45.0,False,OK,canibalizacao_alta
+STR-23,Padaria desc5% manhã útil (rotina),🔴 RUIM,2.67,3.01,12.9,25.0,False,OK,
+STR-24,Cigarro em Pais (proibida + evento — ainda as,🚫 PROIBIDA,65.3,65.3,0.0,0.0,False,OK,proibida_por_lei
+STR-25,Categoria inexistente (robustez),🔴 RUIM,5.0,5.06,1.2,30.0,False,OK,

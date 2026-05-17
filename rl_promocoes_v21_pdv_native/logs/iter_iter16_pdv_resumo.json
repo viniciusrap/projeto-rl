@@ -1,0 +1,264 @@
+{
+  "iter": "iter16_pdv",
+  "rewards_final": 12162.400000000001,
+  "rewards_inicio": -5813.932999999999,
+  "cenarios_ok": 11,
+  "cenarios": [
+    {
+      "id": "C1_cafe_padaria_manha",
+      "descricao": "Café+Padaria manhã (clássico commuter)",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 12,
+      "acao_complementar": "padaria",
+      "acao_alvo": "complementar",
+      "lucro_total": 60.18,
+      "reward": 1231.64,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C2_gelo_reveillon_NAO_destilados",
+      "descricao": "Gelo Réveillon — NÃO destilados",
+      "acao_intensidade": "nada",
+      "acao_complementar_idx": 0,
+      "acao_complementar": "nenhum",
+      "acao_alvo": "complementar",
+      "lucro_total": 1.0,
+      "reward": 1.0,
+      "evento": "Réveillon",
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C3_choc_caixa_maes",
+      "descricao": "Chocolate caixa Mães — combo PDV (não vinho!)",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 15,
+      "acao_complementar": "chocolate_unit",
+      "acao_alvo": "complementar",
+      "lucro_total": 23.26,
+      "reward": 1455.22,
+      "evento": "Dia das Mães",
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C4_isotonico_dia_comum",
+      "descricao": "Isotônico dia comum",
+      "acao_intensidade": "nada",
+      "acao_complementar_idx": 5,
+      "acao_complementar": "energetico",
+      "acao_alvo": "complementar",
+      "lucro_total": 0.3,
+      "reward": 120.3,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C5_choc_unit_baixa",
+      "descricao": "Chocolate unit baixa demanda",
+      "acao_intensidade": "nada",
+      "acao_complementar_idx": 2,
+      "acao_complementar": "refrigerante",
+      "acao_alvo": "complementar",
+      "lucro_total": 1.22,
+      "reward": 121.22,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C6_cerveja_sex_alta",
+      "descricao": "Cerveja sex alta natural — não desc direto",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 4,
+      "acao_complementar": "isotonico",
+      "acao_alvo": "complementar",
+      "lucro_total": 25.21,
+      "reward": 1827.23,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C7_sorvete_parado",
+      "descricao": "Sorvete parado",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 2,
+      "acao_complementar": "refrigerante",
+      "acao_alvo": "complementar",
+      "lucro_total": 37.31,
+      "reward": 424.6,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C8_sorvete_vencimento",
+      "descricao": "Sorvete vencimento — liquida",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 2,
+      "acao_complementar": "refrigerante",
+      "acao_alvo": "complementar",
+      "lucro_total": 110.73,
+      "reward": 675.35,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C9_cafe_cerveja_absurdo",
+      "descricao": "Café+cerveja — não escolher cerveja",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 12,
+      "acao_complementar": "padaria",
+      "acao_alvo": "complementar",
+      "lucro_total": 11.77,
+      "reward": 632.25,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C10_refri_snack_lanche",
+      "descricao": "Refri+Snack lanche da tarde (clássico)",
+      "acao_intensidade": "nada",
+      "acao_complementar_idx": 0,
+      "acao_complementar": "nenhum",
+      "acao_alvo": "complementar",
+      "lucro_total": 2.34,
+      "reward": 122.34,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": false
+    },
+    {
+      "id": "C11_gelo_whisky_NAO",
+      "descricao": "Gelo NÃO escolher whisky (compra de mercado, não posto)",
+      "acao_intensidade": "nada",
+      "acao_complementar_idx": 0,
+      "acao_complementar": "nenhum",
+      "acao_alvo": "complementar",
+      "lucro_total": 1.0,
+      "reward": 1.0,
+      "evento": "Réveillon",
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C12_padaria_cerveja_NAO",
+      "descricao": "Padaria NÃO combinar com cerveja (manhã vs noite)",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 6,
+      "acao_complementar": "cha_pronto",
+      "acao_alvo": "complementar",
+      "lucro_total": 24.79,
+      "reward": 408.8,
+      "evento": "Dia dos Pais",
+      "eh_pdv_invalido": false,
+      "ok": true
+    }
+  ],
+  "rollout": {
+    "lucro_total": 7421.730000000003,
+    "n_promo": 209,
+    "pdv_invalidos": 0,
+    "cats_distintas": 15,
+    "intensidades": {
+      "combo": 209,
+      "nada": 156
+    },
+    "top_pares": [
+      [
+        "cerveja+isotonico",
+        51
+      ],
+      [
+        "cafe+padaria",
+        37
+      ],
+      [
+        "isotonico+cerveja",
+        22
+      ],
+      [
+        "snack_salgado+cerveja",
+        12
+      ],
+      [
+        "biscoito+cha_pronto",
+        12
+      ],
+      [
+        "padaria+cha_pronto",
+        11
+      ],
+      [
+        "doce_balcao+cerveja",
+        11
+      ],
+      [
+        "cha_pronto+padaria",
+        11
+      ],
+      [
+        "suco+padaria",
+        11
+      ],
+      [
+        "sorvete+refrigerante",
+        11
+      ]
+    ],
+    "top_cats": [
+      [
+        "cerveja",
+        51
+      ],
+      [
+        "cafe",
+        37
+      ],
+      [
+        "isotonico",
+        24
+      ],
+      [
+        "doce_balcao",
+        13
+      ],
+      [
+        "snack_salgado",
+        12
+      ],
+      [
+        "biscoito",
+        12
+      ],
+      [
+        "padaria",
+        11
+      ],
+      [
+        "cha_pronto",
+        11
+      ],
+      [
+        "suco",
+        11
+      ],
+      [
+        "sorvete",
+        11
+      ]
+    ],
+    "eventos_capturados": [
+      [
+        "Dia dos Namorados",
+        6
+      ]
+    ]
+  }
+}

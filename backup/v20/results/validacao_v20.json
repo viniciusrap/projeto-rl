@@ -1,0 +1,389 @@
+[
+  {
+    "cenario": "1. Gelo + Cerveja em fim de semana quente",
+    "expectativa": "agente deveria fazer combo, complementar=cerveja",
+    "acao_intensidade": "combo",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "principal",
+    "demanda_base_anual": 5.59,
+    "demanda_base_ctx": 10.98,
+    "demanda_promo": 11.22,
+    "uplift_pct": 2.2,
+    "canib_pct": 30.0,
+    "lucro_total": -11.94,
+    "reward": 58.06,
+    "reward_breakdown": {
+      "lucro_base": -11.94,
+      "bonus_combo_em_alta": 150.0,
+      "pen_uplift_baixo": -80.0
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      236.2533721923828,
+      118.4563980102539,
+      99.95980072021484,
+      121.22032928466797,
+      211.69105529785156,
+      378.763916015625
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        219.90013122558594
+      ],
+      [
+        11,
+        113.47789001464844
+      ],
+      [
+        4,
+        58.71262741088867
+      ]
+    ]
+  },
+  {
+    "cenario": "2. Gelo + Destilados no Réveillon",
+    "expectativa": "agente deveria FUGIR de destilados (PDV inválido), combo c/ cerveja",
+    "acao_intensidade": "combo",
+    "acao_complementar_idx": 11,
+    "acao_complementar": "doce",
+    "acao_alvo": "principal",
+    "demanda_base_anual": 5.59,
+    "demanda_base_ctx": 9.6,
+    "demanda_promo": 17.75,
+    "uplift_pct": 85.0,
+    "canib_pct": 30.0,
+    "lucro_total": 152.66,
+    "reward": 402.66,
+    "reward_breakdown": {
+      "lucro_base": 152.66,
+      "bonus_combo_em_alta": 150.0,
+      "bonus_evento_match": 100.0
+    },
+    "eh_pdv_invalido": false,
+    "evento": "Réveillon",
+    "q_intensidade": [
+      799.0208740234375,
+      707.4786987304688,
+      709.6940307617188,
+      697.9259643554688,
+      732.7418823242188,
+      799.7257080078125
+    ],
+    "q_top3_combo": [
+      [
+        11,
+        583.5552368164062
+      ],
+      [
+        12,
+        570.0703735351562
+      ],
+      [
+        4,
+        534.5963134765625
+      ]
+    ]
+  },
+  {
+    "cenario": "3. Chocolate Premium + Vinho (Dia das Mães)",
+    "expectativa": "agente deveria fazer combo, complementar=vinho, intensidade alta",
+    "acao_intensidade": "nada",
+    "acao_complementar_idx": 11,
+    "acao_complementar": "doce",
+    "acao_alvo": "complementar",
+    "demanda_base_anual": 8.24,
+    "demanda_base_ctx": 8.91,
+    "demanda_promo": 8.91,
+    "uplift_pct": 0.0,
+    "canib_pct": 14.0,
+    "lucro_total": 1.56,
+    "reward": 1.56,
+    "reward_breakdown": {
+      "lucro_base": 1.56
+    },
+    "eh_pdv_invalido": false,
+    "evento": "Dia das Mães",
+    "q_intensidade": [
+      558.0711669921875,
+      510.3665466308594,
+      525.1421508789062,
+      512.4456176757812,
+      492.19415283203125,
+      478.92486572265625
+    ],
+    "q_top3_combo": [
+      [
+        11,
+        403.09881591796875
+      ],
+      [
+        15,
+        394.6398010253906
+      ],
+      [
+        20,
+        392.1486511230469
+      ]
+    ]
+  },
+  {
+    "cenario": "4. Isotônico com desconto em dia comum",
+    "expectativa": "agente deveria NÃO promover (commodity inelástica, sem evento)",
+    "acao_intensidade": "nada",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "complementar",
+    "demanda_base_anual": 2.47,
+    "demanda_base_ctx": 1.47,
+    "demanda_promo": 1.47,
+    "uplift_pct": 0.0,
+    "canib_pct": 20.0,
+    "lucro_total": 0.26,
+    "reward": 0.26,
+    "reward_breakdown": {
+      "lucro_base": 0.26
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      167.3802947998047,
+      64.53298950195312,
+      76.57330322265625,
+      74.58877563476562,
+      90.64242553710938,
+      121.6021728515625
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        26.661951065063477
+      ],
+      [
+        11,
+        20.032779693603516
+      ],
+      [
+        4,
+        -28.687362670898438
+      ]
+    ]
+  },
+  {
+    "cenario": "5. Chocolate Impulso com baixa demanda",
+    "expectativa": "agente pode fazer desc pequeno OU não promover",
+    "acao_intensidade": "nada",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "complementar",
+    "demanda_base_anual": 6.92,
+    "demanda_base_ctx": 6.39,
+    "demanda_promo": 6.39,
+    "uplift_pct": 0.0,
+    "canib_pct": 20.0,
+    "lucro_total": 1.12,
+    "reward": 1.12,
+    "reward_breakdown": {
+      "lucro_base": 1.12
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      205.47390747070312,
+      102.2085952758789,
+      110.2486343383789,
+      115.44213104248047,
+      128.07736206054688,
+      163.6678924560547
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        47.99995040893555
+      ],
+      [
+        11,
+        45.49934387207031
+      ],
+      [
+        4,
+        0.19734080135822296
+      ]
+    ]
+  },
+  {
+    "cenario": "6. Cerveja em sex (alta natural) com desc direto",
+    "expectativa": "agente NÃO deveria descontar direto (alta natural); combo OK",
+    "acao_intensidade": "combo",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "complementar",
+    "demanda_base_anual": 20.63,
+    "demanda_base_ctx": 19.24,
+    "demanda_promo": 19.66,
+    "uplift_pct": 2.2,
+    "canib_pct": 30.0,
+    "lucro_total": -3.12,
+    "reward": -73.12,
+    "reward_breakdown": {
+      "lucro_base": -3.12,
+      "bonus_desc_complementar": 50.0,
+      "pen_harmonia_fraca": -40.0,
+      "pen_uplift_baixo": -80.0
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      184.0817108154297,
+      72.61849212646484,
+      75.18032836914062,
+      80.19139862060547,
+      120.91188049316406,
+      191.74818420410156
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        59.091163635253906
+      ],
+      [
+        11,
+        28.271120071411133
+      ],
+      [
+        4,
+        -20.136503219604492
+      ]
+    ]
+  },
+  {
+    "cenario": "7. Sorvete parado em estoque (verão)",
+    "expectativa": "agente pode dar desc para girar estoque",
+    "acao_intensidade": "combo",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "principal",
+    "demanda_base_anual": 12.09,
+    "demanda_base_ctx": 13.93,
+    "demanda_promo": 15.59,
+    "uplift_pct": 12.0,
+    "canib_pct": 30.0,
+    "lucro_total": 13.48,
+    "reward": 163.48,
+    "reward_breakdown": {
+      "lucro_base": 13.48,
+      "bonus_combo_em_alta": 150.0
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      373.83984375,
+      283.8221130371094,
+      276.1566467285156,
+      281.8498840332031,
+      341.838134765625,
+      450.8431396484375
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        284.7900085449219
+      ],
+      [
+        11,
+        236.82766723632812
+      ],
+      [
+        4,
+        189.39169311523438
+      ]
+    ]
+  },
+  {
+    "cenario": "8. Sorvete perto do vencimento",
+    "expectativa": "agente deveria fazer liquidação (desc10% ou maior)",
+    "acao_intensidade": "combo",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "principal",
+    "demanda_base_anual": 12.09,
+    "demanda_base_ctx": 7.44,
+    "demanda_promo": 10.0,
+    "uplift_pct": 34.4,
+    "canib_pct": 30.0,
+    "lucro_total": 201.55,
+    "reward": 481.55,
+    "reward_breakdown": {
+      "lucro_base": 201.55,
+      "bonus_defensivo": 280.0
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      315.0858154296875,
+      244.6856231689453,
+      246.67822265625,
+      247.7704315185547,
+      272.41668701171875,
+      325.73138427734375
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        188.1044158935547
+      ],
+      [
+        11,
+        181.37205505371094
+      ],
+      [
+        4,
+        145.10409545898438
+      ]
+    ]
+  },
+  {
+    "cenario": "9. Combo fraco: café + cerveja",
+    "expectativa": "agente NÃO deveria escolher combo c/ cerveja (PDV inválido + sem harmonia)",
+    "acao_intensidade": "nada",
+    "acao_complementar_idx": 12,
+    "acao_complementar": "energetico",
+    "acao_alvo": "complementar",
+    "demanda_base_anual": 1.29,
+    "demanda_base_ctx": 1.17,
+    "demanda_promo": 1.17,
+    "uplift_pct": 0.0,
+    "canib_pct": 20.0,
+    "lucro_total": 0.2,
+    "reward": 0.2,
+    "reward_breakdown": {
+      "lucro_base": 0.2
+    },
+    "eh_pdv_invalido": false,
+    "evento": null,
+    "q_intensidade": [
+      190.7588348388672,
+      90.1903305053711,
+      98.5770263671875,
+      102.16787719726562,
+      116.0982666015625,
+      150.61671447753906
+    ],
+    "q_top3_combo": [
+      [
+        12,
+        42.18952178955078
+      ],
+      [
+        11,
+        38.20891571044922
+      ],
+      [
+        4,
+        -6.727969169616699
+      ]
+    ]
+  }
+]

@@ -1,0 +1,224 @@
+{
+  "iter": "iter8",
+  "rewards_final": 6858.090333333332,
+  "rewards_inicio": 3944.335,
+  "cenarios_ok": 5,
+  "cenarios": [
+    {
+      "id": "C1_gelo_cerveja_fds",
+      "descricao": "Gelo+Cerveja em sáb verão",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 0,
+      "acao_complementar": "nenhum",
+      "acao_alvo": "principal",
+      "lucro_total": -16.94,
+      "reward": 153.06,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": false
+    },
+    {
+      "id": "C2_gelo_reveillon_NAO_destilados",
+      "descricao": "Gelo Réveillon — NÃO destilados",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 0,
+      "acao_complementar": "nenhum",
+      "acao_alvo": "principal",
+      "lucro_total": 147.66,
+      "reward": 697.66,
+      "evento": "Réveillon",
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C3_choc_vinho_maes",
+      "descricao": "Chocolate+Vinho Mães",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 11,
+      "acao_complementar": "doce",
+      "acao_alvo": "principal",
+      "lucro_total": 68.88,
+      "reward": 755.55,
+      "evento": "Dia das Mães",
+      "eh_pdv_invalido": false,
+      "ok": false
+    },
+    {
+      "id": "C4_isotonico_dia_comum",
+      "descricao": "Isotônico dia comum",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 1,
+      "acao_complementar": "agua",
+      "acao_alvo": "complementar",
+      "lucro_total": -20.35,
+      "reward": 306.32,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": false
+    },
+    {
+      "id": "C5_choc_impulso_baixa",
+      "descricao": "Chocolate impulso baixa",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 19,
+      "acao_complementar": "suco",
+      "acao_alvo": "complementar",
+      "lucro_total": -8.66,
+      "reward": 318.0,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": false
+    },
+    {
+      "id": "C6_cerveja_sex_alta",
+      "descricao": "Cerveja sex alta natural — não desc direto",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 13,
+      "acao_complementar": "gelo",
+      "acao_alvo": "complementar",
+      "lucro_total": 78.31,
+      "reward": 1278.31,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C7_sorvete_parado",
+      "descricao": "Sorvete parado",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 19,
+      "acao_complementar": "suco",
+      "acao_alvo": "principal",
+      "lucro_total": 33.89,
+      "reward": 270.56,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C8_sorvete_vencimento",
+      "descricao": "Sorvete vencimento — liquida",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 19,
+      "acao_complementar": "suco",
+      "acao_alvo": "principal",
+      "lucro_total": 212.84,
+      "reward": 549.51,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    },
+    {
+      "id": "C9_cafe_cerveja_absurdo",
+      "descricao": "Café+cerveja — não escolher cerveja",
+      "acao_intensidade": "combo",
+      "acao_complementar_idx": 11,
+      "acao_complementar": "doce",
+      "acao_alvo": "complementar",
+      "lucro_total": -24.15,
+      "reward": -50.82,
+      "evento": null,
+      "eh_pdv_invalido": false,
+      "ok": true
+    }
+  ],
+  "rollout": {
+    "lucro_total": 7419.959999999996,
+    "n_promo": 365,
+    "pdv_invalidos": 0,
+    "cats_distintas": 16,
+    "intensidades": {
+      "combo": 365
+    },
+    "top_pares": [
+      [
+        "snack+suco",
+        48
+      ],
+      [
+        "chocolate_impulso+suco",
+        25
+      ],
+      [
+        "chocolate_premium+doce",
+        25
+      ],
+      [
+        "destilados+suco",
+        24
+      ],
+      [
+        "sorvete+suco",
+        24
+      ],
+      [
+        "padaria+suco",
+        23
+      ],
+      [
+        "vinho+doce",
+        22
+      ],
+      [
+        "energetico+agua",
+        13
+      ],
+      [
+        "biscoito+suco",
+        12
+      ],
+      [
+        "agua+energetico",
+        12
+      ]
+    ],
+    "top_cats": [
+      [
+        "snack",
+        49
+      ],
+      [
+        "gelo",
+        36
+      ],
+      [
+        "chocolate_impulso",
+        25
+      ],
+      [
+        "destilados",
+        25
+      ],
+      [
+        "chocolate_premium",
+        25
+      ],
+      [
+        "sorvete",
+        24
+      ],
+      [
+        "biscoito",
+        24
+      ],
+      [
+        "agua",
+        24
+      ],
+      [
+        "padaria",
+        24
+      ],
+      [
+        "cerveja",
+        24
+      ]
+    ],
+    "eventos_capturados": [
+      [
+        "Dia dos Namorados",
+        14
+      ]
+    ]
+  }
+}
