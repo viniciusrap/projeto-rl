@@ -1,9 +1,0 @@
-categoria,n_promovidos,n_promovidos_em_fraco,precision,recall,f1
-isotonico,2306,1778,0.771,0.266,0.395
-chocolate_impulso,2971,1053,0.354,0.157,0.218
-refrigerante,452,452,1.0,0.068,0.128
-snack,1519,368,0.242,0.056,0.09
-chocolate_premium,1026,167,0.163,0.025,0.044
-biscoito,1901,122,0.064,0.018,0.029
-gelo,5174,6,0.001,0.001,0.001
-cigarro_jti,3467,0,0.0,0.0,0.0

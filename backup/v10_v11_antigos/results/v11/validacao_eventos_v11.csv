@@ -1,8 +1,0 @@
-evento,n_turnos_janela,n_promovidos,n_acertos,precision,recall,f1,categorias_alvo
-Réveillon,900,900,352,0.391,0.391,0.391,cerveja;champagne;energetico;espumante;gelo;refrigerante
-Dia dos Namorados,1200,1200,151,0.126,0.126,0.126,cerveja_premium;chocolate;espumante;vinho
-Dia das Crianças,1200,1197,147,0.123,0.122,0.123,chocolate;refrigerante;salgadinho;sorvete;suco
-Dia das Mães,1650,1650,167,0.101,0.101,0.101,chocolate;espumante;perfume;vinho
-Dia Internacional da Mulher,900,748,0,0.0,0.0,0.0,chocolate;espumante;flores;vinho
-Dia dos Pais,1660,1560,0,0.0,0.0,0.0,cachaca;cerveja;snack;vinho_tinto;whisky
-Véspera de Natal,1650,1650,0,0.0,0.0,0.0,cerveja;chocolate;espumante;panettone;refrigerante;vinho

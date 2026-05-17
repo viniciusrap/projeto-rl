@@ -54,8 +54,7 @@ projeto-rl/
 │   └── logs/                          · logs de treino por iteração
 │
 ├── results/v21/                      ← saídas (calendário, gráficos, dashboards)
-├── data/                             ← dados crus do posto (confidenciais, gitignored)
-└── backup/                           ← versões históricas V10–V20 (contexto da evolução)
+└── data/                             ← dados crus do posto (confidenciais, gitignored)
 ```
 
 `data/` contém planilhas confidenciais do posto e **não vai para o
@@ -187,7 +186,8 @@ parte da contribuição metodológica:
 | V20 | Regras viram *reward shaping* + pré-treino da cabeça Combo | *Reward shaping* puro cai em ótimo local; domínio como inicialização destrava |
 | **V21** | Rejeitar dados de supermercado | Afinidade de mercearia ≠ afinidade de PDV; calibração nativa de balcão |
 
-Histórico detalhado das ~20 iterações em `backup/` (versões anteriores).
+O histórico detalhado das ~20 iterações está no relatório (Seção
+"Evolução metodológica") e no histórico de commits do repositório.
 
 ---
 

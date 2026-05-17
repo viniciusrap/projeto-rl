@@ -1,5 +1,0 @@
-politica,reward_medio,reward_std,lucro_medio,perdas_medio,rupturas_med,custo_repo
-DQN (nosso),33925.78,8653.54,26742.9,3.0,0.0,348.85
-PPO (SB3),26451.51,9917.04,26636.78,4.9,0.0,351.48
-Aleatória,20149.47,7102.71,26546.11,0.7,0.0,344.4
-Sem promoção,26451.51,9917.04,26636.78,4.9,0.0,351.48

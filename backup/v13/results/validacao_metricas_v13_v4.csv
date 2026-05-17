@@ -1,2 +1,0 @@
-modelo,data_validacao,reward_medio,lucro_medio,delta_lucro_pct,perdas_medio,delta_perdas_pct,f1_evento_medio,f1_evento_medio_v12_baseline,f1_evento_delta_v12,reward_delta_v12_pct,pct_intensidades_usadas,n_categorias_promovidas
-V13.v4,2026-05-13,810340.62,649021.09,0.161,1758.4,-0.207,0.085,0.208,-0.124,-5.827,100.0,9

@@ -1,4 +1,0 @@
-seed,episodio,steps,reward_total,lucro_total,perdas_total,rupturas_total,epsilon,loss_media,pct_promove,per_beta
-42,0,50,24137.78,29578.21,55.1,0.8,0.988,0,98.0,0.4
-42,1,50,21345.59,26935.85,72.1,0.8,0.9761,0,98.0,0.4
-42,2,50,16661.05,24735.63,107.7,0.3,0.9644,0,96.0,0.4
