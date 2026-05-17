@@ -9,6 +9,8 @@ __pycache__/
 *.pt
 *.pkl
 *.zip
+# Exceção: o modelo FINAL entregue vai para o repo (reprodução sem retreino)
+!rl_promocoes_v21_pdv_native/models/v21_final.pt
 
 # Dados confidenciais do posto (venda_*, descarte_*, produtos_*, temperatura_*)
 data/*
@@ -21,3 +23,20 @@ data/*
 # Resultados: CSV/JSON/HTML/PNG sobem para GitHub (artefatos legíveis).
 # Modelos .pt/.pkl/.zip já são excluídos pelas regras acima.
 # Cache de Python (__pycache__) também já ignorado.
+
+# Artefatos de build LaTeX — fonte (.tex/.bib/.cls/.png) e main.pdf sobem; lixo não
+relatorio/latex/*.aux
+relatorio/latex/*.log
+relatorio/latex/*.bcf
+relatorio/latex/*.bbl
+relatorio/latex/*.blg
+relatorio/latex/*.run.xml
+relatorio/latex/*.out
+relatorio/latex/*.toc
+relatorio/latex/*.synctex.gz
+relatorio/latex/p1.txt
+relatorio/latex/p2.txt
+relatorio/latex/p3.txt
+relatorio/latex/pa.txt
+relatorio/latex/pb.txt
+relatorio/latex/pass1.txt

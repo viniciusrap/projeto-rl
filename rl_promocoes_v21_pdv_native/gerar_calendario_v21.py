@@ -190,6 +190,16 @@ def main():
         json.dump(out, f, ensure_ascii=False, indent=2)
     print(f"\n✓ Calendário V21 salvo: {out_path}")
 
+    # AUTOMAÇÃO: gera o HTML visual (calendário do dono) automaticamente.
+    # Encadeado aqui para que toda geração de calendário já saia com o
+    # HTML pronto, sem passo manual.
+    try:
+        from gerar_calendario_visual import gerar as _gerar_visual
+        html_path = out_dir / 'calendario_visual.html'
+        _gerar_visual(str(out_path), str(html_path))
+    except Exception as e:
+        print(f"⚠ Calendário JSON OK, mas o HTML visual falhou: {e}")
+
 
 if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')

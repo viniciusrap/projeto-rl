@@ -1,0 +1,114 @@
+{
+  "protocolo": {
+    "dias": 365,
+    "n_seeds": 8,
+    "data_inicio": "2026-05-15",
+    "nota": "comparação relativa no mesmo simulador (off-policy); não valida ganho absoluto — só A/B no posto valida"
+  },
+  "resultados": {
+    "Nao-promover": {
+      "lucro": {
+        "media": 814.6699999999995,
+        "desvio": 123.86168979955033
+      },
+      "reward": {
+        "media": -3180.3274999999994,
+        "desvio": 2489.0667895204706
+      },
+      "n_promo": {
+        "media": 0.0,
+        "desvio": 0.0
+      },
+      "n_combo": {
+        "media": 0.0,
+        "desvio": 0.0
+      },
+      "n_pdv_invalido": {
+        "media": 0.0,
+        "desvio": 0.0
+      },
+      "cats_distintas": {
+        "media": 0.0,
+        "desvio": 0.0
+      }
+    },
+    "Aleatorio": {
+      "lucro": {
+        "media": -155.4287500000005,
+        "desvio": 1559.035276825363
+      },
+      "reward": {
+        "media": -241903.64750000005,
+        "desvio": 30449.42398214686
+      },
+      "n_promo": {
+        "media": 304.25,
+        "desvio": 4.968651728587948
+      },
+      "n_combo": {
+        "media": 62.625,
+        "desvio": 8.659351881058997
+      },
+      "n_pdv_invalido": {
+        "media": 0.0,
+        "desvio": 0.0
+      },
+      "cats_distintas": {
+        "media": 18.5,
+        "desvio": 1.118033988749895
+      }
+    },
+    "Sempre-combo": {
+      "lucro": {
+        "media": 22234.661250000005,
+        "desvio": 5734.760203725686
+      },
+      "reward": {
+        "media": 151854.25874999998,
+        "desvio": 37521.5196895723
+      },
+      "n_promo": {
+        "media": 269.875,
+        "desvio": 22.418951246657368
+      },
+      "n_combo": {
+        "media": 269.875,
+        "desvio": 22.418951246657368
+      },
+      "n_pdv_invalido": {
+        "media": 0.0,
+        "desvio": 0.0
+      },
+      "cats_distintas": {
+        "media": 13.625,
+        "desvio": 1.2183492931011204
+      }
+    },
+    "Agente V21 (RL)": {
+      "lucro": {
+        "media": 21640.383749999986,
+        "desvio": 4728.424474687455
+      },
+      "reward": {
+        "media": 231279.78749999998,
+        "desvio": 38527.87920056906
+      },
+      "n_promo": {
+        "media": 176.25,
+        "desvio": 25.227712936372175
+      },
+      "n_combo": {
+        "media": 95.0,
+        "desvio": 21.511624764298954
+      },
+      "n_pdv_invalido": {
+        "media": 0.0,
+        "desvio": 0.0
+      },
+      "cats_distintas": {
+        "media": 11.875,
+        "desvio": 1.899835519196333
+      }
+    }
+  }
+}
